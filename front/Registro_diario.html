@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registro Diario de Sacrificio</title>
+    <link rel="stylesheet" href="Styles.css" />
+   
+</head>
+<body>
+    <div class="registro-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>REGISTRO DIARIO DE SACRIFICIO</h1>
+        <div class="form-row">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha" name="fecha" value="2025-07-02" />
+            <label for="destino">DESTINO</label>
+            <input type="text" id="destino" name="destino" value="CARLOS ENRIQUE JIMENEZ OSPINA" />
+            <label for="cedula">CEDULA</label>
+            <input type="text" id="cedula" name="cedula" value="94.252.046" />
+            <label for="marca">MARCA</label>
+            <select id="marca" name="marca">
+                <option value="40" selected>40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+            </select>
+        </div>
+        <div class="cantidad-group">
+            <div>
+                <label>CANT. BOBINOS</label>
+                <input type="number" id="bobinos-macho" placeholder="Macho" />
+                <input type="number" id="bobinos-hembra" placeholder="Hembra" />
+            </div>
+            <div>
+                <label>CANT. PORCINOS</label>
+                <input type="number" id="porcinos-macho" placeholder="Macho" />
+                <input type="number" id="porcinos-hembra" placeholder="Hembra" />
+            </div>
+            <button class="btn-agregar" id="btn-agregar">AGREGAR</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>NOMBRE Y APELLIDO</th>
+                    <th>C.C.</th>
+                    <th>MARCA</th>
+                    <th colspan="2">BOBINOS</th>
+                    <th colspan="2">PORCINOS</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>MACHO</th>
+                    <th>HEMBRA</th>
+                    <th>MACHO</th>
+                    <th>HEMBRA</th>
+                </tr>
+            </thead>
+            <tbody id="registro-tbody">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">TOTAL GANADO</td>
+                    <td id="total-bobinos-macho">0</td>
+                    <td id="total-bobinos-hembra">0</td>
+                    <td id="total-porcinos-macho">0</td>
+                    <td id="total-porcinos-hembra">0</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="button-row">
+            <button class="btn-guardar">GUARDAR</button>
+            <button class="btn-editar">EDITAR</button>
+            <button class="btn-imprimir">IMPRIMIR</button>
+        </div>
+    </div>
+</body>
+</html>

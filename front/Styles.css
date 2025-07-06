@@ -1,0 +1,518 @@
+/* Reset some default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    background: url('imagenes/fondo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background abstract shapes using CSS */
+.background-shapes {
+    display: none;
+}
+
+/* Centered login container */
+.login-container {
+    background-color: #a9c9ff; /* light blue */
+    width: 320px;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Form styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.label {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+/* Input fields */
+.input-field {
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 3px 8px;
+    font-size: 14px;
+}
+
+/* Ingresar botton */
+.btn-ingresar {
+    background-color: #2ecc40; /* green */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 0;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-ingresar:hover {
+    background-color: #27ae37;
+}
+
+/* Forgot password link */
+.forgot-password {
+    font-size: 8px;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Principal page container */
+.principal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 250px;
+}
+
+/* Principal page buttons */
+.principal-btn {
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.principal-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* Entradas page container */
+.entradas-container {
+    background-color: #a9c9ff;
+    width: 600px;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #e02713;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    padding: 0;
+}
+
+/* Headings */
+.entradas-container h2 {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Entrada section */
+.entrada-section {
+    margin-bottom: 30px;
+}
+
+/* Labels */
+.entrada-label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+/* Input fields */
+.entrada-input {
+    width: 250px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    padding: 0 10px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    color: #000000;
+}
+
+/* Registrar button */
+.btn-registrar {
+    width: 25%;
+    text-align: center;
+    background-color: #2ecc40;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-registrar:hover {
+    background-color: #27ae37;
+}
+
+/* Bovinos page container */
+.bovinos-container {
+    background-color: #a9c9ff;
+    width: 100vw;
+    height: 100vh;
+    padding: 30px 50px;
+    border-radius: 0;
+    box-shadow: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: none;
+    overflow-x: auto;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Close button */
+.bovinos-container .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    padding: 0;
+}
+
+/* Heading */
+.bovinos-container h2 {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Disabled input for guia registrada */
+.guia-registrada {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 300px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #999;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Form rows */
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Labels in form rows */
+.form-row label {
+    font-weight: bold;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Small inputs and selects */
+.small-input, .small-select {
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Table styles */
+.bovinos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.bovinos-table th, .bovinos-table td {
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+}
+
+.bovinos-table th {
+    background-color: #e0e0e0;
+    font-weight: bold;
+}
+
+/* Buttons row */
+.button-row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Guardar button */
+.btn-guardar {
+    background-color: #2ecc40;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-guardar:hover {
+    background-color: #27ae37;
+}
+
+/* Editar button */
+.btn-editar {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-editar:hover {
+    background-color: #d68910;
+}
+
+ body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #a9c9ff;
+            font-family: Arial, sans-serif;
+        }
+        .registro-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #a9c9ff;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #c0392b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 28px;
+            text-align: center;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .form-row label {
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .form-row input[type="text"],
+        .form-row input[type="date"],
+        .form-row select {
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 0 8px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-width: 150px;
+        }
+        .cantidad-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .cantidad-group div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 150px;
+        }
+        .cantidad-group label {
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+        }
+        .cantidad-group input {
+            text-align: center;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-agregar {
+            background-color: #2ecc40;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 25px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            align-self: center;
+            margin-left: 20px;
+            height: 40px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-agregar:hover {
+            background-color: #27ae37;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+        tfoot td {
+            font-weight: bold;
+        }
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .btn-guardar {
+            background-color: #2ecc40;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 40px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-guardar:hover {
+            background-color: #27ae37;
+        }
+        .btn-editar {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 40px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-editar:hover {
+            background-color: #d68910;
+        }
+        .btn-imprimir {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 40px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-imprimir:hover {
+            background-color: #2980b9;
+        }
