@@ -8,7 +8,9 @@
 </head>
 <body>
     <div class="login-container">
-        <form class="login-form" action="principal.html" method="get">
+      <form id="formInicio" class="login-form" action="../back/validar_login.php" method="post">
+
+
             <label for="usuario" class="label">USUARIO</label>
             <input type="text" id="usuario" name="usuario" class="input-field" autocomplete="username" />
             
@@ -19,5 +21,11 @@
             <a href="#" class="forgot-password">OLVIDE MI CONTRASEÑA</a>
         </form>
     </div>
+    <script src="Script/validar_inicio.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const validador = new ValidarInicio('formInicio');});
+    </script>
+
 </body>
 </html>
