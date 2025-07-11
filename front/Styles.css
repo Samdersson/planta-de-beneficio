@@ -132,6 +132,7 @@ body, html {
     transform: translate(-50%, -50%);
 }
 
+
 /* Close button */
 .close-btn {
     position: absolute;
@@ -516,3 +517,4 @@ body, html {
         .btn-imprimir:hover {
             background-color: #2980b9;
         }
+
