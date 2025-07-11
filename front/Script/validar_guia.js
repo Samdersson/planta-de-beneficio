@@ -1,13 +1,11 @@
 /**
  * Función para validar el campo "guia" y redirigir al formulario correspondiente.
  * 
- * @param {string} guia - Valor del campo guia a validar.
+ * @param {string} guia
  */
 function validarGuiaYRedirigir(guia) {
-    // Expresión regular para numérico con guiones (ejemplo: 025-11001-0002196264)
     const regexNumericoGuion = /^(\d+-)+\d+$/;
 
-    // Expresión regular para alfanumérico con guiones (ejemplo: 025-b-11001-0002196264)
     const regexAlfanumericoGuion = /^([a-zA-Z0-9]+-)+\d+$/;
 
     if (regexNumericoGuion.test(guia)) {
@@ -46,7 +44,7 @@ function validarFecha(fecha) {
         alert("La fecha debe tener el formato YYYY-MM-DD.");
         return false;
     }
-    // Validar que la fecha sea válida (ejemplo: no 2023-02-30)
+    
     const dateObj = new Date(fecha);
     if (isNaN(dateObj.getTime())) {
         alert("La fecha no es válida.");
@@ -83,6 +81,6 @@ function manejarEnvioFormulario(event) {
     const destino = validarGuiaYRedirigir(guia);
     if (!destino) return;
 
-    // Si todas las validaciones pasan, redirigir a la página correspondiente
+    
     window.location.href = destino;
 }
