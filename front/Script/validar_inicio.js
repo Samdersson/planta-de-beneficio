@@ -23,3 +23,6 @@ class ValidarInicio {
         }
     }
 }
+
+// Para usar esta clase, crea una instancia después de que el DOM esté cargado:
+// const validador = new ValidarInicio('idDelFormulario');

@@ -81,6 +81,6 @@ function manejarEnvioFormulario(event) {
     const destino = validarGuiaYRedirigir(guia);
     if (!destino) return;
 
-    
-    window.location.href = destino;
+    // Redirigir pasando datos por URL
+    window.location.href = `${destino}?guia=${encodeURIComponent(guia)}&cantidad=${encodeURIComponent(cantidad)}&fecha=${encodeURIComponent(fecha)}`;
 }
