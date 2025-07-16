@@ -11,15 +11,30 @@
         <button class="close-btn" onclick="window.history.back()">×</button>
 
         <h2>INGRESAR ANIMALES</h2>
-        <div class="entrada-section">
-            <label for="guia" class="entrada-label">REGISTRAR GUIA</label>
-            <input type="text" id="guia" class="entrada-input" placeholder="INGRESA LA GUIA DE MOVILIZACIÓN" />
-        </div>
+        <form id="entradaForm">
+            <div class="entrada-section">
+                <label for="guia" class="entrada-label">REGISTRAR GUIA</label>
+                <input type="text" id="guia" name="guia" class="entrada-input" placeholder="INGRESA LA GUIA DE MOVILIZACIÓN" required />
+            </div>
 
-        <div class="entrada-section">
-            <button class="btn-registrar" onclick="manejarEnvioFormulario(event)">REGISTRAR</button>
-        </div>
+            <div class="entrada-section">
+                <label for="cantidad" class="entrada-label">CANTIDAD</label>
+                <input type="number" id="cantidad" name="cantidad" class="entrada-input" placeholder="INGRESA LA CANTIDAD DE ANIMALES" min="1" required />
+            </div>
+
+            <div class="entrada-section">
+                <label for="fecha" class="entrada-label">FECHA</label>
+                <input type="date" id="fecha" name="fecha" class="entrada-input" required />
+            </div>
+
+            <div class="entrada-section">
+                <button type="submit" class="btn-registrar">REGISTRAR</button>
+            </div>
+        </form>
     </div>
     <script src="Script/validar_guia.js"></script>
+    <script>
+        document.getElementById('entradaForm').addEventListener('submit', manejarEnvioFormulario);
+    </script>
 </body>
 </html>

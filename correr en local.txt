@@ -1,0 +1,4 @@
+http://localhost/planta_de_beneficio/front/inicio.html
+
+// para correr la app debe tener iniciado el xampp en apache & mysql
+
