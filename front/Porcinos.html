@@ -11,11 +11,11 @@
         <button class="close-btn" onclick="window.history.back()">×</button>
 
         <h2>INGRESAR PORCINOS</h2>
-        <input type="text" class="guia-registrada" value="GUIA MOVILIZACIÓN REGISTRADA" disabled />
+        <input type="text" id="guia-registrada" class="guia-registrada" readonly />
 
         <div class="form-row">
             <label>CANTIDAD DE ANIMALES EN GUÍA</label>
-            <input type="number" class="small-input" disabled />
+            <input type="number" id="cantidad-animales" class="small-input" readonly />
         </div>
 
         <div class="form-row">
@@ -48,7 +48,7 @@
             <input type="date" class="small-input" />
 
             <label>FECHA DE GUIA ICA</label>
-            <input type="date" class="small-input" disabled />
+            <input type="date" id="fecha-guia-ica" class="small-input" readonly />
 
             <label>No° CORRAL</label>
             <input type="number" class="small-input" />
@@ -80,5 +80,34 @@
         </div>
     </div>
 </body>
+<script>
+    // Función para obtener parámetros de la URL
+    function getQueryParams() {
+        const params = {};
+        const queryString = window.location.search.substring(1);
+        const vars = queryString.split("&");
+        for (let i = 0; i < vars.length; i++) {
+            const pair = vars[i].split("=");
+            params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+        return params;
+    }
+
+    // Función para llenar los campos con los datos recibidos
+    function llenarCampos() {
+        const params = getQueryParams();
+        if (params.guia) {
+            document.getElementById("guia-registrada").value = params.guia;
+        }
+        if (params.cantidad) {
+            document.getElementById("cantidad-animales").value = params.cantidad;
+        }
+        if (params.fecha) {
+            document.getElementById("fecha-guia-ica").value = params.fecha;
+        }
+    }
+
+    window.onload = llenarCampos;
+</script>
 <script src="Script/validar_porcinos.js"></script>
 </html>
