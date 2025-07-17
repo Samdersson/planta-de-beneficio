@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear Nuevo Cliente</title>
+    <link rel="stylesheet" href="Styles.css" />
+</head>
+<body>
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>Crear Nuevo Cliente</h1>
+        <form id="clienteForm" action="../back/guardar_cliente.php" method="POST">
+            <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
+            <div>
+                <label for="id">Cédula (ID):</label>
+                <input type="number" id="id" name="id" required />
+                <button type="button" id="btnEditar">Editar</button>
+            </div>
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" maxlength="100" required />
+            </div>
+            <div>
+                <label for="destino">Destino (Dirección):</label>
+                <input type="text" id="destino" name="destino" maxlength="100" required />
+            </div>
+            <div>
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" maxlength="10" required />
+            </div>
+            <div>
+                <button type="submit" id="btnCrear">Crear Cliente</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('clienteForm');
+        const btnCrear = document.getElementById('btnCrear');
+        const btnEditar = document.getElementById('btnEditar');
+        const isUpdateInput = document.getElementById('isUpdate');
+
+        btnEditar.addEventListener('click', function() {
+            const id = prompt('Por favor ingrese la cédula del cliente a editar:');
+            if (!id || id.trim() === '') {
+                alert('Cédula no válida.');
+                return;
+            }
+
+            fetch(`../back/buscar_cliente.php?id=${encodeURIComponent(id.trim())}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        // Llenar campos con los datos recibidos
+                        document.getElementById('id').value = data.id || '';
+                        document.getElementById('nombre').value = data.nombre || '';
+                        document.getElementById('destino').value = data.destino || '';
+                        document.getElementById('marca').value = data.marca || '';
+                        isUpdateInput.value = '1';
+                        btnCrear.textContent = 'Actualizar Cliente';
+                    }
+                })
+                .catch(error => {
+                    alert('Error al buscar cliente: ' + error);
+                });
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                if (text.includes('✅')) {
+                    alert(isUpdateInput.value === '1' ? 'Cliente actualizado con éxito' : 'Cliente creado con éxito');
+                    form.reset();
+                    isUpdateInput.value = '0';
+                    btnCrear.textContent = 'Crear Cliente';
+                } else if (text.includes('❌')) {
+                    alert('Error: ' + text.replace('❌', '').trim());
+                } else {
+                    alert('Respuesta inesperada del servidor: ' + text);
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>

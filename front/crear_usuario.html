@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear / Modificar Usuario</title>
+    <link rel="stylesheet" href="Styles.css" />
+</head>
+<body>
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>Crear / Modificar Usuario</h1>
+        <form id="usuarioForm" action="../back/guardar_usuario.php" method="POST">
+            <input type="hidden" id="id" name="id" value="0" />
+            <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" maxlength="100" required />
+            </div>
+            <div>
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" maxlength="50" required />
+            </div>
+            <div>
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" maxlength="255" required />
+            </div>
+            <div>
+                <label for="rol_id">Rol:</label>
+                <select id="rol_id" name="rol_id" required>
+                    <option value="">Seleccione un rol</option>
+                </select>
+            </div>
+            <div>
+                <label for="activo">Activo:</label>
+                <input type="checkbox" id="activo" name="activo" checked />
+            </div>
+            <div>
+                <button type="submit" id="btnGuardar">Guardar Usuario</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('usuarioForm');
+        const btnGuardar = document.getElementById('btnGuardar');
+        const isUpdateInput = document.getElementById('isUpdate');
+        const idInput = document.getElementById('id');
+        const rolSelect = document.getElementById('rol_id');
+
+        // Cargar roles desde backend
+        fetch('../back/listar_roles.php')
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    data.forEach(rol => {
+                        const option = document.createElement('option');
+                        option.value = rol.id;
+                        option.textContent = rol.nombre;
+                        rolSelect.appendChild(option);
+                    });
+                } else {
+                    alert('Error al cargar roles');
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor al cargar roles: ' + error);
+            });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            // Ajustar valor de checkbox activo
+            formData.set('activo', document.getElementById('activo').checked ? 1 : 0);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                if (text.includes('✅')) {
+                    alert(isUpdateInput.value === '1' ? 'Usuario actualizado con éxito' : 'Usuario creado con éxito');
+                    form.reset();
+                    isUpdateInput.value = '0';
+                    idInput.value = '0';
+                    btnGuardar.textContent = 'Guardar Usuario';
+                } else if (text.includes('❌')) {
+                    alert('Error: ' + text.replace('❌', '').trim());
+                } else {
+                    alert('Respuesta inesperada del servidor: ' + text);
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>

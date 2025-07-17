@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Configuración de Planta</title>
+    <link rel="stylesheet" href="Styles.css" />
+</head>
+<body>
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>Configuración de Planta</h1>
+        <form id="plantaForm" action="../back/guardar_planta.php" method="POST">
+            <input type="hidden" id="id" name="id" value="0" />
+            <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
+            <div>
+                <label for="nombre_planta">Nombre Planta:</label>
+                <input type="text" id="nombre_planta" name="nombre_planta" maxlength="100" required />
+            </div>
+            <div>
+                <label for="municipio">Municipio:</label>
+                <input type="text" id="municipio" name="municipio" maxlength="100" required />
+            </div>
+            <div>
+                <label for="nit">NIT:</label>
+                <input type="text" id="nit" name="nit" maxlength="30" required />
+            </div>
+            <div>
+                <label for="resolucion">Resolución:</label>
+                <input type="text" id="resolucion" name="resolucion" maxlength="100" required />
+            </div>
+            <div>
+                <button type="submit" id="btnGuardar">Guardar Configuración</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('plantaForm');
+        const btnGuardar = document.getElementById('btnGuardar');
+        const isUpdateInput = document.getElementById('isUpdate');
+        const idInput = document.getElementById('id');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                if (text.includes('✅')) {
+                    alert(isUpdateInput.value === '1' ? 'Configuración actualizada con éxito' : 'Configuración guardada con éxito');
+                    form.reset();
+                    isUpdateInput.value = '0';
+                    idInput.value = '0';
+                    btnGuardar.textContent = 'Guardar Configuración';
+                } else if (text.includes('❌')) {
+                    alert('Error: ' + text.replace('❌', '').trim());
+                } else {
+                    alert('Respuesta inesperada del servidor: ' + text);
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>
