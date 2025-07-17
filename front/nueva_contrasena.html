@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nueva Contraseña</title>
+    <link rel="stylesheet" href="Styles.css" />
+</head>
+<body>
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>Ingrese Nueva Contraseña</h1>
+        <form id="nuevaContrasenaForm" action="../back/actualizar_contrasena.php" method="POST">
+            <input type="hidden" id="token" name="token" />
+            <div>
+                <label for="contrasena">Nueva Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" maxlength="255" required />
+            </div>
+            <div>
+                <label for="confirmar_contrasena">Confirmar Contraseña:</label>
+                <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" maxlength="255" required />
+            </div>
+            <div>
+                <button type="submit">Actualizar Contraseña</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const tokenInput = document.getElementById('token');
+        const form = document.getElementById('nuevaContrasenaForm');
+
+        if (!token) {
+            alert('Token inválido o no proporcionado.');
+            window.location.href = 'inicio.html';
+        } else {
+            tokenInput.value = token;
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const contrasena = document.getElementById('contrasena').value;
+            const confirmar = document.getElementById('confirmar_contrasena').value;
+
+            if (contrasena !== confirmar) {
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                alert(text);
+                if (text.includes('exitosamente')) {
+                    window.location.href = 'inicio.html';
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>
