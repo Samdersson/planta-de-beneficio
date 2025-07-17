@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear Conductor</title>
+    <link rel="stylesheet" href="Styles.css" />
+</head>
+<body>
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>Crear Conductor</h1>
+        <form id="conductorForm" action="../back/guardar_conductor.php" method="POST">
+            <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
+            <!-- <div>
+                <label for="id">Número de Cédula:</label>
+                <input type="text" id="id" name="id" maxlength="20" required />
+            </div> -->
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" maxlength="100" required />
+            </div>
+            <div>
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" maxlength="20" />
+            </div>
+            <div>
+                <label for="empresa">cedula</label>
+                <input type="text" id="empresa" name="empresa" maxlength="100" />
+            </div>
+            <div>
+                <button type="submit" id="btnGuardar">Guardar Conductor</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('conductorForm');
+        const btnGuardar = document.getElementById('btnGuardar');
+        const isUpdateInput = document.getElementById('isUpdate');
+        const idInput = document.getElementById('id');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                if (text.includes('✅')) {
+                    alert(isUpdateInput.value === '1' ? 'Conductor actualizado con éxito' : 'Conductor creado con éxito');
+                    form.reset();
+                    isUpdateInput.value = '0';
+                    idInput.value = '0';
+                    btnGuardar.textContent = 'Guardar Conductor';
+                } else if (text.includes('❌')) {
+                    alert('Error: ' + text.replace('❌', '').trim());
+                } else {
+                    alert('Respuesta inesperada del servidor: ' + text);
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>

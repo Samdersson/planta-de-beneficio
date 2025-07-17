@@ -17,7 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Hashear la contraseña
-    $hashed_password = password_hash($contrasena, PASSWORD_DEFAULT);
+    // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+    // // $contrasena = contraseña
+    //si la vamos a implementar conenvio de correos para restablecer contraseña se puede activar 
+    // o para aumentar la seguridad de ataques sql inyection
 
     if ($isUpdate === 1 && $id > 0) {
         $sql = "UPDATE usuarios SET nombre = ?, usuario = ?, correo_electronico = ?, contrasena = ?, rol_id = ?, activo = ? WHERE id = ?";
@@ -26,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);
             exit;
         }
-        mysqli_stmt_bind_param($stmt, "ssssiii", $nombre, $usuario, $correo_electronico, $hashed_password, $rol_id, $activo, $id);
+        mysqli_stmt_bind_param($stmt, "ssssiii", $nombre, $usuario, $correo_electronico, $contrasena, $rol_id, $activo, $id);
 
         if (mysqli_stmt_execute($stmt)) {
             echo "✅ Usuario actualizado exitosamente.";
@@ -44,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);
             exit;
         }
-        mysqli_stmt_bind_param($stmt, "ssssis", $nombre, $usuario, $correo_electronico, $hashed_password, $rol_id, $activo);
+        mysqli_stmt_bind_param($stmt, "ssssis", $nombre, $usuario, $correo_electronico, $contrasena, $rol_id, $activo);
 
         if (mysqli_stmt_execute($stmt)) {
             echo "✅ Usuario creado exitosamente.";
