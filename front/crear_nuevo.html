@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="Styles.css" />
 </head>
 <body>
-    <h1>Crear Nuevo Productor</h1>
-    <form action="../back/guardar_productor.php" method="POST">
-        <div>
-            <label for="cedula">Cédula:</label>
-            <input type="number" id="cedula" name="cedula" required />
-        </div>
+
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        <h1>Crear Nuevo Productor</h1>
+    <form id="productorForm" action="../back/guardar_productor.php" method="POST">
+        <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
         <div>
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" maxlength="100" required />
+        </div>
+        <div>
+            <label for="cedula">Cédula:</label>
+        <input type="number" id="cedula" name="cedula" required />
+        <button type="button" id="btnModificar">Editar</button>
         </div>
         <div>
             <label for="predio">Predio:</label>
@@ -37,8 +42,80 @@
             <label for="porcino">Porcino</label>
         </div>
         <div>
-            <button type="submit">Crear Productor</button>
+            <button type="submit" id="btnCrear">Crear Productor</button>
         </div>
     </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('productorForm');
+        const btnModificar = document.getElementById('btnModificar');
+        const btnCrear = document.getElementById('btnCrear');
+        const isUpdateInput = document.getElementById('isUpdate');
+
+        btnModificar.addEventListener('click', function() {
+            const cedula = prompt('Por favor ingrese la cédula del productor a editar:');
+            if (!cedula || cedula.trim() === '') {
+                alert('Cédula no válida.');
+                return;
+            }
+
+            fetch(`../back/buscar_productor.php?cedula=${encodeURIComponent(cedula.trim())}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        // Llenar campos con los datos recibidos
+                        document.getElementById('nombre').value = data.Nombre || '';
+                        document.getElementById('cedula').value = data.cedula || '';
+                        document.getElementById('predio').value = data.predio || '';
+                        document.getElementById('departamento').value = data.departamento || '';
+                        document.getElementById('ciudad').value = data.ciudad || '';
+                        if (data.animal == 1) {
+                            document.getElementById('bovino').checked = true;
+                        } else if (data.animal == 2) {
+                            document.getElementById('porcino').checked = true;
+                        } else {
+                            document.getElementById('bovino').checked = false;
+                            document.getElementById('porcino').checked = false;
+                        }
+                        isUpdateInput.value = '1';
+                        btnCrear.textContent = 'Actualizar Productor';
+                    }
+                })
+                .catch(error => {
+                    alert('Error al buscar productor: ' + error);
+                });
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío tradicional
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                if (text.includes('✅')) {
+                    alert(isUpdateInput.value === '1' ? 'Productor actualizado con éxito' : 'Productor creado con éxito');
+                    form.reset(); // Limpiar campos del formulario
+                    isUpdateInput.value = '0';
+                    btnCrear.textContent = 'Crear Productor';
+                } else if (text.includes('❌')) {
+                    alert('Error: ' + text.replace('❌', '').trim());
+                } else {
+                    alert('Respuesta inesperada del servidor: ' + text);
+                }
+            })
+            .catch(error => {
+                alert('Error en la comunicación con el servidor: ' + error);
+            });
+        });
+    </script>
+
 </body>
 </html>
