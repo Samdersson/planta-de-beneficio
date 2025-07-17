@@ -62,18 +62,25 @@ function validarFecha(fecha) {
 function manejarEnvioFormulario(event) {
     event.preventDefault(); // Evitar envío por defecto
 
+    const cedulaInput = document.getElementById("cedula");
     const guiaInput = document.getElementById("guia");
     const cantidadInput = document.getElementById("cantidad");
     const fechaInput = document.getElementById("fecha");
 
-    if (!guiaInput || !cantidadInput || !fechaInput) {
+    if (!cedulaInput || !guiaInput || !cantidadInput || !fechaInput) {
         alert("Faltan campos obligatorios en el formulario.");
         return;
     }
 
+    const cedula = cedulaInput.value.trim();
     const guia = guiaInput.value.trim();
     const cantidad = cantidadInput.value.trim();
     const fecha = fechaInput.value.trim();
+
+    if (!cedula) {
+        alert("La cédula del productor es obligatoria.");
+        return;
+    }
 
     if (!validarCantidad(cantidad)) return;
     if (!validarFecha(fecha)) return;
@@ -81,6 +88,6 @@ function manejarEnvioFormulario(event) {
     const destino = validarGuiaYRedirigir(guia);
     if (!destino) return;
 
-    // Redirigir pasando datos por URL
-    window.location.href = `${destino}?guia=${encodeURIComponent(guia)}&cantidad=${encodeURIComponent(cantidad)}&fecha=${encodeURIComponent(fecha)}`;
+    // Redirigir pasando datos por URL incluyendo cédula
+    window.location.href = `${destino}?cedula=${encodeURIComponent(cedula)}&guia=${encodeURIComponent(guia)}&cantidad=${encodeURIComponent(cantidad)}&fecha=${encodeURIComponent(fecha)}`;
 }

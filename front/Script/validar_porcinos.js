@@ -10,6 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let editIndex = -1; // -1 means no edit mode
     let guiaMovilizacion = guiaInput ? guiaInput.value : '';
 
+    // Función para actualizar el estado del botón guardar según cantidad de filas
+    function actualizarEstadoGuardar() {
+        const cantidadMax = parseInt(cantidadInput.value);
+        const filasActuales = tbody.rows.length;
+
+        if (!isNaN(cantidadMax) && filasActuales === cantidadMax && cantidadMax > 0) {
+            guardarBtn.disabled = false;
+        } else {
+            guardarBtn.disabled = true;
+        }
+    }
+
+    // Llamar a actualizarEstadoGuardar cada vez que se agrega o elimina fila
+    const observer = new MutationObserver(() => {
+        actualizarEstadoGuardar();
+    });
+
+    observer.observe(tbody, { childList: true });
+
+    // Inicializar estado del botón guardar
+    actualizarEstadoGuardar();
+
     guardarBtn.addEventListener('click', () => {
         // Obtener el valor ACTUAL de la guía
         const guiaActual = guiaInput.value;

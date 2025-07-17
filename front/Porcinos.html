@@ -20,10 +20,8 @@
 
         <div class="form-row">
             <label>DESTINO</label>
-            <select class="small-select">
+            <select id="destino-select" class="small-select">
                 <option value="">Seleccione</option>
-                <option value="MS">MS</option>
-                <option value="Otro">Otro</option>
             </select>
 
             <label>No° ANIMAL</label>
@@ -77,6 +75,7 @@
         <div class="button-row">
             <button class="btn-guardar">GUARDAR</button>
             <button class="btn-editar">EDITAR</button>
+            <button class="btn-cargar-lista"> GUARDAR LISTA</button>
         </div>
     </div>
 </body>
@@ -108,6 +107,30 @@
     }
 
     window.onload = llenarCampos;
+</script>
+<script>
+    // Cargar marcas de clientes para el select DESTINO
+    function cargarMarcas() {
+        fetch('../back/listar_marcas.php')
+            .then(response => response.json())
+            .then(marcas => {
+                const select = document.getElementById('destino-select');
+                marcas.forEach(marca => {
+                    const option = document.createElement('option');
+                    option.value = marca;
+                    option.textContent = marca;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error al cargar marcas:', error);
+            });
+    }
+
+    window.onload = function() {
+        cargarMarcas();
+        llenarCampos();
+    };
 </script>
 <script src="Script/validar_porcinos.js"></script>
 </html>
