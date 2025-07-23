@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cantidadInput = document.querySelector('.small-input[type="number"]');
+    const cantidadInput = document.getElementById('cantidad-animales');
     const guardarBtn = document.querySelector('.btn-guardar');
     const editarBtn = document.querySelector('.btn-editar');
     const guardarListaBtn = document.querySelector('.btn-cargar-lista');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cantidadMax = parseInt(cantidadInput.value);
         const filasActuales = tbody.rows.length;
 
-        if (!isNaN(cantidadMax) && filasActuales === cantidadMax && cantidadMax > 0) {
+        if (!isNaN(cantidadMax) && filasActuales < cantidadMax && cantidadMax > 0) {
             guardarBtn.disabled = false;
         } else {
             guardarBtn.disabled = true;
@@ -32,85 +32,96 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar estado del botón guardar
     actualizarEstadoGuardar();
 
-    guardarBtn.addEventListener('click', () => {
-        // Obtener el valor ACTUAL de la guía
-        const guiaActual = guiaInput.value;
-        
-        const cantidadMax = parseInt(cantidadInput.value);
-        const filasActuales = tbody.rows.length;
-
-        if (isNaN(cantidadMax) || cantidadMax <= 0) {
-            alert('Por favor, ingresa una cantidad válida de animales en guía.');
-            return;
-        }
-
-        if (editIndex === -1 && filasActuales >= cantidadMax) {
-            alert('No se pueden agregar más animales que la cantidad indicada en la guía.');
-            return;
-        }
-
-        // Obtener valores de los campos
-        const destino = document.querySelector('.small-select').value;
-        const noAnimal = document.querySelectorAll('.small-input')[1].value;
-        const sexo = document.querySelectorAll('.small-select')[1].value;
-        const kilos = document.querySelectorAll('.small-input')[2].value;
-        const noTiquete = document.querySelectorAll('.small-input')[3].value;
-        const fechaIngreso = document.querySelectorAll('.small-input')[4].value;
-        const fechaGuiaIca = fechaIcaInput.value; // Usamos el valor actual del campo
-        const noCorral = document.querySelectorAll('.small-input')[6].value;
-
-        // Validar campos obligatorios
-        if (!destino || !noAnimal || !sexo || !kilos || !noTiquete || !fechaIngreso || !noCorral) {
-            alert('Por favor, completa todos los campos antes de guardar.');
-            return;
-        }
-
-        if (editIndex === -1) {
-            // Crear nueva fila
-            const nuevaFila = document.createElement('tr');
-            const numeroFila = filasActuales + 1;
-
-            nuevaFila.innerHTML = `
-                <td>${numeroFila}</td>
-                <td>${destino}</td>
-                <td>${noAnimal}</td>
-                <td>${sexo}</td>
-                <td>${kilos}</td>
-                <td>${noTiquete}</td>
-                <td>${fechaIngreso}</td>
-                <td>${guiaActual}</td>
-                <td>${fechaGuiaIca}</td>
-                <td>${noCorral}</td>
-                <td>${new Date().toLocaleTimeString()}</td>
-            `;
-
-            tbody.appendChild(nuevaFila);
-        } else {
-            // Actualizar fila existente
-            const fila = tbody.rows[editIndex];
-            fila.cells[1].textContent = destino;
-            fila.cells[2].textContent = noAnimal;
-            fila.cells[3].textContent = sexo;
-            fila.cells[4].textContent = kilos;
-            fila.cells[5].textContent = noTiquete;
-            fila.cells[6].textContent = fechaIngreso;
-            fila.cells[7].textContent = guiaActual;
-            fila.cells[8].textContent = fechaGuiaIca;
-            fila.cells[9].textContent = noCorral;
-            fila.cells[10].textContent = new Date().toLocaleTimeString();
-
-            editIndex = -1;
-            guardarBtn.textContent = 'GUARDAR';
-        }
-
-        // Limpiar campos excepto cantidad, guía y fecha ICA
-        document.querySelectorAll('.small-input').forEach((input, index) => {
-            if (index !== 0 && input.id !== 'guia-registrada' && input.id !== 'fecha-guia-ica') {
-                input.value = '';
+    if (guardarBtn) {
+        guardarBtn.addEventListener('click', () => {
+            console.log('Evento click del botón GUARDAR detectado');
+            if (!guardarBtn) {
+                console.error('No se encontró el botón GUARDAR');
+                return;
             }
+            console.log('Botón GUARDAR presionado');
+            // Obtener el valor ACTUAL de la guía
+            const guiaActual = guiaInput.value;
+            console.log('Guía actual:', guiaActual);
+            
+            const cantidadMax = parseInt(cantidadInput.value);
+            console.log('Cantidad máxima:', cantidadMax);
+            const filasActuales = tbody.rows.length;
+            console.log('Filas actuales:', filasActuales);
+
+            if (isNaN(cantidadMax) || cantidadMax <= 0) {
+                alert('Por favor, ingresa una cantidad válida de animales en guía.');
+                return;
+            }
+
+            if (editIndex === -1 && filasActuales >= cantidadMax) {
+                alert('No se pueden agregar más animales que la cantidad indicada en la guía.');
+                return;
+            }
+
+            // Obtener valores de los campos
+            const destino = document.querySelector('.small-select').value;
+            const noAnimal = document.querySelectorAll('.small-input')[1].value;
+            const sexo = document.querySelectorAll('.small-select')[1].value;
+            const kilos = document.querySelectorAll('.small-input')[2].value;
+            const noTiquete = document.querySelectorAll('.small-input')[3].value;
+            const fechaIngreso = document.querySelectorAll('.small-input')[4].value;
+            const fechaGuiaIca = fechaIcaInput.value; // Usamos el valor actual del campo
+            const noCorral = document.querySelectorAll('.small-input')[6].value;
+
+            // Validar campos obligatorios
+            if (!destino || !noAnimal || !sexo || !kilos || !noTiquete || !fechaIngreso || !noCorral) {
+                alert('Por favor, completa todos los campos antes de guardar.');
+                return;
+            }
+
+            if (editIndex === -1) {
+                // Crear nueva fila
+                const nuevaFila = document.createElement('tr');
+                const numeroFila = filasActuales + 1;
+
+                nuevaFila.innerHTML = `
+                    <td>${numeroFila}</td>
+                    <td>${destino}</td>
+                    <td>${noAnimal}</td>
+                    <td>${sexo}</td>
+                    <td>${kilos}</td>
+                    <td>${noTiquete}</td>
+                    <td>${fechaIngreso}</td>
+                    <td>${guiaActual}</td>
+                    <td>${fechaGuiaIca}</td>
+                    <td>${noCorral}</td>
+                    <td>${new Date().toLocaleTimeString()}</td>
+                `;
+
+                tbody.appendChild(nuevaFila);
+            } else {
+                // Actualizar fila existente
+                const fila = tbody.rows[editIndex];
+                fila.cells[1].textContent = destino;
+                fila.cells[2].textContent = noAnimal;
+                fila.cells[3].textContent = sexo;
+                fila.cells[4].textContent = kilos;
+                fila.cells[5].textContent = noTiquete;
+                fila.cells[6].textContent = fechaIngreso;
+                fila.cells[7].textContent = guiaActual;
+                fila.cells[8].textContent = fechaGuiaIca;
+                fila.cells[9].textContent = noCorral;
+                fila.cells[10].textContent = new Date().toLocaleTimeString();
+
+                editIndex = -1;
+                guardarBtn.textContent = 'GUARDAR';
+            }
+
+            // Limpiar campos excepto cantidad, guía y fecha ICA
+            document.querySelectorAll('.small-input').forEach((input, index) => {
+                if (index !== 0 && input.id !== 'guia-registrada' && input.id !== 'fecha-guia-ica') {
+                    input.value = '';
+                }
+            });
+            document.querySelectorAll('.small-select').forEach(select => select.value = '');
         });
-        document.querySelectorAll('.small-select').forEach(select => select.value = '');
-    });
+    }
 
     editarBtn.addEventListener('click', () => {
         const numeroEditar = prompt('Ingrese el número del animal a editar:');
