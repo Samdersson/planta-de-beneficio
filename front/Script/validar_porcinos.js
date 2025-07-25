@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const cantidadMax = parseInt(cantidadInput.value);
         const filasActuales = tbody.rows.length;
 
-        if (!isNaN(cantidadMax) && filasActuales < cantidadMax && cantidadMax > 0) {
-            guardarBtn.disabled = false;
-        } else {
-            guardarBtn.disabled = true;
-        }
+        // if (!isNaN(cantidadMax) && filasActuales < cantidadMax && cantidadMax > 0) {
+        //     guardarBtn.enabled = true;
+        // } else {
+        //     guardarBtn.disabled = true;
+        // }
     }
 
     // Llamar a actualizarEstadoGuardar cada vez que se agrega o elimina fila
