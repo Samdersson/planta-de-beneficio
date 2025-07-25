@@ -2,3 +2,8 @@ http://localhost/planta_de_beneficio/front/inicio.html
 
 // para correr la app debe tener iniciado el xampp en apache & mysql
 
+// cargar commit a git
+// git init
+// git add .
+// git -m
+

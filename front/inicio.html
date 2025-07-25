@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Inicio - Login</title>
-    <link rel="stylesheet" href="Styles.css" />
+    <title>Login</title>
+    <link rel="stylesheet" href="Styles_registro.css" />
+    <script src="Script/validar_inicio.js" defer></script>
 </head>
 <body>
-    <div class="login-container">
-       <form id="formInicio" class="login-form" action="principal.html" method="get">
+    <!-- <h2>Iniciar Sesión</h2> -->
+    <form id="loginForm" method="POST" action="../back/validar_login.php" onsubmit="return validarLogin()">
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required />
+        <br />
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required />
+        <br />
+        <button type="submit">Ingresar</button>
 
-            <label for="usuario" class="label">USUARIO</label>
-            <input type="text" id="usuario" name="usuario" class="input-field" autocomplete="username" />
-            
-            <label for="contrasena" class="label">CONTRASEÑA</label>
-            <input type="password" id="contrasena" name="contrasena" class="input-field" autocomplete="current-password" />
-            
-            <button type="submit" class="btn-ingresar">INGRESAR</button>
-            <a href="restablecer_contrasena.html" class="forgot-password">OLVIDE MI CONTRASEÑA</a>
-        </form>
-    </div>
-    <script src="Script/validar_inicio.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const validador = new ValidarInicio('formInicio');});
-    </script>
-
+        <p>
+        <a href="#" id="linkRegistrar">Registrarse</a> | 
+        <a href="#" id="linkOlvide">Olvidé mi contraseña</a>
+    </p>
+    </form>
+    
 </body>
 </html>

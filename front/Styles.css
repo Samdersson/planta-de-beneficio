@@ -1,3 +1,4 @@
+
 /* Reset some default styles */
 * {
     box-sizing: border-box;
@@ -526,4 +527,6 @@ body, html {
         .btn-imprimir:hover {
             background-color: #2980b9;
         }
+
+
 

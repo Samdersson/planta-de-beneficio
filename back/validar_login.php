@@ -1,51 +1,30 @@
 <?php
-// Paso 1: Incluir la conexión a la base de datos
-include 'Conexion.php';
+session_start();
+include 'conexion.php';
 
-// Paso 2: Recibir los datos enviados desde el formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = trim($_POST['usuario']);
-    $contrasena = trim($_POST['contrasena']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre = mysqli_real_escape_string($conexion, $_POST['usuario']);
+    $password = mysqli_real_escape_string($conexion, $_POST['password']);
 
-    // Validar que los campos no estén vacíos
-    if (empty($usuario) || empty($contrasena)) {
-        die("Por favor, complete todos los campos.");
-    }
+    $query = "SELECT * FROM usuarios WHERE nombre = '$nombre' LIMIT 1";
+    $result = mysqli_query($conexion, $query);
 
-    // Paso 3: Consultar la base de datos para verificar el usuario
-
-    // Depuración: mostrar el usuario recibido
-    // echo "Usuario recibido: " . $usuario;
-
-    $sql = "SELECT * FROM usuarios WHERE nombre = '$usuario'";
-    $resultado = mysqli_query($conexion, $sql);
-
-    if (!$resultado) {
-        die("Error en la consulta SQL: " . mysqli_error($conexion));
-    }
-
-    if (mysqli_num_rows($resultado) == 1) {
-        $fila = mysqli_fetch_assoc($resultado);
-
-        // Depuración: mostrar el usuario encontrado en la base de datos
-        // echo "Usuario en DB: " . $fila['usuario'];
-
-        // Paso 4: Verificar la contraseña (asumiendo que está almacenada en texto plano, ideal usar hash)
-        if ($contrasena === $fila['contrasena']) {
-            // Paso 5: Iniciar sesión y redirigir
-            session_start();
-            $_SESSION['usuario'] = $usuario;
+    if ($result && mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        // Verificar contraseña (asumiendo que está almacenada en texto plano, se recomienda usar hash)
+        if ($row['contrasena'] === $password) {
+            $_SESSION['usuario'] = $nombre;
             header("Location: ../front/principal.html");
             exit();
         } else {
-            die("Contraseña incorrecta.");
+            header("Location: ../front/inicio.html?error=1");
+            exit();
         }
     } else {
-        die("Usuario no encontrado.");
+        header("Location: ../front/inicio.html?error=1");
+        exit();
     }
 } else {
-    // Si no es método POST, redirigir al formulario de inicio
-    header("Location: ../front/inicio.html");
-    exit();
+    echo "Método no permitido";
 }
 ?>
