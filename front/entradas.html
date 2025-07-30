@@ -12,6 +12,12 @@
 
         <h2>INGRESAR ANIMALES</h2>
         <form id="entradaForm">
+           <div class="entrada-section">
+    <label for="nombre" class="entrada-label">NOMBRE DEL PRODUCTOR</label>
+    <select id="nombre" name="nombre" class="entrada-input" required>
+        <option value="">Seleccione un productor</option>
+    </select>
+</div>
             <div class="entrada-section">
                 <label for="cedula" class="entrada-label">CÉDULA PRODUCTOR</label>
                 <input type="text" id="cedula" name="cedula" class="entrada-input" placeholder="INGRESA LA CÉDULA DEL PRODUCTOR" required />
@@ -36,6 +42,7 @@
             </div>
         </form>
     </div>
+    <script src="Script/listar_productor.js"></script>
     <script src="Script/validar_guia.js"></script>
     <script>
         document.getElementById('entradaForm').addEventListener('submit', manejarEnvioFormulario);
