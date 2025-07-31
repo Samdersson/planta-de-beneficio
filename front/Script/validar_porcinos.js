@@ -7,30 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const guiaInput = document.getElementById('guia-registrada');
     const fechaIcaInput = document.getElementById('fecha-guia-ica');
 
-    let editIndex = -1; // -1 means no edit mode
+    let editIndex = -1; 
     let guiaMovilizacion = guiaInput ? guiaInput.value : '';
 
     // Función para actualizar el estado del botón guardar según cantidad de filas
-    function actualizarEstadoGuardar() {
-        const cantidadMax = parseInt(cantidadInput.value);
-        const filasActuales = tbody.rows.length;
+    // function actualizarEstadoGuardar() {
+    //     const cantidadMax = parseInt(cantidadInput.value);
+    //     const filasActuales = tbody.rows.length;
 
-        if (!isNaN(cantidadMax) && filasActuales < cantidadMax && cantidadMax > 0) {
-            guardarBtn.disabled = false;
-        } else {
-            guardarBtn.disabled = true;
-        }
-    }
+    //     if (!isNaN(cantidadMax) && filasActuales < cantidadMax && cantidadMax > 0) {
+    //         guardarBtn.disabled = false;
+    //     } else {
+    //         guardarBtn.disabled = true;
+    //     }
+    // }
 
     // Llamar a actualizarEstadoGuardar cada vez que se agrega o elimina fila
-    const observer = new MutationObserver(() => {
-        actualizarEstadoGuardar();
-    });
+    // const observer = new MutationObserver(() => {
+    //     actualizarEstadoGuardar();
+    // });
 
-    observer.observe(tbody, { childList: true });
+    // observer.observe(tbody, { childList: true });
 
     // Inicializar estado del botón guardar
-    actualizarEstadoGuardar();
+    guardarBtn.disabled = false;
 
     if (guardarBtn) {
         guardarBtn.addEventListener('click', () => {
