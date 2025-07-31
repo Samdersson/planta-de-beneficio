@@ -10,24 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let editIndex = -1; 
     let guiaMovilizacion = guiaInput ? guiaInput.value : '';
 
-    // Función para actualizar el estado del botón guardar según cantidad de filas
-    // function actualizarEstadoGuardar() {
-    //     const cantidadMax = parseInt(cantidadInput.value);
-    //     const filasActuales = tbody.rows.length;
-
-    //     if (!isNaN(cantidadMax) && filasActuales < cantidadMax && cantidadMax > 0) {
-    //         guardarBtn.disabled = false;
-    //     } else {
-    //         guardarBtn.disabled = true;
-    //     }
-    // }
-
-    // Llamar a actualizarEstadoGuardar cada vez que se agrega o elimina fila
-    // const observer = new MutationObserver(() => {
-    //     actualizarEstadoGuardar();
-    // });
-
-    // observer.observe(tbody, { childList: true });
 
     // Inicializar estado del botón guardar
     guardarBtn.disabled = false;
@@ -170,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 data.append('guia_id', guiaId);
+                data.append('guia', fila.cells[7].textContent); // Agregar parámetro guia con número de guía
                 // cliente_id se deja null en backend
                 data.append('destino', fila.cells[1].textContent);
                 data.append('sexo', fila.cells[3].textContent);
@@ -177,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.append('numero_tiquete', fila.cells[5].textContent);
                 data.append('fecha_ingreso', fila.cells[6].textContent);
                 data.append('corral', fila.cells[9].textContent);
-                data.append('hora_caida', fila.cells[10].textContent);
+                data.append('hora_registro', fila.cells[10].textContent);
 
                 fetch('../back/guardar_entrada.php', {
                     method: 'POST',
@@ -209,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Error al guardar fila:', error);
                 }
             }
-            alert(`Guardados: ${guardados}, Errores: ${errores}`);
+            alert(`¡Datos Guardados con Exito!`);
         })();
     });
 });
