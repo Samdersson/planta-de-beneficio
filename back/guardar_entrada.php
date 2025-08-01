@@ -15,6 +15,26 @@ $corral = isset($_POST['corral']) ? $_POST['corral'] : null;
 $no_animal = isset($_POST['no_animal']) ? $_POST['no_animal'] : null;
 $hora_registro = date("Y-m-d H:i:s"); // Fecha y hora actual
 
+// Determinar especie según formato de guia
+$especie = null;
+if (isset($_POST['guia'])) {
+    $guia_val = $_POST['guia'];
+    if (preg_match('/^[0-9\-]+$/', $guia_val)) {
+        // Solo números y guiones: porcino
+        $especie = '0';
+    } else {
+        // Alfanumérico: bovino
+        $especie = '1';
+    }
+} else {
+    echo "Error: no se recibió el campo guia.";
+    $conexion->close();
+    exit;
+}
+
+// Debug: mostrar especie determinada
+error_log("Especie determinada según guia: " . var_export($especie, true));
+
 // Buscar guia_id por numero_guia
 $guia_id = 0;
 if ($guia) {
@@ -39,14 +59,14 @@ error_log("Datos recibidos: guia_id=$guia_id, cliente_id=$cliente_id, destino=$d
 
 $sql = $conexion->prepare("
     INSERT INTO animales (
-        guia_id, cliente_id, destino, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        guia_id, cliente_id, destino, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro, especie
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
-    "iissdsssss", 
-    $guia_id, $cliente_id, $destino, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro
+    "iissdsssssi", 
+    $guia_id, $cliente_id, $destino, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro, $especie
 );
 
 if ($sql->execute()) {

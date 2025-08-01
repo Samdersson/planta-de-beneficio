@@ -7,3 +7,11 @@ http://localhost/planta_de_beneficio/front/inicio.html
 // git add .
 // git -m
 
+jueves 31-07-2025 10:25 am queda terminado modulo de validar y registrar
+guia con condicion para abrir fomulario de bovinos o porcinos y cargando guia a base de datos
+
+jueves 31-07-2025 12:58 pm queda terminado el modulo de cargar animales a la lista y base de datos
+
+
+continuar con registro diario de sacrificio
+
