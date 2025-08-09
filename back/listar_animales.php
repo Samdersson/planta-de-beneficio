@@ -1,54 +1,56 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
-require_once 'Conexion.php';
 
 try {
-    global $conexion;
+    include_once 'Conexion.php';
 
-    // Obtener parámetros de filtrado
-    $fecha = isset($_GET['fecha']) ? $_GET['fecha'] : null;
-    $marca = isset($_GET['marca']) ? $_GET['marca'] : null;
+    $date = isset($_GET['fecha']) ? $_GET['fecha'] : '';
 
-    // Construir consulta base
-    $sql = "SELECT 
-                c.nombre,
-                c.cedula,
-                a.marca,
-                a.machos_bovinos,
-                a.hembras_bovinos,
-                a.machos_porcinos,
-                a.hembras_porcinos,
-                a.fecha
-            FROM animales a
-            INNER JOIN clientes c ON a.cliente_id = c.id
-            WHERE 1=1";
-
-    if ($fecha) {
-        $fecha_esc = mysqli_real_escape_string($conexion, $fecha);
-        $sql .= " AND a.fecha = '$fecha_esc'";
+    if ($date) {
+        $query = "
+            SELECT marca, sexo, especie
+            FROM animales
+            WHERE fecha_ingreso = ?
+            ORDER BY marca
+        ";
+        $stmt = mysqli_prepare($conexion, $query);
+        if (!$stmt) {
+            error_log("Error en la preparación de la consulta: " . mysqli_error($conexion));
+            throw new Exception("Error en la preparación de la consulta: " . mysqli_error($conexion));
+        }
+        mysqli_stmt_bind_param($stmt, "s", $date);
+        if (!mysqli_stmt_execute($stmt)) {
+            error_log("Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt));
+            throw new Exception("Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt));
+        }
+        $result = mysqli_stmt_get_result($stmt);
+    } else {
+        $result = [];
     }
-
-    if ($marca) {
-        $marca_esc = mysqli_real_escape_string($conexion, $marca);
-        $sql .= " AND a.marca = '$marca_esc'";
-    }
-
-    $sql .= " ORDER BY a.fecha DESC";
-
-    $result = mysqli_query($conexion, $sql);
 
     if (!$result) {
-        throw new Exception("Error en la consulta: " . mysqli_error($conexion));
+        throw new Exception("Error en la consulta a la base de datos: " . mysqli_error($conexion));
     }
 
-    $resultados = [];
+    $animales = [];
+
     while ($row = mysqli_fetch_assoc($result)) {
-        $resultados[] = $row;
+        // Convert all values to string and ensure proper JSON encoding
+        $row = array_map(function($value) {
+            return is_null($value) ? "" : (string)$value;
+        }, $row);
+        $animales[] = $row;
     }
 
-    echo json_encode($resultados);
+    echo json_encode($animales, JSON_UNESCAPED_UNICODE);
 
+    mysqli_close($conexion);
 } catch (Exception $e) {
+    http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

@@ -1,83 +1,130 @@
+let tbody, fechaInput, btnAgregar, messageContainer;
+
 document.addEventListener('DOMContentLoaded', () => {
-    const fechaInput = document.getElementById('fecha');
-    const btnAgregar = document.getElementById('btn-agregar');
-    const registroTbody = document.getElementById('registro-tbody');
-    const totalBobinosMacho = document.getElementById('total-bobinos-macho');
-    const totalBobinosHembra = document.getElementById('total-bobinos-hembra');
-    const totalPorcinosMacho = document.getElementById('total-porcinos-macho');
-    const totalPorcinosHembra = document.getElementById('total-porcinos-hembra');
+    tbody = document.getElementById('registro-tbody');
+    fechaInput = document.getElementById('fecha');
+    btnAgregar = document.getElementById('btn-agregar');
+    messageContainer = document.getElementById('message-container');
 
-    async function fetchData() {
-        try {
-            if (!fechaInput || !registroTbody) {
-                console.error('Elementos esenciales del DOM no encontrados');
-                return;
-            }
-
-            const params = new URLSearchParams();
-            if (fechaInput.value) params.append('fecha', fechaInput.value);
-
-            const response = await fetch('../back/listar_registro_diario.php?' + params.toString());
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-            const data = await response.json();
-            if (!Array.isArray(data)) {
-                console.error('La respuesta no es un array válido:', data);
-                return;
-            }
-
-            registroTbody.innerHTML = '';
-
-            if (data.length === 0) {
-                registroTbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No hay datos para la fecha seleccionada</td></tr>';
-                if (totalBobinosMacho) totalBobinosMacho.textContent = 0;
-                if (totalBobinosHembra) totalBobinosHembra.textContent = 0;
-                if (totalPorcinosMacho) totalPorcinosMacho.textContent = 0;
-                if (totalPorcinosHembra) totalPorcinosHembra.textContent = 0;
-                return;
-            }
-
-            let totalBM = 0, totalBH = 0, totalPM = 0, totalPH = 0;
-
-            data.forEach(item => {
-                const tr = document.createElement('tr');
-
-                const machosBovinos = parseInt(item.machos_bovinos) || 0;
-                const hembrasBovinos = parseInt(item.hembras_bovinos) || 0;
-                const machosPorcinos = parseInt(item.machos_porcinos) || 0;
-                const hembrasPorcinos = parseInt(item.hembras_porcinos) || 0;
-
-                tr.innerHTML = `
-                    <td>${item.nombre || ''}</td>
-                    <td>${item.cedula || ''}</td>
-                    <td>${item.marca || ''}</td>
-                    <td>${machosBovinos}</td>
-                    <td>${hembrasBovinos}</td>
-                    <td>${machosPorcinos}</td>
-                    <td>${hembrasPorcinos}</td>
-                `;
-
-                registroTbody.appendChild(tr);
-
-                totalBM += machosBovinos;
-                totalBH += hembrasBovinos;
-                totalPM += machosPorcinos;
-                totalPH += hembrasPorcinos;
-            });
-
-            if (totalBobinosMacho) totalBobinosMacho.textContent = totalBM;
-            if (totalBobinosHembra) totalBobinosHembra.textContent = totalBH;
-            if (totalPorcinosMacho) totalPorcinosMacho.textContent = totalPM;
-            if (totalPorcinosHembra) totalPorcinosHembra.textContent = totalPH;
-        } catch (error) {
-            console.error('Error al obtener datos:', error);
-        }
-    }
-
-    if (btnAgregar) {
-        btnAgregar.addEventListener('click', (e) => {
-            e.preventDefault();
-            fetchData();
-        });
-    }
+    btnAgregar.addEventListener('click', () => {
+        cargarDatos();
+    });
 });
+
+async function cargarDatos() {
+    const fecha = fechaInput.value;
+    if (!fecha) {
+        messageContainer.textContent = 'Por favor, selecciona una fecha.';
+        tbody.innerHTML = '';
+        actualizarTotales(0, 0, 0, 0);
+        return;
+    }
+    messageContainer.textContent = '';
+
+    try {
+        const response = await fetch(`../back/listar_animales.php?fecha=${encodeURIComponent(fecha)}`);
+        const data = await response.json();
+
+        if (data.error) {
+            messageContainer.textContent = data.error;
+            tbody.innerHTML = '';
+            actualizarTotales(0, 0, 0, 0);
+            return;
+        }
+
+        // Group data by marca and especie/sexo
+        const grouped = {};
+
+        data.forEach(item => {
+            const marca = item.marca || 'Sin Marca';
+            const especie = item.especie; // 0 = bobinos, 1 = porcinos
+            const sexo = item.sexo.toLowerCase();
+
+            if (!grouped[marca]) {
+                grouped[marca] = {
+                    marca: marca,
+                    bobinos: { macho: 0, hembra: 0 },
+                    porcinos: { macho: 0, hembra: 0 }
+                };
+            }
+
+            if (especie == 0) { // bobinos
+                if (sexo === 'm' || sexo === 'masculino') {
+                    grouped[marca].bobinos.macho++;
+                } else if (sexo === 'f' || sexo === 'hembra') {
+                    grouped[marca].bobinos.hembra++;
+                }
+            } else if (especie == 1) { // porcinos
+                if (sexo === 'm' || sexo === 'masculino') {
+                    grouped[marca].porcinos.macho++;
+                } else if (sexo === 'f' || sexo === 'hembra') {
+                    grouped[marca].porcinos.hembra++;
+                }
+            }
+        });
+
+        // Clear tbody
+        tbody.innerHTML = '';
+
+        // Totals
+        let totalBobinosMacho = 0;
+        let totalBobinosHembra = 0;
+        let totalPorcinosMacho = 0;
+        let totalPorcinosHembra = 0;
+
+        // Create rows
+        for (const marca in grouped) {
+            const row = document.createElement('tr');
+
+            // Empty cells for Nombre y Apellido and C.C.
+            const tdNombre = document.createElement('td');
+            tdNombre.textContent = '';
+
+            const tdCC = document.createElement('td');
+            tdCC.textContent = '';
+
+            const tdMarca = document.createElement('td');
+            tdMarca.textContent = grouped[marca].marca;
+
+            const tdBobinosMacho = document.createElement('td');
+            tdBobinosMacho.textContent = grouped[marca].bobinos.macho;
+
+            const tdBobinosHembra = document.createElement('td');
+            tdBobinosHembra.textContent = grouped[marca].bobinos.hembra;
+
+            const tdPorcinosMacho = document.createElement('td');
+            tdPorcinosMacho.textContent = grouped[marca].porcinos.macho;
+
+            const tdPorcinosHembra = document.createElement('td');
+            tdPorcinosHembra.textContent = grouped[marca].porcinos.hembra;
+
+            row.appendChild(tdNombre);
+            row.appendChild(tdCC);
+            row.appendChild(tdMarca);
+            row.appendChild(tdBobinosMacho);
+            row.appendChild(tdBobinosHembra);
+            row.appendChild(tdPorcinosMacho);
+            row.appendChild(tdPorcinosHembra);
+
+            tbody.appendChild(row);
+
+            // Update totals
+            totalBobinosMacho += grouped[marca].bobinos.macho;
+            totalBobinosHembra += grouped[marca].bobinos.hembra;
+            totalPorcinosMacho += grouped[marca].porcinos.macho;
+            totalPorcinosHembra += grouped[marca].porcinos.hembra;
+        }
+
+        actualizarTotales(totalBobinosMacho, totalBobinosHembra, totalPorcinosMacho, totalPorcinosHembra);
+    } catch (error) {
+        console.error('Error fetching animales:', error);
+        messageContainer.textContent = 'Error al cargar los datos de animales.';
+    }
+}
+
+function actualizarTotales(bm, bh, pm, ph) {
+    document.getElementById('total-bobinos-macho').textContent = bm;
+    document.getElementById('total-bobinos-hembra').textContent = bh;
+    document.getElementById('total-porcinos-macho').textContent = pm;
+    document.getElementById('total-porcinos-hembra').textContent = ph;
+}

@@ -6,7 +6,7 @@ include 'Conexion.php';
 
 $guia = isset($_POST['guia']) ? $_POST['guia'] : null;
 $cliente_id = isset($_POST['cliente_id']) ? intval($_POST['cliente_id']) : null;
-$destino = isset($_POST['destino']) ? $_POST['destino'] : null;
+$marca = isset($_POST['destino']) ? $_POST['destino'] : null;
 $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : null;
 $peso = isset($_POST['peso']) ? floatval($_POST['peso']) : null;
 $numero_tiquete = isset($_POST['numero_tiquete']) ? $_POST['numero_tiquete'] : null;
@@ -35,18 +35,18 @@ if ($guia_id === 0) {
 }
 
 // Debug: mostrar datos recibidos
-error_log("Datos recibidos: guia_id=$guia_id, cliente_id=$cliente_id, destino=$destino, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_ingreso=$fecha_ingreso, corral=$corral, hora_registro=$hora_registro");
+error_log("Datos recibidos: guia_id=$guia_id, cliente_id=$cliente_id, marca=$marca, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_ingreso=$fecha_ingreso, corral=$corral, no_animal=$no_animal, hora_registro=$hora_registro");
 
 $sql = $conexion->prepare("
     INSERT INTO animales (
-        guia_id, cliente_id, destino, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro
+        guia_id, cliente_id, marca, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
     "iissdsssss", 
-    $guia_id, $cliente_id, $destino, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro
+    $guia_id, $cliente_id, $marca, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro
 );
 
 if ($sql->execute()) {

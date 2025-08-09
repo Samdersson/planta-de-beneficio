@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Registro Diario de Sacrificio</title>
+    <title>pruebas Registro Diario de Sacrificio</title>
     <link rel="stylesheet" href="Styles.css" />
    
 </head>
 <body>
     <div class="registro-container">
         <button class="close-btn" onclick="window.history.back()">×</button>
-        <h1>REGISTRO DIARIO DE SACRIFICIO</h1>
+        <h1>PRUEBAS REGISTRO DIARIO DE SACRIFICIO</h1>
         <div class="form-row">
 
-
             <label for="fecha">FECHA</label>
-            <input type="date" id="fecha" name="fecha" value="2025-07-02" />
-            
+<input type="date" id="fecha" name="fecha" value="" />
+
             <button class="btn-agregar" id="btn-agregar">AGREGAR</button>
         </div>
+
+        <div id="message-container" style="color: red; margin: 10px 0;"></div>
+
         <table>
             <thead>
                 <tr>
-                    <th>NOMBRE Y APELLIDO</th>
-                    <th>C.C.</th>
-                    <th>DESTINO</th>
-                    <th colspan="2">BOBINOS</th>
+                    
+                    <th colspan="3">INFORMACION DEL DESTINO</th>
+                    <th colspan="2">BOVINOS</th>
                     <th colspan="2">PORCINOS</th>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>NOMBRE Y APELLIDO</th>
+                    <th>C.C.</th>
+                    <th>MARCA</th>
                     <th>MACHO</th>
                     <th>HEMBRA</th>
                     <th>MACHO</th>
@@ -56,6 +57,6 @@
         </div>
     </div>
 </body>
-<script src="Script/pasar_datos.js"></script>
+<!-- <script src="Script/pasar_datos.js"></script> -->
 <script src="Script/Registro_diario.js"></script>
 </html>
