@@ -13,18 +13,26 @@
         <h1>REGISTRO DIARIO DE SACRIFICIO</h1>
         <div class="form-row">
 
+            <label for="marca-select">MARCA</label>
+            <select id="marca-select" class="small-select">
+                <option value="">Seleccione</option>
+            </select>
 
             <label for="fecha">FECHA</label>
             <input type="date" id="fecha" name="fecha" value="2025-07-02" />
-            
             <button class="btn-agregar" id="btn-agregar">AGREGAR</button>
+            
+           
+        </div>
+        <div class="cantidad-group">
+            
         </div>
         <table>
             <thead>
                 <tr>
                     <th>NOMBRE Y APELLIDO</th>
                     <th>C.C.</th>
-                    <th>DESTINO</th>
+                    <th>MARCA</th>
                     <th colspan="2">BOBINOS</th>
                     <th colspan="2">PORCINOS</th>
                 </tr>
@@ -52,6 +60,7 @@
         </table>
         <div class="button-row">
             <button class="btn-guardar">GUARDAR</button>
+            <button class="btn-editar">EDITAR</button>
             <button class="btn-imprimir">IMPRIMIR</button>
         </div>
     </div>

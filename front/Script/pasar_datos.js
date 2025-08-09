@@ -1,4 +1,4 @@
- // Función para obtener parámetros de la URL
+    // Función para obtener parámetros de la URL
     function getQueryParams() {
         const params = {};
         const queryString = window.location.search.substring(1);
@@ -25,26 +25,3 @@
     }
 
     window.onload = llenarCampos;
-
-    // Cargar marcas de clientes para el select DESTINO
-    function cargarMarcas() {
-        fetch('../back/listar_marcas.php')
-            .then(response => response.json())
-            .then(marcas => {
-                const select = document.getElementById('destino-select');
-                marcas.forEach(marca => {
-                    const option = document.createElement('option');
-                    option.value = marca;
-                    option.textContent = marca;
-                    select.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error('Error al cargar marcas:', error);
-            });
-    }
-
-    window.onload = function() {
-        cargarMarcas();
-        llenarCampos();
-    };

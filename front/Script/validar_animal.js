@@ -43,18 +43,30 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     // Obtener valores de los campos
                     const destino = document.querySelector('.small-select').value;
-                    const noAnimal = document.querySelectorAll('.small-input')[1].value;
+                    const noAnimal = document.querySelectorAll('.small-input')[1].value.trim();
                     const sexo = document.querySelectorAll('.small-select')[1].value;
                     const kilos = document.querySelectorAll('.small-input')[2].value;
                     const noTiquete = document.querySelectorAll('.small-input')[3].value;
                     const fechaIngreso = document.querySelectorAll('.small-input')[4].value;
-                    const fechaGuiaIca = fechaIcaInput.value; // Usamos el valor actual del campo
+                    const fechaGuiaIca = fechaIcaInput.value; // ya viene desde formulario de entradas 
                     const noCorral = document.querySelectorAll('.small-input')[6].value;
     
                     // Validar campos obligatorios y que noAnimal no sea solo espacios
                     if (!destino || !noAnimal || !noAnimal.trim() || !sexo || !kilos || !noTiquete || !fechaIngreso || !noCorral) {
                         alert('Por favor, completa todos los campos antes de guardar.');
                         return;
+                    }
+
+                    // Validar que el número de animal no esté duplicado en la guía actual
+                    const filasActualesValidacion = tbody.rows;
+                    for (let i = 0; i < filasActualesValidacion.length; i++) {
+                        if (editIndex !== i) { // Ignorar la fila que se está editando
+                            const numeroAnimalExistente = filasActualesValidacion[i].cells[2].textContent.trim();
+                            if (numeroAnimalExistente === noAnimal) {
+                                alert(`El número de animal ${noAnimal} ya existe en esta guía. Por favor, ingrese un número diferente.`);
+                                return;
+                            }
+                        }
                     }
     
                     if (editIndex === -1) {

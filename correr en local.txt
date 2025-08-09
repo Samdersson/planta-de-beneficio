@@ -7,3 +7,18 @@ http://localhost/planta_de_beneficio/front/inicio.html
 // git add .
 // git -m
 
+REVERSAR commit
+// git reset --hard HEAD~1
+
+jueves 31-07-2025 10:25 am queda terminado modulo de validar y registrar
+    guia con condicion para abrir fomulario de bovinos o porcinos y cargando guia a base de datos
+
+jueves 31-07-2025 12:58 pm queda terminado el modulo de cargar animales a la lista y base de datos
+
+viernes 1-08-2025 12:36 pm se adicionó una condicion para almanecar los animales en la base de datos
+    seprados por especie (porcinos = 0 bovinos  = 1)  de esta forma podemor realizar estraer el registro diario de
+    sacrificio por especie, sexo, y candidad de animales.
+
+
+continuar con registro diario de sacrificio
+
