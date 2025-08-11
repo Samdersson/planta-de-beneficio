@@ -1,7 +1,7 @@
 <?php
 include 'Conexion.php';
 
-$sql = "SELECT marca, cedula, Nombre FROM clientes";
+$sql = "SELECT marca, id, nombre FROM clientes";
 $result = mysqli_query($conexion, $sql);
 
 $clientes = array();

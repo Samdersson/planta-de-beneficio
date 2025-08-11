@@ -39,9 +39,11 @@ if (!$stmt) {
 $stmt->bind_param("sissis", $numero_guia, $cantidad, $fecha_ica, $cedula, $id_usuarios, $nombre);
 
 if ($stmt->execute()) {
+    error_log("Guía registrada correctamente: numero_guia=$numero_guia, cantidad=$cantidad, fecha_ica=$fecha_ica, cedula=$cedula, id_usuarios=$id_usuarios, nombre=$nombre");
     echo json_encode(['success' => 'Guía registrada correctamente']);
 } else {
-    echo json_encode(['error' => 'Error al registrar la guía']);
+    error_log("Error al registrar la guía: " . $stmt->error);
+    echo json_encode(['error' => 'Error al registrar la guía: ' . $stmt->error]);
 }
 
 $stmt->close();

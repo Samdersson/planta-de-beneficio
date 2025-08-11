@@ -42,17 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
     
                     // Obtener valores de los campos
-                    const destino = document.querySelector('.small-select').value;
-                    const noAnimal = document.querySelectorAll('.small-input')[1].value.trim();
-                    const sexo = document.querySelectorAll('.small-select')[1].value;
-                    const kilos = document.querySelectorAll('.small-input')[2].value;
-                    const noTiquete = document.querySelectorAll('.small-input')[3].value;
-                    const fechaIngreso = document.querySelectorAll('.small-input')[4].value;
-                    const fechaGuiaIca = fechaIcaInput.value; // ya viene desde formulario de entradas 
-                    const noCorral = document.querySelectorAll('.small-input')[6].value;
+                    const destino = document.getElementById('destino-select').value;
+                    const noAnimal = document.getElementById('no-animal-input').value.trim();
+                    const clienteNombre = document.getElementById('cliente-input').value.trim();
+                    const clienteCedula = document.getElementById('cedula-input').value.trim();
+                    const sexo = document.getElementById('sexo-select').value;
+                    const kilos = document.getElementById('kilos-input').value;
+                    const noTiquete = document.getElementById('no-tiquete-input').value;
+                    const fechaIngreso = document.getElementById('fecha-ingreso-input').value.trim();
+                    const fechaGuiaIca = fechaIcaInput.value.trim(); // ya viene desde formulario de entradas 
+                    const noCorral = document.getElementById('no-corral-input').value.trim();
     
                     // Validar campos obligatorios y que noAnimal no sea solo espacios
-                    if (!destino || !noAnimal || !noAnimal.trim() || !sexo || !kilos || !noTiquete || !fechaIngreso || !noCorral) {
+                    if (!destino || !noAnimal || !noAnimal.trim() || !clienteNombre || !clienteCedula || !sexo || !kilos || !noTiquete || !fechaIngreso || !noCorral) {
                         alert('Por favor, completa todos los campos antes de guardar.');
                         return;
                     }
@@ -75,33 +77,37 @@ document.addEventListener('DOMContentLoaded', () => {
                         const numeroFila = filasActuales + 1;
     
                         nuevaFila.innerHTML = `
-                            <td>${numeroFila}</td>
-                            <td>${destino}</td>
-                            <td>${noAnimal}</td>
-                            <td>${sexo}</td>
-                            <td>${kilos}</td>
-                            <td>${noTiquete}</td>
-                            <td>${fechaIngreso}</td>
-                            <td>${guiaActual}</td>
-                            <td>${fechaGuiaIca}</td>
-                            <td>${noCorral}</td>
-                            <td>${new Date().toLocaleTimeString()}</td>
+                    <td>${numeroFila}</td>
+                    <td>${destino}</td>
+                    <td>${noAnimal}</td>
+                    <td>${clienteNombre}</td>
+                    <td>${clienteCedula}</td>
+                    <td>${sexo}</td>
+                    <td>${kilos}</td>
+                    <td>${noTiquete}</td>
+                    <td>${fechaIngreso}</td>
+                    <td>${guiaActual}</td>
+                    <td>${fechaGuiaIca}</td>
+                    <td>${noCorral}</td>
+                    <td>${new Date().toLocaleTimeString()}</td>
                         `;
     
-                        tbody.appendChild(nuevaFila);
+                    tbody.appendChild(nuevaFila);
                     } else {
                         // Actualizar fila existente
                         const fila = tbody.rows[editIndex];
                         fila.cells[1].textContent = destino;
                         fila.cells[2].textContent = noAnimal;
-                        fila.cells[3].textContent = sexo;
-                        fila.cells[4].textContent = kilos;
-                        fila.cells[5].textContent = noTiquete;
-                        fila.cells[6].textContent = fechaIngreso;
-                        fila.cells[7].textContent = guiaActual;
-                        fila.cells[8].textContent = fechaGuiaIca;
-                        fila.cells[9].textContent = noCorral;
-                        fila.cells[10].textContent = new Date().toLocaleTimeString();
+                        fila.cells[3].textContent = clienteNombre;
+                        fila.cells[4].textContent = clienteCedula;
+                        fila.cells[5].textContent = sexo;
+                        fila.cells[6].textContent = kilos;
+                        fila.cells[7].textContent = noTiquete;
+                        fila.cells[8].textContent = fechaIngreso;
+                        fila.cells[9].textContent = guiaActual;
+                        fila.cells[10].textContent = fechaGuiaIca;
+                        fila.cells[11].textContent = noCorral;
+                        fila.cells[12].textContent = new Date().toLocaleTimeString();
     
                         editIndex = -1;
                         guardarBtn.textContent = 'GUARDAR';
@@ -153,28 +159,38 @@ document.addEventListener('DOMContentLoaded', () => {
         let guardados = 0;
 
         // Función para enviar datos de una fila
-        const enviarFila = (fila) => {
-            return new Promise((resolve, reject) => {
-                const data = new URLSearchParams();
-                // Convertir guia de movilización a entero para guia_id
-                const guiaId = parseInt(fila.cells[7].textContent) || 0;
-                if (guiaId === 0) {
-                    alert('Error: guia_id inválido en la fila ' + (i + 1));
-                    reject('guia_id inválido');
-                    return;
-                }
-                data.append('guia_id', guiaId);
-                data.append('guia', fila.cells[7].textContent); // Agregar parámetro guia con número de guía
-                // cliente_id se deja null en backend
-                data.append('destino', fila.cells[1].textContent);
-                data.append('sexo', fila.cells[3].textContent);
-                data.append('peso', parseFloat(fila.cells[4].textContent) || 0);
-                data.append('numero_tiquete', fila.cells[5].textContent);
-                data.append('fecha_ingreso', fila.cells[6].textContent);
-                data.append('corral', fila.cells[9].textContent);
-                data.append('no_animal', fila.cells[2].textContent);
-                // No enviar hora_registro para evitar discrepancias de zona horaria
-                // data.append('hora_registro', fila.cells[10].textContent);
+                const enviarFila = (fila) => {
+                    return new Promise((resolve, reject) => {
+                        const data = new URLSearchParams();
+                        // No enviar guia_id, solo enviar numero de guia como string
+                        data.append('guia', fila.cells[9].textContent); // Agregar parámetro guia con número de guía (columna 9)
+                        // cliente_id se deja null en backend
+                        data.append('destino', fila.cells[1].textContent);
+                        data.append('sexo', fila.cells[5].textContent);
+                        data.append('peso', parseFloat(fila.cells[6].textContent) || 0);
+                        data.append('numero_tiquete', fila.cells[7].textContent);
+                        data.append('fecha_ingreso', fila.cells[8].textContent);
+                        data.append('corral', fila.cells[11].textContent);
+                        data.append('no_animal', fila.cells[2].textContent);
+                        // Agregar nombre y cédula desde la fila
+                        const nombreFila = fila.cells[3].textContent.trim();
+                        const cedulaFila = fila.cells[4].textContent.trim();
+                        data.append('nombre', nombreFila);
+                        data.append('cedula', cedulaFila);
+                        // Agregar cliente_id desde cliente-input dataset
+                        const destinoSelect = document.getElementById('destino-select');
+                        if (destinoSelect && window.clientesData) {
+                            const clienteSeleccionado = window.clientesData.find(c => c.marca === destinoSelect.value);
+                            if (clienteSeleccionado) {
+                                data.append('cliente_id', clienteSeleccionado.id);
+                                // Agregar marca desde cliente seleccionado
+                                data.append('destino', clienteSeleccionado.marca);
+                            }
+                        }
+                        // Enviar especie=0 para porcinos
+                        data.append('especie', '0');
+                        // No enviar hora_registro para evitar discrepancias de zona horaria
+                        // data.append('hora_registro', fila.cells[10].textContent);
 
                 fetch('../back/guardar_entrada.php', {
                     method: 'POST',

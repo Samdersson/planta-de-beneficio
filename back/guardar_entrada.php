@@ -4,8 +4,9 @@ date_default_timezone_set('America/Bogota');
 
 include 'Conexion.php';
 
-$guia = isset($_POST['guia']) ? $_POST['guia'] : null;
-$cliente_id = isset($_POST['cliente_id']) ? intval($_POST['cliente_id']) : null;
+$guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
+error_log("Valor recibido de guia en guardar_entrada.php: '$guia'");
+$cliente_id = isset($_POST['cliente_id']) ? $_POST['cliente_id'] : null;
 $marca = isset($_POST['destino']) ? $_POST['destino'] : null;
 $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : null;
 $peso = isset($_POST['peso']) ? floatval($_POST['peso']) : null;
@@ -13,6 +14,7 @@ $numero_tiquete = isset($_POST['numero_tiquete']) ? $_POST['numero_tiquete'] : n
 $fecha_ingreso = isset($_POST['fecha_ingreso']) ? $_POST['fecha_ingreso'] : null;
 $corral = isset($_POST['corral']) ? $_POST['corral'] : null;
 $no_animal = isset($_POST['no_animal']) ? $_POST['no_animal'] : null;
+$cedula = isset($_POST['cedula']) ? $_POST['cedula'] : null;
 $hora_registro = date("Y-m-d H:i:s"); // Fecha y hora actual
 
 // Buscar guia_id por numero_guia
@@ -39,14 +41,14 @@ error_log("Datos recibidos: guia_id=$guia_id, cliente_id=$cliente_id, marca=$mar
 
 $sql = $conexion->prepare("
     INSERT INTO animales (
-        guia_id, cliente_id, marca, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        guia_id, cliente_id, marca, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro, cedula
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
-    "iissdsssss", 
-    $guia_id, $cliente_id, $marca, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro
+    "isssdssssss", 
+    $guia_id, $cliente_id, $marca, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro, $cedula
 );
 
 if ($sql->execute()) {

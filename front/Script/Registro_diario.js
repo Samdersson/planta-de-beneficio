@@ -43,6 +43,8 @@ async function cargarDatos() {
             if (!grouped[marca]) {
                 grouped[marca] = {
                     marca: marca,
+                    cliente_id: item.cliente_id,
+                    cedula: item.cedula,
                     bobinos: { macho: 0, hembra: 0 },
                     porcinos: { macho: 0, hembra: 0 }
                 };
@@ -76,12 +78,11 @@ async function cargarDatos() {
         for (const marca in grouped) {
             const row = document.createElement('tr');
 
-            // Empty cells for Nombre y Apellido and C.C.
             const tdNombre = document.createElement('td');
-            tdNombre.textContent = '';
+            tdNombre.textContent = grouped[marca].cliente_id;
 
             const tdCC = document.createElement('td');
-            tdCC.textContent = '';
+            tdCC.textContent = grouped[marca].cedula;
 
             const tdMarca = document.createElement('td');
             tdMarca.textContent = grouped[marca].marca;

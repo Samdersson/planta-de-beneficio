@@ -12,7 +12,9 @@ try {
 
     if ($date) {
         $query = "
-            SELECT marca, sexo, especie
+            
+        SELECT cliente_id, cedula, marca, sexo, especie
+
             FROM animales
             WHERE fecha_ingreso = ?
             ORDER BY marca
