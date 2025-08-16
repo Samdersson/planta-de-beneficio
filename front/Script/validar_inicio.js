@@ -6,5 +6,14 @@ function validarLogin() {
         alert('Por favor, complete todos los campos.');
         return false;
     }
-    return true;
+
+    // Validar si el usuario es un correo electrónico
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailPattern.test(usuario)) {
+        // Es un correo electrónico
+        return true;
+    } else {
+        // Es un nombre
+        return true; // Aquí se puede agregar lógica adicional si es necesario
+    }
 }

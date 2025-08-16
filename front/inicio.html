@@ -8,9 +8,17 @@
     <script src="Script/validar_inicio.js" defer></script>
 </head>
 <body>
-    <!-- <h2>Iniciar Sesión</h2> -->
+    
+    <script>
+        window.onload = function() {
+            const errorMessage = document.getElementById('error-message');
+            if (errorMessage) {
+                alert(errorMessage.innerText);
+            }
+        };
+    </script>
     <form id="loginForm" method="POST" action="../back/validar_login.php" onsubmit="return validarLogin()">
-        <label for="usuario">Usuario:</label>
+        <label for="usuario">Nombre o Correo Electrónico:</label>
         <input type="text" id="usuario" name="usuario" required />
         <br />
         <label for="password">Contraseña:</label>
@@ -23,6 +31,5 @@
         <a href="#" id="linkOlvide">Olvidé mi contraseña</a>
     </p>
     </form>
-    
 </body>
 </html>

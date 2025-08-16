@@ -3,7 +3,8 @@
 $server = "localhost";
 $username = "root";
 $password = "";
-$database = "planta_sacrificio";
+$database = "prueba_software";
+
 
 
 $conexion = mysqli_connect($server, $username, $password, $database);
