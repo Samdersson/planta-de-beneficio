@@ -358,6 +358,19 @@ input[type="text"], input[type="search"], textarea, select {
     transition: background-color 0.3s ease;
 }
 
+/* eliminar button */
+.btn-eliminar {
+    background-color: #f31212;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 .btn-editar:hover {
     background-color: #d68910;
 }

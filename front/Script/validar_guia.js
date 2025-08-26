@@ -70,12 +70,13 @@ async function manejarEnvioFormulario(event) {
     event.preventDefault();
 
     const nombreSelect = document.getElementById("nombre");
-    const cedulaInput = document.getElementById("cedula");
+    const cedulaInput = document.getElementById("cedula"); 
     const guiaInput = document.getElementById("guia");
     const cantidadInput = document.getElementById("cantidad");
     const fechaInput = document.getElementById("fecha");
 
     if (!nombreSelect || !cedulaInput || !guiaInput || !cantidadInput || !fechaInput) {
+        alert("nombre"+nombreSelect+ "cedula"+cedulaInput+"guia"+guiaInput+"cantidad"+cantidadInput+"fecha"+fechaInput);
         alert("Faltan campos obligatorios en el formulario.");
         return;
     }
@@ -100,9 +101,9 @@ async function manejarEnvioFormulario(event) {
     try {
         const formData = new FormData();
         formData.append('numero_guia', numero_guia);
-        formData.append('cantidad', cantidad);
-        formData.append('fecha_ica', fecha_ica);
-        formData.append('cedula', cedula);
+        formData.append('cantidad_animales', cantidad);
+        formData.append('fecha_guia', fecha_ica);
+        formData.append('cedula_productor', cedula);
         formData.append('nombre', nombre);
 
         const response = await fetch('../back/guias_movilizacion.php', {
@@ -114,7 +115,7 @@ async function manejarEnvioFormulario(event) {
 
         if (result.success) {
             alert(result.success);
-            window.location.href = `${destino}?cedula=${encodeURIComponent(cedula)}&guia=${encodeURIComponent(numero_guia)}&cantidad=${encodeURIComponent(cantidad)}&fecha=${encodeURIComponent(fecha_ica)}`;
+            window.location.href = `${destino}?cedula_productor=${encodeURIComponent(cedula)}&numero_guia=${encodeURIComponent(numero_guia)}&cantidad_animales=${encodeURIComponent(cantidad)}&fecha_guia=${encodeURIComponent(fecha_ica)}`;
         } else {
             alert(result.error || 'Error desconocido al registrar la guía');
         }

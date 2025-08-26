@@ -1,16 +1,16 @@
 <?php
 include 'Conexion.php';
 
-$sql = "SELECT marca, id, nombre FROM clientes";
+$sql = "SELECT marca, cedula, nombre FROM cliente";
 $result = mysqli_query($conexion, $sql);
 
-$clientes = array();
+$cliente = array();
 
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $clientes[] = $row;
+        $cliente[] = $row;
     }
-    echo json_encode($clientes);
+    echo json_encode($cliente);
 } else {
     echo json_encode(['error' => 'Error al obtener los clientes']);
 }
