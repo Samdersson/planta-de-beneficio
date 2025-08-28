@@ -104,7 +104,7 @@ async function manejarEnvioFormulario(event) {
         formData.append('cantidad_animales', cantidad);
         formData.append('fecha_guia', fecha_ica);
         formData.append('cedula_productor', cedula);
-        formData.append('nombre', nombre);
+        // formData.append('nombre', nombre);
 
         const response = await fetch('../back/guias_movilizacion.php', {
             method: 'POST',

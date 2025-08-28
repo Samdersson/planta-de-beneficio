@@ -18,13 +18,12 @@ $fecha_guia = isset($_POST['fecha_guia']) ? $_POST['fecha_guia'] : null;
 $cedula_productor = isset($_POST['cedula_productor']) ? $_POST['cedula_productor'] : null;
 // $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
 
-// Obtener id_usuarios desde la sesión
+// Obtener cedula_usuarios desde la sesión
 $cedula_usuario = intval($_SESSION['cedula']);
 
 // Validar campos obligatorios
 if (!$numero_guia || !$cantidad_animales || !$fecha_guia || !$cedula_productor || !$cedula_usuario) {
-    echo json_encodealert("$cantidad_animales" + "$fecha_guia" + "$cedula_productor" + "$cedula_usuario" + "Faltan datos obligatorios");
-    // echo json_encode(['error' => 'Faltan datos obligatorios']);
+    echo json_encode(['error' => 'Faltan datos obligatorios']);
     exit;
 }
 
@@ -41,6 +40,8 @@ if ($stmt_check->num_rows > 0) {
 }
 $stmt_check->close();
 
+
+$sql = "INSERT INTO guia_movilizacion (numero_guia, cantidad_animales, fecha_guia, cedula_productor, cedula_usuario) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conexion->prepare($sql);
 if (!$stmt) {
     echo json_encode(['error' => 'Error en la preparación de la consulta']);
@@ -53,7 +54,7 @@ if ($stmt->execute()) {
     error_log("Guía registrada correctamente: numero_guia=$numero_guia, cantidad_animales=$cantidad_animales, fecha_guia=$fecha_guia, cedula_productor=$cedula_productor, cedula_usuario=$cedula_usuario");
     echo json_encode(['success' => 'Guía registrada correctamente']);
 } else {
-    echo json_encode("la guia ya existe");
+    echo json_encode(['error' => 'la guia ya existe']);
 }
 
 $stmt->close();
