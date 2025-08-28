@@ -31,7 +31,7 @@ if ($guia) {
 }
 
 if ($guia_id === 0) {
-    echo "Error: guia no existe en guias_movilizacion.";
+    echo json_encode(['warning' => 'La guía no existe en guias_movilizacion.']);
     $conexion->close();
     exit;
 }

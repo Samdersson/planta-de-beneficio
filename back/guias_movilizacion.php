@@ -28,8 +28,18 @@ if (!$numero_guia || !$cantidad_animales || !$fecha_guia || !$cedula_productor |
     exit;
 }
 
-// Preparar la consulta SQL para insertar
-$sql = "INSERT INTO guia_movilizacion (numero_guia, cantidad_animales, fecha_guia, cedula_productor, cedula_usuario) VALUES (?, ?, ?, ?, ?)";
+$sql_check = "SELECT numero_guia FROM guia_movilizacion WHERE numero_guia = ?";
+$stmt_check = $conexion->prepare($sql_check);
+$stmt_check->bind_param("s", $numero_guia);
+$stmt_check->execute();
+$stmt_check->store_result();
+
+if ($stmt_check->num_rows > 0) {
+    echo json_encode(['error' => 'La guía ya está registrada']);
+    $stmt_check->close();
+    exit;
+}
+$stmt_check->close();
 
 $stmt = $conexion->prepare($sql);
 if (!$stmt) {
@@ -43,8 +53,7 @@ if ($stmt->execute()) {
     error_log("Guía registrada correctamente: numero_guia=$numero_guia, cantidad_animales=$cantidad_animales, fecha_guia=$fecha_guia, cedula_productor=$cedula_productor, cedula_usuario=$cedula_usuario");
     echo json_encode(['success' => 'Guía registrada correctamente']);
 } else {
-    error_log("Error al registrar la guía: " . $stmt->error);
-    echo json_encode(['error' => 'Error al registrar la guía: ' . $stmt->error]);
+    echo json_encode("la guia ya existe");
 }
 
 $stmt->close();
