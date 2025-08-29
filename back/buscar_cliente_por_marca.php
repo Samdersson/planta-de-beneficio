@@ -1,23 +1,29 @@
 <?php
-header('Content-Type: application/json');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include 'Conexion.php';
 
-$marca = isset($_GET['marca']) ? $_GET['marca'] : '';
+header('Content-Type: application/json');
 
-if (!$marca) {
-    echo json_encode(['error' => 'Marca no especificada']);
+if (!isset($_GET['marca'])) {
+    echo json_encode(['error' => 'Parámetro marca requerido']);
     exit;
 }
 
-$stmt = $conexion->prepare("SELECT Nombre, cedula FROM clientes WHERE marca = ? LIMIT 1");
-$stmt->bind_param("s", $marca);
-$stmt->execute();
-$stmt->bind_result($nombre, $cedula);
-if ($stmt->fetch()) {
-    echo json_encode(['nombre' => $nombre, 'cedula' => $cedula]);
+$marca = $_GET['marca'];
+
+$sql = "SELECT nombre, cedula as cedula FROM cliente WHERE marca = ? LIMIT 1";
+$stmt = mysqli_prepare($conexion, $sql);
+mysqli_stmt_bind_param($stmt, "s", $marca);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+if ($row = mysqli_fetch_assoc($result)) {
+    echo json_encode($row);
 } else {
-    echo json_encode(['error' => 'Cliente no encontrado']);
+    echo json_encode(['error' => 'Cliente no encontrado para esta marca']);
 }
-$stmt->close();
-$conexion->close();
+
+mysqli_close($conexion);
 ?>

@@ -1,9 +1,12 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include 'Conexion.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT DISTINCT marca FROM clientes WHERE marca IS NOT NULL AND marca != '' ORDER BY marca ASC";
+$sql = "SELECT DISTINCT marca FROM cliente WHERE marca IS NOT NULL AND marca != '' ORDER BY marca ASC";
 $result = mysqli_query($conexion, $sql);
 
 $marcas = [];

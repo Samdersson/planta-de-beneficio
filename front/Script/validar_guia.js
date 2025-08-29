@@ -74,9 +74,9 @@ async function manejarEnvioFormulario(event) {
     const guiaInput = document.getElementById("guia");
     const cantidadInput = document.getElementById("cantidad");
     const fechaInput = document.getElementById("fecha");
+    const btnRegistrar = document.querySelector('.btn-registrar');
 
     if (!nombreSelect || !cedulaInput || !guiaInput || !cantidadInput || !fechaInput) {
-        alert("nombre"+nombreSelect+ "cedula"+cedulaInput+"guia"+guiaInput+"cantidad"+cantidadInput+"fecha"+fechaInput);
         alert("Faltan campos obligatorios en el formulario.");
         return;
     }
@@ -95,6 +95,8 @@ async function manejarEnvioFormulario(event) {
     if (!validarCantidad(cantidad)) return;
     if (!validarFecha(fecha_ica)) return;
 
+    // Determinar si estamos en modo edición (botón dice "ACTUALIZAR")
+    const esModoEdicion = btnRegistrar.textContent === 'ACTUALIZAR';
     const destino = validarGuiaYRedirigir(numero_guia);
     if (!destino) return;
 
@@ -104,7 +106,12 @@ async function manejarEnvioFormulario(event) {
         formData.append('cantidad_animales', cantidad);
         formData.append('fecha_guia', fecha_ica);
         formData.append('cedula_productor', cedula);
-        // formData.append('nombre', nombre);
+        
+        if (esModoEdicion) {
+            formData.append('accion', 'editar');
+        } else {
+            formData.append('accion', 'insertar');
+        }
 
         const response = await fetch('../back/guias_movilizacion.php', {
             method: 'POST',
@@ -115,9 +122,23 @@ async function manejarEnvioFormulario(event) {
 
         if (result.success) {
             alert(result.success);
-            window.location.href = `${destino}?cedula_productor=${encodeURIComponent(cedula)}&numero_guia=${encodeURIComponent(numero_guia)}&cantidad_animales=${encodeURIComponent(cantidad)}&fecha_guia=${encodeURIComponent(fecha_ica)}`;
+            if (esModoEdicion) {
+                // Después de editar, volver a la lista de guías
+                window.location.href = 'ver_guias.html';
+            } else {
+                // Después de crear, redirigir a la página correspondiente
+                // Guardar datos en sessionStorage para que Porcinos.html pueda leerlos
+                const guiaData = {
+                    numero_guia: numero_guia,
+                    cantidad_animales: cantidad,
+                    fecha_guia: fecha_ica,
+                    cedula_productor: cedula
+                };
+                sessionStorage.setItem('guiaEditar', JSON.stringify(guiaData));
+                window.location.href = destino;
+            }
         } else {
-            alert(result.error || 'Error desconocido al registrar la guía');
+            alert(result.error || 'Error desconocido al procesar la guía');
         }
     } catch (error) {
         alert('Error al enviar los datos: ' + error.message);

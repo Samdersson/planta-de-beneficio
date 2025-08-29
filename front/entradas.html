@@ -48,6 +48,30 @@
     <script src="Script/validar_guia.js"></script>
     <script>
         document.getElementById('entradaForm').addEventListener('submit', manejarEnvioFormulario);
+        
+        // Cargar datos de la guía si estamos en modo edición
+        window.addEventListener('DOMContentLoaded', function() {
+            const guiaEditar = sessionStorage.getItem('guiaEditar');
+            
+            if (guiaEditar) {
+                const guia = JSON.parse(guiaEditar);
+                
+                // Llenar los campos del formulario con los datos de la guía
+                document.getElementById('guia').value = guia.numero_guia;
+                document.getElementById('cantidad').value = guia.cantidad_animales;
+                document.getElementById('fecha').value = guia.fecha_guia;
+                document.getElementById('cedula').value = guia.cedula_productor;
+                
+                // Cambiar el texto del botón a "Actualizar"
+                document.querySelector('.btn-registrar').textContent = 'ACTUALIZAR';
+                
+                // Limpiar sessionStorage después de usar los datos
+                sessionStorage.removeItem('guiaEditar');
+                
+                // Aquí podrías también cargar el nombre del productor si es necesario
+                // basado en la cédula del productor
+            }
+        });
     </script>
 </body>
 </html>

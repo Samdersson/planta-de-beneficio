@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ver Guías</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <style>
+        .fila-seleccionada {
+            background-color: #e3f2fd !important;
+            font-weight: bold;
+        }
+        .botones-accion {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .botones-accion button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-editar {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-eliminar {
+            background-color: #f44336;
+            color: white;
+        }
+        .btn-deshabilitado {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed !important;
+        }
+        
+        /* Estilos para el modal de edición */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-guardar {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lista de Guías</h2>
+        <button class="close-btn" onclick="window.history.back()">×</button>
+        
+        <div class="botones-accion">
+            <button id="btn-editar" class="btn-editar btn-deshabilitado" onclick="editarGuia()" disabled>Editar</button>
+            <button id="btn-eliminar" class="btn-eliminar btn-deshabilitado" onclick="eliminarGuia()" disabled>Eliminar</button>
+        </div>
+
+        <table class="bovinos-table" id="guias-table">
+            <thead>
+                <tr>
+                    <th>Número Guía</th>
+                    <th>Cantidad Animales</th>
+                    <th>Fecha Guía</th>
+                    <th>Cédula Productor</th>
+                    <th>Cédula Usuario</th>
+                </tr>
+            </thead>
+            <tbody id="guias-tbody">
+                <!-- Guías cargadas dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para editar guía -->
+    <div id="modal-editar" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h3>Editar Guía</h3>
+            <form id="form-editar" onsubmit="guardarEdicion(event)">
+                <div class="form-group">
+                    <label for="numero_guia">Número de Guía:</label>
+                    <input type="text" id="numero_guia" name="numero_guia" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="cantidad_animales">Cantidad de Animales:</label>
+                    <input type="number" id="cantidad_animales" name="cantidad_animales" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_guia">Fecha de Guía:</label>
+                    <input type="date" id="fecha_guia" name="fecha_guia" required>
+                </div>
+                <div class="form-group">
+                    <label for="cedula_productor">Cédula Productor:</label>
+                    <input type="text" id="cedula_productor" name="cedula_productor" required>
+                </div>
+                <button type="submit" class="btn-guardar">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let guiaSeleccionada = null;
+
+        async function cargarGuias() {
+            try {
+                const response = await fetch('../back/listar_guias.php');
+                const guias = await response.json();
+
+                const tbody = document.getElementById('guias-tbody');
+                tbody.innerHTML = '';
+
+                guias.forEach(guia => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${guia.numero_guia}</td>
+                        <td>${guia.cantidad_animales}</td>
+                        <td>${guia.fecha_guia}</td>
+                        <td>${guia.cedula_productor}</td>
+                        <td>${guia.cedula_usuario}</td>
+                    `;
+                    
+                    // Agregar event listener para selección
+                    tr.addEventListener('click', () => {
+                        seleccionarFila(tr, guia);
+                    });
+                    
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error al cargar las guías:', error);
+                alert('Error al cargar las guías. Por favor, intente nuevamente.');
+            }
+        }
+
+        function seleccionarFila(fila, guia) {
+            // Quitar selección anterior
+            const filasSeleccionadas = document.querySelectorAll('.fila-seleccionada');
+            filasSeleccionadas.forEach(f => f.classList.remove('fila-seleccionada'));
+            
+            // Seleccionar nueva fila
+            fila.classList.add('fila-seleccionada');
+            guiaSeleccionada = guia;
+            
+            // Habilitar botones
+            document.getElementById('btn-editar').disabled = false;
+            document.getElementById('btn-editar').classList.remove('btn-deshabilitado');
+            document.getElementById('btn-eliminar').disabled = false;
+            document.getElementById('btn-eliminar').classList.remove('btn-deshabilitado');
+        }
+
+        function editarGuia() {
+            if (!guiaSeleccionada) {
+                alert('Por favor seleccione una guía para editar');
+                return;
+            }
+            
+            // Guardar la guía seleccionada en sessionStorage para que entradas.html pueda acceder a ella
+            sessionStorage.setItem('guiaEditar', JSON.stringify(guiaSeleccionada));
+            
+            // Redirigir a entradas.html para editar la guía
+            window.location.href = 'entradas.html';
+        }
+
+        async function eliminarGuia() {
+            if (!guiaSeleccionada) {
+                alert('Por favor seleccione una guía para eliminar');
+                return;
+            }
+            
+            if (confirm(`¿Está seguro de que desea eliminar la guía ${guiaSeleccionada.numero_guia}?`)) {
+                try {
+                    const formData = new FormData();
+                    formData.append('accion', 'eliminar');
+                    formData.append('numero_guia', guiaSeleccionada.numero_guia);
+                    
+                    const response = await fetch('../back/guias_movilizacion.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const resultado = await response.json();
+                    
+                    if (resultado.success) {
+                        alert(resultado.success);
+                        // Recargar la lista de guías
+                        cargarGuias();
+                        // Deshabilitar botones y limpiar selección
+                        guiaSeleccionada = null;
+                        document.getElementById('btn-editar').disabled = true;
+                        document.getElementById('btn-editar').classList.add('btn-deshabilitado');
+                        document.getElementById('btn-eliminar').disabled = true;
+                        document.getElementById('btn-eliminar').classList.add('btn-deshabilitado');
+                    } else {
+                        alert('Error: ' + resultado.error);
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar la guía:', error);
+                    alert('Error al eliminar la guía. Por favor, intente nuevamente.');
+                }
+            }
+        }
+
+        window.onload = cargarGuias;
+    </script>
+</body>
+</html>

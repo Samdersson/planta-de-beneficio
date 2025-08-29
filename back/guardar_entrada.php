@@ -20,7 +20,7 @@ $hora_registro = date("Y-m-d H:i:s"); // Fecha y hora actual
 // Buscar guia_id por numero_guia
 $guia_id = 0;
 if ($guia) {
-    $stmt = $conexion->prepare("SELECT id FROM guias_movilizacion WHERE numero_guia = ?");
+    $stmt = $conexion->prepare("SELECT numero_guia FROM guia_movilizacion WHERE numero_guia = ?");
     $stmt->bind_param("s", $guia);
     $stmt->execute();
     $stmt->bind_result($id);
@@ -40,7 +40,7 @@ if ($guia_id === 0) {
 error_log("Datos recibidos: guia_id=$guia_id, cliente_id=$cliente_id, marca=$marca, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_ingreso=$fecha_ingreso, corral=$corral, no_animal=$no_animal, hora_registro=$hora_registro");
 
 $sql = $conexion->prepare("
-    INSERT INTO animales (
+    INSERT INTO animal (
         guia_id, cliente_id, marca, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro, cedula
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
