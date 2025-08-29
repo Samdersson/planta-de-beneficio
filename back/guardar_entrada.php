@@ -1,54 +1,59 @@
 <?php
 
 date_default_timezone_set('America/Bogota');
+session_start();
 
 include 'Conexion.php';
 
-$guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
-error_log("Valor recibido de guia en guardar_entrada.php: '$guia'");
-$cliente_id = isset($_POST['cliente_id']) ? $_POST['cliente_id'] : null;
-$marca = isset($_POST['destino']) ? $_POST['destino'] : null;
+$numero_animal = isset($_POST['no_animal']) ? $_POST['no_animal'] : null;
 $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : null;
 $peso = isset($_POST['peso']) ? floatval($_POST['peso']) : null;
 $numero_tiquete = isset($_POST['numero_tiquete']) ? $_POST['numero_tiquete'] : null;
-$fecha_ingreso = isset($_POST['fecha_ingreso']) ? $_POST['fecha_ingreso'] : null;
-$corral = isset($_POST['corral']) ? $_POST['corral'] : null;
-$no_animal = isset($_POST['no_animal']) ? $_POST['no_animal'] : null;
-$cedula = isset($_POST['cedula']) ? $_POST['cedula'] : null;
-$hora_registro = date("Y-m-d H:i:s"); // Fecha y hora actual
+$fecha_guia = isset($_POST['fecha_ingreso']) ? $_POST['fecha_ingreso'] : null;
+$fecha_sacrificio = isset($_POST['fecha_sacrificio']) ? $_POST['fecha_sacrificio'] : null;
+$numero_corral = isset($_POST['corral']) ? $_POST['corral'] : null;
+$especie = null;
+if (isset($_POST['especie'])) {
+    if ($_POST['especie'] === '0' || $_POST['especie'] === 0) {
+        $especie = 'porcino';
+    } elseif ($_POST['especie'] === '1' || $_POST['especie'] === 1) {
+        $especie = 'bovino';
+    }
+}
+$hora_caida = isset($_POST['hora_caida']) ? $_POST['hora_caida'] : null;
+$numero_guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
+$id_guia_transporte = isset($_POST['id_guia_transporte']) ? $_POST['id_guia_transporte'] : null;
+$cedula_usuario = isset($_SESSION['cedula']) ? $_SESSION['cedula'] : null;
+$marca = isset($_POST['marca']) ? $_POST['marca'] : null;
 
-// Buscar guia_id por numero_guia
-$guia_id = 0;
-if ($guia) {
+// Validar que la guía exista en guias_movilizacion
+if ($numero_guia) {
     $stmt = $conexion->prepare("SELECT numero_guia FROM guia_movilizacion WHERE numero_guia = ?");
-    $stmt->bind_param("s", $guia);
+    $stmt->bind_param("s", $numero_guia);
     $stmt->execute();
-    $stmt->bind_result($id);
-    if ($stmt->fetch()) {
-        $guia_id = $id;
+    $stmt->store_result();
+    if ($stmt->num_rows === 0) {
+        echo json_encode(['warning' => 'La guía no existe en guias_movilizacion.']);
+        $stmt->close();
+        $conexion->close();
+        exit;
     }
     $stmt->close();
 }
 
-if ($guia_id === 0) {
-    echo json_encode(['warning' => 'La guía no existe en guias_movilizacion.']);
-    $conexion->close();
-    exit;
-}
-
 // Debug: mostrar datos recibidos
-error_log("Datos recibidos: guia_id=$guia_id, cliente_id=$cliente_id, marca=$marca, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_ingreso=$fecha_ingreso, corral=$corral, no_animal=$no_animal, hora_registro=$hora_registro");
+error_log("Datos recibidos: numero_animal=$numero_animal, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_guia=$fecha_guia, fecha_sacrificio=$fecha_sacrificio, numero_corral=$numero_corral, especie=$especie, hora_caida=$hora_caida, numero_guia=$numero_guia, id_guia_transporte=$id_guia_transporte, cedula_usuario=$cedula_usuario, marca=$marca");
 
 $sql = $conexion->prepare("
     INSERT INTO animal (
-        guia_id, cliente_id, marca, sexo, peso, numero_tiquete, fecha_ingreso, corral, no_animal, hora_registro, cedula
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        numero_animal, sexo, peso, numero_tiquete, fecha_guia, fecha_sacrificio, numero_corral, especie, hora_caida, numero_guia, id_guia_transporte, cedula_usuario, marca
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
-    "isssdssssss", 
-    $guia_id, $cliente_id, $marca, $sexo, $peso, $numero_tiquete, $fecha_ingreso, $corral, $no_animal, $hora_registro, $cedula
+    "ssdssssssssis", 
+    $numero_animal, $sexo, $peso, $numero_tiquete, $fecha_guia, $fecha_sacrificio, $numero_corral, $especie, $hora_caida, $numero_guia, $id_guia_transporte, $cedula_usuario, $marca
 );
 
 if ($sql->execute()) {
