@@ -213,7 +213,7 @@ data.append('fecha_sacrificio', fechaIngresoFormatted); // fecha-ingreso-input
 
                 // Enviar especie dinámicamente según la página
                 let especie = '0'; // Por defecto porcinos
-                if (window.location.pathname.includes('bovino')) {
+                if (window.location.pathname.toLowerCase().includes('bovinos')) {
                     especie = '1';
                 }
                 data.append('especie', especie);

@@ -5,7 +5,8 @@ http://localhost/planta_de_beneficio/front/inicio.html
 // cargar commit a git
 // git init
 // git add .
-// git -m
+// git commit -m
+// git push origin main
 
 REVERSAR commit
 // git reset --hard HEAD~1

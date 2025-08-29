@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ingresar Bovinos</title>
+    <title>Ingresar bovinos</title>
     <link rel="stylesheet" href="Styles.css" />
 </head>
 <body>
@@ -11,11 +11,11 @@
         <button class="close-btn" onclick="window.history.back()">×</button>
 
         <h2>INGRESAR BOVINOS</h2>
-        <input type="text" id="guia-registrada" class="guia-registrada" readonly />
+        <input type="text" id="guia-registrada" class="guia-registrada"  />
 
         <div class="form-row">
             <label>CANTIDAD DE ANIMALES EN GUÍA</label>
-            <input type="number" id="cantidad-animales" class="small-input" readonly />
+            <input type="number" id="cantidad-animales" class="small-input"  />
         </div>
 
         <div class="form-row">
@@ -23,54 +23,69 @@
             <select id="destino-select" class="small-select">
                 <option value="">Seleccione</option>
             </select>
-
+        </div>
+        <div class="form-row">
+            <label>CLIENTE</label>
+            <input type="text" id="cliente-input" class="small-input" />
+        </div>
+        <div class="form-row">
+            <label>CEDULA</label>
+            <input type="text" id="cedula-input" class="small-input" />
+        </div>
+        
+        <div class="form-row">
             <label>No° ANIMAL</label>
-            <input type="text" class="small-input" />
-
+            <input type="text" id="no-animal-input" class="small-input" />
+        </div>
+        <div class="form-row">
             <label>SEXO</label>
-            <select class="small-select">
+            <select id="sexo-select" class="small-select">
                 <option value="">Seleccione</option>
                 <option value="M">M</option>
                 <option value="F">H</option>
             </select>
-
+        </div>
+        <div class="form-row">
             <label>KILOS</label>
-            <input type="text" class="small-input" />
+            <input type="text" id="kilos-input" class="small-input" />
         </div>
 
         <div class="form-row">
             <label>No° TIQUETE</label>
-            <input type="text" class="small-input" />
+            <input type="text" id="no-tiquete-input" class="small-input" />
 
             <label>FECHA DE INGRESO</label>
-            <input type="date" class="small-input" />
+            <input type="date" id="fecha-ingreso-input" class="small-input" />
 
             <label>FECHA DE GUIA ICA</label>
-            <input type="date" id="fecha-guia-ica" class="small-input" readonly />
-
+            <input type="date" id="fecha-guia-ica" class="small-input"  />
+        </div>
+        <div class="form-row">
             <label>No° CORRAL</label>
-            <input type="number" class="small-input" />
+            <input type="number" id="no-corral-input" class="small-input" />
         </div>
 
-    <table class="bovinos-table">
-        <thead>
-            <tr>
-                <th>No°</th>
-                <th>DESTINO</th>
-                <th>No° ANIMAL</th>
-                <th>SEXO</th>
-                <th>KILOS</th>
-                <th>No° TIQUETE</th>
-                <th>FECHA INGRESO</th>
-                <th>GUIA MOVILIZACION</th>
-                <th>FECHA GUIA ICA</th>
-                <th>No° CORRAL</th>
-                <th>HORA DE REGISTRO</th>
-            </tr>
-        </thead>
-        <tbody id="bovinos-tbody">
-        </tbody>
-    </table>
+        <table class="bovinos-table">
+            <thead>
+                <tr>
+                    <th>No°</th>
+                    <th>DESTINO</th>
+                    <th>No° ANIMAL</th>
+                    <th>NOMBRE</th>
+                    <th>CEDULA</th>
+                    <th>SEXO</th>
+                    <th>KILOS</th>
+                    <th>No° TIQUETE</th>
+                    <th>FECHA INGRESO</th>
+                    <th>GUIA MOVILIZACION</th>
+                    <th>FECHA GUIA ICA</th>
+                    <th>No° CORRAL</th>
+                    <th>HORA DE REGISTRO</th>
+                </tr>
+            </thead>
+            <tbody id="bovinos-tbody">
+            </tbody>
+        </table>
 
         <div class="button-row">
             <button class="btn-guardar">GUARDAR</button>
@@ -79,7 +94,7 @@
         </div>
     </div>
 </body>
-<script src="Script/pasar_datos.js"></script>
 <script src="Script/validar_animal.js"></script>
-
+<!-- <script src="Script/listar_clientes.js"></script> -->
+<script src="Script/pasar_datos.js"></script>
 </html>
