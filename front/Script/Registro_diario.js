@@ -23,7 +23,27 @@ async function cargarDatos() {
 
     try {
         const response = await fetch(`../back/listar_animales.php?fecha=${encodeURIComponent(fecha)}`);
-        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const responseText = await response.text();
+        if (!responseText.trim()) {
+            messageContainer.textContent = 'No hay datos de animales para la fecha seleccionada.';
+            tbody.innerHTML = '';
+            actualizarTotales(0, 0, 0, 0);
+            return;
+        }
+        
+        // Intentar parsear JSON
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (jsonError) {
+            console.error('Error parsing JSON:', jsonError, 'Response:', responseText);
+            throw new Error('Formato de respuesta inválido del servidor');
+        }
 
         if (data.error) {
             messageContainer.textContent = data.error;
@@ -32,38 +52,72 @@ async function cargarDatos() {
             return;
         }
 
-        // Group data by marca and especie/sexo
         const grouped = {};
 
         data.forEach(item => {
             const marca = item.marca || 'Sin Marca';
-            const especie = item.especie; // 0 = bobinos, 1 = porcinos
-            const sexo = item.sexo.toLowerCase();
+            const especie = item.especie.toLowerCase(); // 'bovino' o 'porcino'
+            const sexo = item.sexo.toUpperCase(); // 'M' o 'H'
 
             if (!grouped[marca]) {
                 grouped[marca] = {
                     marca: marca,
-                    cliente_id: item.cliente_id,
                     cedula: item.cedula,
                     bobinos: { macho: 0, hembra: 0 },
                     porcinos: { macho: 0, hembra: 0 }
                 };
             }
 
-            if (especie == 0) { // bobinos
-                if (sexo === 'm' || sexo === 'masculino') {
+            if (especie === 'bovino') { // bobinos
+                if (sexo === 'M') {
                     grouped[marca].bobinos.macho++;
-                } else if (sexo === 'f' || sexo === 'hembra') {
+                } else if (sexo === 'H') {
                     grouped[marca].bobinos.hembra++;
                 }
-            } else if (especie == 1) { // porcinos
-                if (sexo === 'm' || sexo === 'masculino') {
+            } else if (especie === 'porcino') { // porcinos
+                if (sexo === 'M') {
                     grouped[marca].porcinos.macho++;
-                } else if (sexo === 'f' || sexo === 'hembra') {
+                } else if (sexo === 'H') {
                     grouped[marca].porcinos.hembra++;
                 }
             }
         });
+
+        // Obtener información de clientes para cada marca única
+        const marcasUnicas = Object.keys(grouped);
+        const clientesInfo = {};
+
+        for (const marca of marcasUnicas) {
+            if (marca !== 'Sin Marca') {
+                try {
+                    const clienteResponse = await fetch(`../back/buscar_cliente_por_marca.php?marca=${encodeURIComponent(marca)}`);
+                    const clienteData = await clienteResponse.json();
+                    
+                    if (!clienteData.error) {
+                        clientesInfo[marca] = {
+                            nombre: clienteData.nombre,
+                            cedula: clienteData.cedula
+                        };
+                    } else {
+                        clientesInfo[marca] = {
+                            nombre: 'Cliente no encontrado',
+                            cedula: grouped[marca].cedula || 'N/A'
+                        };
+                    }
+                } catch (error) {
+                    console.error(`Error obteniendo cliente para marca ${marca}:`, error);
+                    clientesInfo[marca] = {
+                        nombre: 'Error al obtener cliente',
+                        cedula: grouped[marca].cedula || 'N/A'
+                    };
+                }
+            } else {
+                clientesInfo[marca] = {
+                    nombre: 'Sin Cliente',
+                    cedula: 'N/A'
+                };
+            }
+        }
 
         // Clear tbody
         tbody.innerHTML = '';
@@ -79,13 +133,13 @@ async function cargarDatos() {
             const row = document.createElement('tr');
 
             const tdNombre = document.createElement('td');
-            tdNombre.textContent = grouped[marca].cliente_id;
+            tdNombre.textContent = clientesInfo[marca]?.nombre || 'N/A';
 
             const tdCC = document.createElement('td');
-            tdCC.textContent = grouped[marca].cedula;
+            tdCC.textContent = clientesInfo[marca]?.cedula || 'N/A';
 
             const tdMarca = document.createElement('td');
-            tdMarca.textContent = grouped[marca].marca;
+            tdMarca.textContent = marca;
 
             const tdBobinosMacho = document.createElement('td');
             tdBobinosMacho.textContent = grouped[marca].bobinos.macho;

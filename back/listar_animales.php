@@ -12,22 +12,22 @@ try {
 
     if ($date) {
         $query = "
-            
-        SELECT cliente_id, cedula, marca, sexo, especie
-
-            FROM animales
-            WHERE fecha_ingreso = ?
+            SELECT marca, sexo, especie
+            FROM animal
+            WHERE fecha_sacrificio = ?
             ORDER BY marca
         ";
         $stmt = mysqli_prepare($conexion, $query);
         if (!$stmt) {
-            error_log("Error en la preparación de la consulta: " . mysqli_error($conexion));
-            throw new Exception("Error en la preparación de la consulta: " . mysqli_error($conexion));
+            $error = "Error en la preparación de la consulta: " . mysqli_error($conexion);
+            error_log($error);
+            throw new Exception($error);
         }
         mysqli_stmt_bind_param($stmt, "s", $date);
         if (!mysqli_stmt_execute($stmt)) {
-            error_log("Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt));
-            throw new Exception("Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt));
+            $error = "Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt);
+            error_log($error);
+            throw new Exception($error);
         }
         $result = mysqli_stmt_get_result($stmt);
     } else {
@@ -56,3 +56,4 @@ try {
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
+
