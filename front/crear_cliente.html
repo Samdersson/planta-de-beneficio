@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="Styles.css" />
 </head>
 <body>
-    <div class="crear-cliente-container">
+    <div class="entradas-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
         <h2>CREAR CLIENTE</h2>
         <form id="crearClienteForm">
+            <div class="entrada-section">
+                <label for="cedula" class="entrada-label">CEDULA</label>
+                <input type="text" id="cedula" name="cedula" class="entrada-input" placeholder="INGRESA LA CEDULA" required />
+            </div>
             <div class="entrada-section">
                 <label for="marca" class="entrada-label">MARCA</label>
                 <input type="text" id="marca" name="marca" class="entrada-input" placeholder="INGRESA LA MARCA" required />
@@ -19,20 +24,12 @@
                 <input type="text" id="nombre" name="nombre" class="entrada-input" placeholder="INGRESA EL NOMBRE" required />
             </div>
             <div class="entrada-section">
-                <label for="destino" class="entrada-label">DESTINO</label>
-                <input type="text" id="destino" name="destino" class="entrada-input" placeholder="INGRESA EL DESTINO" required />
+                <label for="destino" class="entrada-label">DIRECCION</label>
+                <input type="text" id="destino" name="destino" class="entrada-input" placeholder="INGRESA LA DIRECCION" required />
             </div>
             
             <div class="entrada-section">
                 <button type="submit" class="btn-registrar">REGISTRAR</button>
-            </div>
-
-            <div class="entrada-section">
-                <button type= "submit" class="btn-editar" >EDITAR</button>
-            </div>
-
-            <div class="entrada-section">
-                <button type= "submit" class="btn-eliminar" >ELIMINAR</button>
             </div>
         </form>
     </div>

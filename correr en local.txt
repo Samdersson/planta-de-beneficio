@@ -23,3 +23,12 @@ viernes 1-08-2025 12:36 pm se adicionó una condicion para almanecar los animale
 
 continuar con registro diario de sacrificio
 
+
+vistas en sql
+se crea a partir de una consukta
+create view [nombre] consulta;
+
+monitor samsung odisey
+jspdf
+
+make pdf => 

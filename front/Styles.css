@@ -205,6 +205,13 @@ input[type="text"], input[type="search"], textarea, select {
     text-transform: capitalize;
 }
 
+/* Forzar color y tamaño visible en el select de roles */
+#rol_id, #rol_id option {
+    color: black !important;
+    font-size: 14px !important;
+    text-transform: none !important;
+}
+
 /* Aplicar capitalize a los textos que llegan de la base de datos en elementos con clase .capitalize-text */
 .capitalize-text {
     text-transform: capitalize;

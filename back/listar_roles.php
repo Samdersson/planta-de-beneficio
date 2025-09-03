@@ -3,18 +3,18 @@ include 'Conexion.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT id, nombre FROM roles ORDER BY nombre";
+$sql = "SELECT id, nombre FROM rol ORDER BY nombre";
 $result = mysqli_query($conexion, $sql);
 
-$roles = [];
+$rol = [];
 
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $roles[] = $row;
+        $rol[] = $row;
     }
 }
 
 mysqli_close($conexion);
 
-echo json_encode($roles);
+echo json_encode($rol);
 ?>
