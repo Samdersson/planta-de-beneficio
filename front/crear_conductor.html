@@ -25,8 +25,8 @@
                 <input type="text" id="telefono" name="telefono" maxlength="20" />
             </div>
             <div>
-                <label for="empresa">cedula</label>
-                <input type="text" id="empresa" name="empresa" maxlength="100" />
+                <label for="cedula">Cédula</label>
+                <input type="text" id="cedula" name="cedula" maxlength="100" required />
             </div>
             <div>
                 <button type="submit" id="btnGuardar">Guardar Conductor</button>
@@ -55,7 +55,9 @@
                     alert(isUpdateInput.value === '1' ? 'Conductor actualizado con éxito' : 'Conductor creado con éxito');
                     form.reset();
                     isUpdateInput.value = '0';
-                    idInput.value = '0';
+                    if (idInput) {
+                        idInput.value = '0';
+                    }
                     btnGuardar.textContent = 'Guardar Conductor';
                 } else if (text.includes('❌')) {
                     alert('Error: ' + text.replace('❌', '').trim());

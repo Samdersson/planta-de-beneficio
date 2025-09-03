@@ -8,13 +8,14 @@ header('Content-Type: application/json');
 try {
     include_once 'Conexion.php';
 
-    $date = isset($_GET['fecha']) ? $_GET['fecha'] : '';
+    $fechaInicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : '';
+    $fechaFin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '';
 
-    if ($date) {
+    if ($fechaInicio && $fechaFin) {
         $query = "
             SELECT marca, sexo, especie
             FROM animal
-            WHERE fecha_sacrificio = ?
+            WHERE fecha_sacrificio BETWEEN ? AND ?
             ORDER BY marca
         ";
         $stmt = mysqli_prepare($conexion, $query);
@@ -23,7 +24,7 @@ try {
             error_log($error);
             throw new Exception($error);
         }
-        mysqli_stmt_bind_param($stmt, "s", $date);
+        mysqli_stmt_bind_param($stmt, "ss", $fechaInicio, $fechaFin);
         if (!mysqli_stmt_execute($stmt)) {
             $error = "Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt);
             error_log($error);

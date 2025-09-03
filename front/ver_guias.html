@@ -94,10 +94,22 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Lista de Guías</h2>
+    <div class="registro-container">
         <button class="close-btn" onclick="window.history.back()">×</button>
-        
+        <h1>LISTA DE GUÍAS</h1>
+        <div class="form-row">
+
+            <label for="fecha_inicio">FECHA INICIO</label>
+<input type="date" id="fecha_inicio" name="fecha_inicio" value="" />
+
+            <label for="fecha_fin">FECHA FIN</label>
+<input type="date" id="fecha_fin" name="fecha_fin" value="" />
+
+            <button class="btn-agregar" id="btn-cargar">CARGAR</button>
+        </div>
+
+        <div id="message-container" style="color: red; margin: 10px 0;"></div>
+
         <div class="botones-accion">
             <button id="btn-editar" class="btn-editar btn-deshabilitado" onclick="editarGuia()" disabled>Editar</button>
             <button id="btn-eliminar" class="btn-eliminar btn-deshabilitado" onclick="eliminarGuia()" disabled>Eliminar</button>
@@ -148,14 +160,36 @@
 
     <script>
         let guiaSeleccionada = null;
+        let fechaInicioInput, fechaFinInput, btnCargar, messageContainer;
 
-        async function cargarGuias() {
+        document.addEventListener('DOMContentLoaded', () => {
+            fechaInicioInput = document.getElementById('fecha_inicio');
+            fechaFinInput = document.getElementById('fecha_fin');
+            btnCargar = document.getElementById('btn-cargar');
+            messageContainer = document.getElementById('message-container');
+
+            btnCargar.addEventListener('click', () => {
+                cargarGuiasFiltradas();
+            });
+
+            // Cargar todas las guías inicialmente
+            cargarGuias();
+        });
+
+        async function cargarGuias(url = '../back/listar_guias.php') {
             try {
-                const response = await fetch('../back/listar_guias.php');
+                const response = await fetch(url);
                 const guias = await response.json();
 
                 const tbody = document.getElementById('guias-tbody');
                 tbody.innerHTML = '';
+
+                if (guias.length === 0) {
+                    messageContainer.textContent = 'No hay guías en el rango de fechas seleccionado.';
+                    return;
+                }
+
+                messageContainer.textContent = '';
 
                 guias.forEach(guia => {
                     const tr = document.createElement('tr');
@@ -166,18 +200,38 @@
                         <td>${guia.cedula_productor}</td>
                         <td>${guia.cedula_usuario}</td>
                     `;
-                    
+
                     // Agregar event listener para selección
                     tr.addEventListener('click', () => {
                         seleccionarFila(tr, guia);
                     });
-                    
+
                     tbody.appendChild(tr);
                 });
             } catch (error) {
                 console.error('Error al cargar las guías:', error);
-                alert('Error al cargar las guías. Por favor, intente nuevamente.');
+                messageContainer.textContent = 'Error al cargar las guías. Por favor, intente nuevamente.';
             }
+        }
+
+        async function cargarGuiasFiltradas() {
+            const fechaInicio = fechaInicioInput.value;
+            const fechaFin = fechaFinInput.value;
+
+            if (!fechaInicio || !fechaFin) {
+                messageContainer.textContent = 'Por favor, selecciona ambas fechas: inicio y fin.';
+                return;
+            }
+
+            if (fechaInicio > fechaFin) {
+                messageContainer.textContent = 'La fecha de inicio no puede ser mayor que la fecha fin.';
+                return;
+            }
+
+            messageContainer.textContent = '';
+
+            const url = `../back/listar_guias.php?fecha_inicio=${encodeURIComponent(fechaInicio)}&fecha_fin=${encodeURIComponent(fechaFin)}`;
+            await cargarGuias(url);
         }
 
         function seleccionarFila(fila, guia) {
@@ -230,8 +284,15 @@
                     
                     if (resultado.success) {
                         alert(resultado.success);
-                        // Recargar la lista de guías
-                        cargarGuias();
+                        // Recargar la lista de guías con los filtros actuales
+                        const fechaInicio = fechaInicioInput.value;
+                        const fechaFin = fechaFinInput.value;
+                        if (fechaInicio && fechaFin) {
+                            const url = `../back/listar_guias.php?fecha_inicio=${encodeURIComponent(fechaInicio)}&fecha_fin=${encodeURIComponent(fechaFin)}`;
+                            cargarGuias(url);
+                        } else {
+                            cargarGuias();
+                        }
                         // Deshabilitar botones y limpiar selección
                         guiaSeleccionada = null;
                         document.getElementById('btn-editar').disabled = true;
@@ -243,12 +304,10 @@
                     }
                 } catch (error) {
                     console.error('Error al eliminar la guía:', error);
-                    alert('Error al eliminar la guía. Por favor, intente nuevamente.');
+                    alert('La guia no se puede eliminar porque contiene animales y afecta el inventario.');
                 }
             }
         }
-
-        window.onload = cargarGuias;
     </script>
 </body>
 </html>

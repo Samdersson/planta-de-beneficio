@@ -1,8 +1,9 @@
-let tbody, fechaInput, btnAgregar, messageContainer;
+let tbody, fechaInicioInput, fechaFinInput, btnAgregar, messageContainer;
 
 document.addEventListener('DOMContentLoaded', () => {
     tbody = document.getElementById('registro-tbody');
-    fechaInput = document.getElementById('fecha');
+    fechaInicioInput = document.getElementById('fecha_inicio');
+    fechaFinInput = document.getElementById('fecha_fin');
     btnAgregar = document.getElementById('btn-agregar');
     messageContainer = document.getElementById('message-container');
 
@@ -12,30 +13,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function cargarDatos() {
-    const fecha = fechaInput.value;
-    if (!fecha) {
-        messageContainer.textContent = 'Por favor, selecciona una fecha.';
+    const fechaInicio = fechaInicioInput.value;
+    const fechaFin = fechaFinInput.value;
+
+    if (!fechaInicio || !fechaFin) {
+        messageContainer.textContent = 'Por favor, selecciona ambas fechas: inicio y fin.';
         tbody.innerHTML = '';
         actualizarTotales(0, 0, 0, 0);
         return;
     }
+
+    if (fechaInicio > fechaFin) {
+        messageContainer.textContent = 'La fecha de inicio no puede ser mayor que la fecha fin.';
+        tbody.innerHTML = '';
+        actualizarTotales(0, 0, 0, 0);
+        return;
+    }
+
     messageContainer.textContent = '';
 
     try {
-        const response = await fetch(`../back/listar_animales.php?fecha=${encodeURIComponent(fecha)}`);
-        
+        const response = await fetch(`../back/listar_animales.php?fecha_inicio=${encodeURIComponent(fechaInicio)}&fecha_fin=${encodeURIComponent(fechaFin)}`);
+
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
-        
+
         const responseText = await response.text();
         if (!responseText.trim()) {
-            messageContainer.textContent = 'No hay datos de animales para la fecha seleccionada.';
+            messageContainer.textContent = 'No hay datos para mostrar en el rango de fechas seleccionado.';
             tbody.innerHTML = '';
             actualizarTotales(0, 0, 0, 0);
             return;
         }
-        
+
         // Intentar parsear JSON
         let data;
         try {

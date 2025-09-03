@@ -9,13 +9,31 @@ require_once 'Conexion.php';
 try {
     global $conexion;
 
-    // Consulta para obtener todas las guías de movilización
-    $sql = "SELECT numero_guia, cantidad_animales, fecha_guia, cedula_productor, cedula_usuario 
-            FROM guia_movilizacion 
-            ORDER BY fecha_guia DESC";
+    // Obtener parámetros de fecha
+    $fechaInicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : '';
+    $fechaFin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '';
 
-    $result = mysqli_query($conexion, $sql);
-    
+    // Consulta para obtener las guías de movilización filtradas por rango de fechas
+    if ($fechaInicio && $fechaFin) {
+        $sql = "SELECT numero_guia, cantidad_animales, fecha_guia, cedula_productor, cedula_usuario
+                FROM guia_movilizacion
+                WHERE fecha_guia BETWEEN ? AND ?
+                ORDER BY fecha_guia DESC";
+
+        $stmt = mysqli_prepare($conexion, $sql);
+        if (!$stmt) {
+            throw new Exception('Error en la preparación de la consulta: ' . mysqli_error($conexion));
+        }
+        mysqli_stmt_bind_param($stmt, "ss", $fechaInicio, $fechaFin);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+    } else {
+        $sql = "SELECT numero_guia, cantidad_animales, fecha_guia, cedula_productor, cedula_usuario
+                FROM guia_movilizacion
+                ORDER BY fecha_guia DESC";
+        $result = mysqli_query($conexion, $sql);
+    }
+
     if (!$result) {
         throw new Exception('Error en la consulta: ' . mysqli_error($conexion));
     }
