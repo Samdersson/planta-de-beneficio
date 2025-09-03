@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($isUpdate === 1) {
-        $sql = "UPDATE veterinarios SET nombre = ? WHERE cedula = ?";
+        $sql = "UPDATE veterinario SET nombre = ? WHERE cedula = ?";
         $stmt = mysqli_prepare($conexion, $sql);
         if ($stmt === false) {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "❌ Error al actualizar el veterinario: " . mysqli_stmt_error($stmt);
         }
     } else {
-        $sql = "INSERT INTO veterinarios (cedula, nombre) VALUES (?, ?)";
+        $sql = "INSERT INTO veterinario (cedula, nombre) VALUES (?, ?)";
         $stmt = mysqli_prepare($conexion, $sql);
         if ($stmt === false) {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);

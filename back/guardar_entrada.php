@@ -9,8 +9,8 @@ $numero_animal = isset($_POST['no_animal']) ? $_POST['no_animal'] : null;
 $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : null;
 $peso = isset($_POST['peso']) ? floatval($_POST['peso']) : null;
 $numero_tiquete = isset($_POST['numero_tiquete']) ? $_POST['numero_tiquete'] : null;
-$fecha_guia = isset($_POST['fecha_ingreso']) ? $_POST['fecha_ingreso'] : null;
-$fecha_sacrificio = isset($_POST['fecha_sacrificio']) ? $_POST['fecha_sacrificio'] : null;
+$fecha_sacrificio = isset($_POST['fecha_ingreso']) ? $_POST['fecha_ingreso'] : null;
+$fecha_guia = isset($_POST['fecha_sacrificio']) ? $_POST['fecha_sacrificio'] : null;
 $numero_corral = isset($_POST['corral']) ? $_POST['corral'] : null;
 $especie = null;
 if (isset($_POST['especie'])) {
@@ -22,7 +22,7 @@ if (isset($_POST['especie'])) {
 }
 $hora_caida = isset($_POST['hora_caida']) ? $_POST['hora_caida'] : null;
 $numero_guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
-$id_guia_transporte = isset($_POST['id_guia_transporte']) ? $_POST['id_guia_transporte'] : null;
+$id_guia_transporte = null; // Eliminado, ya que se usa numero_guia en su lugar
 $cedula_usuario = isset($_SESSION['cedula']) ? $_SESSION['cedula'] : null;
 $marca = isset($_POST['marca']) ? $_POST['marca'] : null;
 
@@ -46,14 +46,14 @@ error_log("Datos recibidos: numero_animal=$numero_animal, sexo=$sexo, peso=$peso
 
 $sql = $conexion->prepare("
     INSERT INTO animal (
-        numero_animal, sexo, peso, numero_tiquete, fecha_guia, fecha_sacrificio, numero_corral, especie, hora_caida, numero_guia, id_guia_transporte, cedula_usuario, marca
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        numero_animal, sexo, peso, numero_tiquete, fecha_guia, fecha_sacrificio, numero_corral, especie, hora_caida, numero_guia, cedula_usuario, marca
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
-    "ssdssssssssis", 
-    $numero_animal, $sexo, $peso, $numero_tiquete, $fecha_guia, $fecha_sacrificio, $numero_corral, $especie, $hora_caida, $numero_guia, $id_guia_transporte, $cedula_usuario, $marca
+    "ssdsssssssis", 
+    $numero_animal, $sexo, $peso, $numero_tiquete, $fecha_guia, $fecha_sacrificio, $numero_corral, $especie, $hora_caida, $numero_guia, $cedula_usuario, $marca
 );
 
 if ($sql->execute()) {

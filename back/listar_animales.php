@@ -12,25 +12,48 @@ try {
     $fechaFin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '';
 
     if ($fechaInicio && $fechaFin) {
-        $query = "
-            SELECT marca, sexo, especie
-            FROM animal
-            WHERE fecha_sacrificio BETWEEN ? AND ?
-            ORDER BY marca
-        ";
-        $stmt = mysqli_prepare($conexion, $query);
-        if (!$stmt) {
-            $error = "Error en la preparación de la consulta: " . mysqli_error($conexion);
-            error_log($error);
-            throw new Exception($error);
+        // Si las fechas son iguales, ajustar la consulta para incluir todo el día
+        if ($fechaInicio === $fechaFin) {
+            $query = "
+                SELECT marca, sexo, especie
+                FROM animal
+                WHERE fecha_sacrificio = ?
+                ORDER BY marca
+            ";
+            $stmt = mysqli_prepare($conexion, $query);
+            if (!$stmt) {
+                $error = "Error en la preparación de la consulta: " . mysqli_error($conexion);
+                error_log($error);
+                throw new Exception($error);
+            }
+            mysqli_stmt_bind_param($stmt, "s", $fechaInicio);
+            if (!mysqli_stmt_execute($stmt)) {
+                $error = "Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt);
+                error_log($error);
+                throw new Exception($error);
+            }
+            $result = mysqli_stmt_get_result($stmt);
+        } else {
+            $query = "
+                SELECT marca, sexo, especie
+                FROM animal
+                WHERE fecha_sacrificio BETWEEN ? AND ?
+                ORDER BY marca
+            ";
+            $stmt = mysqli_prepare($conexion, $query);
+            if (!$stmt) {
+                $error = "Error en la preparación de la consulta: " . mysqli_error($conexion);
+                error_log($error);
+                throw new Exception($error);
+            }
+            mysqli_stmt_bind_param($stmt, "ss", $fechaInicio, $fechaFin);
+            if (!mysqli_stmt_execute($stmt)) {
+                $error = "Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt);
+                error_log($error);
+                throw new Exception($error);
+            }
+            $result = mysqli_stmt_get_result($stmt);
         }
-        mysqli_stmt_bind_param($stmt, "ss", $fechaInicio, $fechaFin);
-        if (!mysqli_stmt_execute($stmt)) {
-            $error = "Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt);
-            error_log($error);
-            throw new Exception($error);
-        }
-        $result = mysqli_stmt_get_result($stmt);
     } else {
         $result = [];
     }
