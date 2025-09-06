@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear Guía de Transporte</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <script src="guia_transporte.js" defer></script>
+</head>
+<body>
+    <div class="registro-container">
+        <h2 class="title">Crear Guía de Transporte</h2>
+        <div class="form-container">
+            <div class="form-row">
+                <label for="numero-guia">Número de Guía:</label>
+                <input type="text" id="numero-guia" placeholder="Ingrese número de guía" />
+                <button id="buscar-guia-btn" type="button">Buscar</button>
+            </div>
+            <div class="form-row" id="guia-detalles" style="display:none; margin-top: 20px;">
+                <h3>Detalles de la Guía</h3>
+                <p><strong>Número de Guía:</strong> <span id="detalle-numero-guia"></span></p>
+                <p><strong>Cantidad de Animales:</strong> <span id="detalle-cantidad-animales"></span></p>
+                <p><strong>Fecha de Guía:</strong> <span id="detalle-fecha-guia"></span></p>
+                <p><strong>Cédula Productor:</strong> <span id="detalle-cedula-productor"></span></p>
+                <p><strong>Cédula Usuario:</strong> <span id="detalle-cedula-usuario"></span></p>
+            </div>
+            <div class="form-row">
+                <label for="lista-animales">Animales en la Guía:</label>
+                <select id="lista-animales">
+                    <option value="">Seleccione un animal</option>
+                </select>
+            </div>
+            <div class="form-row" id="marca-cliente" style="display:none; margin-top: 10px;">
+                <strong>Marca del Cliente:</strong> <span id="marca-text"></span>
+            </div>
+            <div class="form-row" id="cliente-detalles" style="display:none; margin-top: 10px;">
+                <p><strong>Nombre del Cliente:</strong> <span id="cliente-nombre"></span></p>
+                <p><strong>Destino:</strong> <span id="cliente-destino"></span></p>
+            </div>
+            <div class="form-row" id="decomisos-lista" style="display:none; margin-top: 10px;">
+                <h4>Decomisos asociados al animal</h4>
+                <table id="decomisos-table" border="1" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Motivo</th>
+                            <th>Cantidad</th>
+                            <th>Número Animal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

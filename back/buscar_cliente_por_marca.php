@@ -13,7 +13,7 @@ if (!isset($_GET['marca'])) {
 
 $marca = $_GET['marca'];
 
-$sql = "SELECT nombre, cedula as cedula FROM cliente WHERE marca = ? LIMIT 1";
+$sql = "SELECT nombre, cedula as cedula, destino FROM cliente WHERE marca = ? LIMIT 1";
 $stmt = mysqli_prepare($conexion, $sql);
 mysqli_stmt_bind_param($stmt, "s", $marca);
 mysqli_stmt_execute($stmt);
