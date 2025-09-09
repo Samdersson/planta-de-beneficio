@@ -6,11 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
     fechaFinInput = document.getElementById('fecha_fin');
     btnAgregar = document.getElementById('btn-agregar');
     messageContainer = document.getElementById('message-container');
+    btnImprimir = document.getElementById('btn-imprimir');
+
+    
+
+    btnImprimir.addEventListener('click', () => {
+        window.print();
+    });
 
     btnAgregar.addEventListener('click', () => {
         cargarDatos();
     });
 });
+
+
+
+async function imprimir() {
+    
+    window.print();
+    
+}
 
 async function cargarDatos() {
     const fechaInicio = fechaInicioInput.value;
@@ -94,7 +109,7 @@ async function cargarDatos() {
             }
         });
 
-        // Obtener información de clientes para cada marca única
+        
         const marcasUnicas = Object.keys(grouped);
         const clientesInfo = {};
 
@@ -130,16 +145,16 @@ async function cargarDatos() {
             }
         }
 
-        // Clear tbody
+        
         tbody.innerHTML = '';
 
-        // Totals
+        
         let totalBobinosMacho = 0;
         let totalBobinosHembra = 0;
         let totalPorcinosMacho = 0;
         let totalPorcinosHembra = 0;
 
-        // Create rows
+        
         for (const marca in grouped) {
             const row = document.createElement('tr');
 
@@ -174,7 +189,7 @@ async function cargarDatos() {
 
             tbody.appendChild(row);
 
-            // Update totals
+        
             totalBobinosMacho += grouped[marca].bobinos.macho;
             totalBobinosHembra += grouped[marca].bobinos.hembra;
             totalPorcinosMacho += grouped[marca].porcinos.macho;
