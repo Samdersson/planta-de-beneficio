@@ -1,0 +1,420 @@
+/* Reset some default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-transform: capitalize;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    background: url('imagenes/fondo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    text-transform: capitalize;
+    overflow-y: auto;
+}
+
+/* Background abstract shapes using CSS */
+.background-shapes {
+    display: none;
+}
+
+/* Centered login container */
+.login-container {
+    background-color: #a9c9ff; /* light blue */
+    text-transform: capitalize;
+    width: 320px;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Form styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    text-transform: capitalize;
+}
+
+/* Labels */
+.label {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #000;
+    text-transform: capitalize;
+}
+
+/* Input fields */
+.input-field {
+    height: 25px;
+    text-transform: capitalize;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 3px 8px;
+    font-size: 14px;
+}
+
+/* Ingresar botton */
+.btn-ingresar {
+    background-color: #2ecc40; /* green */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 0;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-ingresar:hover {
+    background-color: #27ae37;
+}
+
+
+
+/* Forgot password link */
+.forgot-password {
+    font-size: 8px;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Principal page container */
+.principal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 250px;
+}
+
+/* Principal page buttons */
+.principal-btn {
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.principal-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* Entradas page container */
+.entradas-container {
+    background-color: #a9c9ff;
+    width: 500px;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #e02713;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    padding: 0;
+}
+
+/* Headings */
+.entradas-container h2 {
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Entrada section */
+.entrada-section {
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+/* Labels */
+.entrada-label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+/* Input fields */
+.entrada-input {
+    width: 250px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    padding: 0 10px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    color: #000000;
+    text-transform: capitalize;
+}
+
+/* Aplicar capitalize a todos los inputs de texto, textarea y selects */
+input[type="text"], input[type="search"], textarea, select {
+    text-transform: capitalize;
+}
+
+/* Forzar color y tamaño visible en el select de roles */
+#rol_id, #rol_id option {
+    color: black !important;
+    font-size: 14px !important;
+    text-transform: none !important;
+}
+
+/* Aplicar capitalize a los textos que llegan de la base de datos en elementos con clase .capitalize-text */
+.capitalize-text {
+    text-transform: capitalize;
+}
+
+/* Registrar button */
+.btn-registrar {
+    width: auto;
+    display: block;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    background-color: #2ecc40;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 80px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-registrar:hover {
+    background-color: #27ae37;
+}
+
+/* Bovinos page container */
+.bovinos-container {
+    background-color: #a9c9ff;
+    width: 100vw;
+    height: 100vh;
+    padding: 30px 50px;
+    border-radius: 0;
+    box-shadow: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: none;
+    overflow-x: auto;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Close button */
+.bovinos-container .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    padding: 0;
+}
+
+/* Heading */
+.bovinos-container h2 {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Main input container for large centered input */
+.main-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.main-label {
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.main-input {
+    width: 400px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Updated form row to use grid for columns and center alignment */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 40px 30px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+}
+
+/* Form group for label and input alignment */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    width: 100%;
+    white-space: normal;
+    line-height: 1.2em;
+}
+
+/* Center inputs and fix width */
+.form-group input,
+.form-group select {
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    max-width: 140px;
+}
+
+/* Adjust button row spacing */
+.button-row {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Buttons styling */
+.btn-guardar,
+.btn-editar,
+.btn-cargar-lista {
+    padding: 12px 40px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-guardar {
+    background-color: #2ecc40;
+}
+
+.btn-guardar:hover {
+    background-color: #27ae37;
+}
+
+.btn-editar {
+    background-color: #f39c12;
+}
+
+.btn-editar:hover {
+    background-color: #d68910;
+}
+
+.btn-cargar-lista {
+    background-color: #3498db;
+}
+
+.btn-cargar-lista:hover {
+    background-color: #2980b9;
+}
+
+
+
+.bovinos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.bovinos-table th, .bovinos-table td {
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+}
+
+.bovinos-table th {
+    background-color: #e0e0e0;
+    font-weight: bold;
+}
