@@ -10,7 +10,11 @@
         <script src="Script/listar_veterinarios.js" defer></script>
     </head>
 <body>
+    
+
+
     <div class="registro-container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
         <h2 class="title">Crear Guía de Transporte</h2>
         <div class="form-container">
             <div class="form-row">
@@ -56,9 +60,6 @@
                 </table>
             </div>
             <div class="form-row" style="margin-top: 20px;">
-                <button id="listar-conductores-btn" type="button">Listar Conductores</button>
-            </div>
-            <div class="form-row" style="margin-top: 20px;">
                 <label for="select_conductor">Seleccione un Conductor:</label>
                 <select id="select_conductor">
                     <option value="">Seleccione un conductor</option>
@@ -69,20 +70,6 @@
                 <select id="select_veterinario">
                     <option value="">Seleccione un veterinario</option>
                 </select>
-            </div>
-            <div class="form-row" id="lista-conductores" style="display:none; margin-top: 10px;">
-                <h4>Lista de Conductores</h4>
-                <table id="conductores-table" border="1" style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr>
-                            <th>Cédula</th>
-                            <th>Nombre</th>
-                            <th>Teléfono</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

@@ -7,62 +7,76 @@
     <link rel="stylesheet" href="Styles.css" />
 </head>
 <body>
-    <div class="bovinos-container">
+   <div class="bovinos-container">
         <button class="close-btn" onclick="window.history.back()">×</button>
 
         <h2>INGRESAR BOVINOS</h2>
-        <input type="text" id="guia-registrada" class="guia-registrada"  />
+        <div class="form-row">
+            <div class="form-group">
+                <label>NUMERO DE GUIA</label>
+                <input type="text" id="guia-registrada" class="guia-registrada"  />
+            </div>
 
-        <div class="form-row">
-            <label>CANTIDAD DE ANIMALES EN GUÍA</label>
-            <input type="number" id="cantidad-animales" class="small-input"  />
-        </div>
+            <div class="form-group">
+                <label>CANTIDAD DE ANIMALES</label>
+                <input type="number" id="cantidad-animales" class="small-input"  />
+            </div>
 
-        <div class="form-row">
-            <label>DESTINO</label>
-            <select id="destino-select" class="small-select">
-                <option value="">Seleccione</option>
-            </select>
-        </div>
-        <div class="form-row">
-            <label>CLIENTE</label>
-            <input type="text" id="cliente-input" class="small-input" />
-        </div>
-        <div class="form-row">
-            <label>CEDULA</label>
-            <input type="text" id="cedula-input" class="small-input" />
-        </div>
-        
-        <div class="form-row">
-            <label>No° ANIMAL</label>
-            <input type="text" id="no-animal-input" class="small-input" />
-        </div>
-        <div class="form-row">
-            <label>SEXO</label>
-            <select id="sexo-select" class="small-select">
-                <option value="">Seleccione</option>
-                <option value="M">M</option>
-                <option value="F">H</option>
-            </select>
-        </div>
-        <div class="form-row">
-            <label>KILOS</label>
-            <input type="text" id="kilos-input" class="small-input" />
-        </div>
+            <div class="form-group">
+                <label>DESTINO</label>
+                <select id="destino-select" class="small-select">
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
 
-        <div class="form-row">
-            <label>No° TIQUETE</label>
-            <input type="text" id="no-tiquete-input" class="small-input" />
+            <div class="form-group">
+                <label>CLIENTE</label>
+                <input type="text" id="cliente-input" class="small-input" />
+            </div>
 
-            <label>FECHA DE INGRESO</label>
-            <input type="date" id="fecha-ingreso-input" class="small-input" />
+            <div class="form-group">
+                <label>NUMERO DE CEDULA</label>
+                <input type="text" id="cedula-input" class="small-input" />
+            </div>
 
-            <label>FECHA DE GUIA ICA</label>
-            <input type="date" id="fecha-guia-ica" class="small-input"  />
-        </div>
-        <div class="form-row">
-            <label>No° CORRAL</label>
-            <input type="number" id="no-corral-input" class="small-input" />
+            <div class="form-group">
+                <label>NUMERO DE ANIMAL</label>
+                <input type="text" id="no-animal-input" class="small-input" />
+            </div>
+
+            <div class="form-group">
+                <label>SEXO</label>
+                <select id="sexo-select" class="small-select">
+                    <option value="">Seleccione</option>
+                    <option value="M">M</option>
+                    <option value="F">H</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>KILOS</label>
+                <input type="text" id="kilos-input" class="small-input" />
+            </div>
+
+            <div class="form-group">
+                <label>No° TIQUETE</label>
+                <input type="text" id="no-tiquete-input" class="small-input" />
+            </div>
+
+            <div class="form-group">
+                <label>FECHA DE INGRESO</label>
+                <input type="date" id="fecha-ingreso-input" class="small-input" />
+            </div>
+
+            <div class="form-group">
+                <label>FECHA DE GUIA</label>
+                <input type="date" id="fecha-guia-ica" class="small-input"  />
+            </div>
+
+            <div class="form-group">
+                <label>No° CORRAL</label>
+                <input type="number" id="no-corral-input" class="small-input" />
+            </div>
         </div>
 
         <table class="bovinos-table">

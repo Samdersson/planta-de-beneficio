@@ -8,13 +8,13 @@ function listar_conductor() {
                 document.getElementById('cedula-conductor').value = conductor.cedula;
             } else {
                 console.warn('Se esperaba un solo conductor, pero se recibieron:', data.length);
-                // Optionally handle multiple conductors here
+                
             }
         })
         .catch(error => console.error('Error:', error));
 }
 
-// Call listar_conductor on page load
+
 document.addEventListener('DOMContentLoaded', () => {
     listar_conductor();
 });
