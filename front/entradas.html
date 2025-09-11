@@ -20,17 +20,17 @@
 </div>
             <div class="entrada-section">
                 <label for="cedula" class="entrada-label">CÉDULA PRODUCTOR</label>
-                <input type="text" id="cedula" name="cedula" class="entrada-input" placeholder="INGRESA LA CÉDULA DEL PRODUCTOR" required readonly />
+                <input type="text" id="cedula" name="cedula" class="entrada-input" placeholder="CÉDULA DEL PRODUCTOR" required readonly />
             </div>
             
             <div class="entrada-section">
                 <label for="guia" class="entrada-label">REGISTRAR GUIA</label>
-                <input type="text" id="guia" name="guia" class="entrada-input" placeholder="INGRESA LA GUIA DE MOVILIZACIÓN" required />
+                <input type="text" id="guia" name="guia" class="entrada-input" placeholder="GUIA DE MOVILIZACIÓN" required />
             </div>
 
             <div class="entrada-section">
                 <label for="cantidad" class="entrada-label">CANTIDAD</label>
-                <input type="number" id="cantidad" name="cantidad" class="entrada-input" placeholder="INGRESA LA CANTIDAD DE ANIMALES" min="1" required />
+                <input type="number" id="cantidad" name="cantidad" class="entrada-input" placeholder="CANTIDAD DE ANIMALES" min="1" required />
             </div>
 
             <div class="entrada-section">
@@ -56,20 +56,19 @@
             if (guiaEditar) {
                 const guia = JSON.parse(guiaEditar);
                 
-                // Llenar los campos del formulario con los datos de la guía
+               
                 document.getElementById('guia').value = guia.numero_guia;
                 document.getElementById('cantidad').value = guia.cantidad_animales;
                 document.getElementById('fecha').value = guia.fecha_guia;
                 document.getElementById('cedula').value = guia.cedula_productor;
                 
-                // Cambiar el texto del botón a "Actualizar"
+                
                 document.querySelector('.btn-registrar').textContent = 'ACTUALIZAR';
                 
-                // Limpiar sessionStorage después de usar los datos
+                
                 sessionStorage.removeItem('guiaEditar');
                 
-                // Aquí podrías también cargar el nombre del productor si es necesario
-                // basado en la cédula del productor
+                
             }
         });
     </script>

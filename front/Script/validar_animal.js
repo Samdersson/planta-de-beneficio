@@ -187,9 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 // Enviar especie=0 para porcinos
-                // data.append('especie', '0');
+                data.append('especie', '0');
                 // No enviar hora_registro para evitar discrepancias de zona horaria
-                // data.append('hora_registro', fila.cells[10].textContent);
+                data.append('hora_registro', fila.cells[10].textContent);
 
                 // Agregar campos faltantes con valores por defecto o vacíos
 const fechaIngresoRaw = fila.cells[8].textContent;

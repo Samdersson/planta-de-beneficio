@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         exit;
     }
 
-    $sql = "SELECT nombre, cedula FROM veterinarios WHERE cedula = ?";
+    $sql = "SELECT nombre, cedula FROM veterinario WHERE cedula = ?";
     $stmt = mysqli_prepare($conexion, $sql);
     if ($stmt === false) {
         echo json_encode(['error' => 'Error en la preparación de la consulta: ' . mysqli_error($conexion)]);
