@@ -354,7 +354,7 @@ listaAnimalesSelect.addEventListener('change', async () => {
         }
 
         if (!decomisosData || decomisosData.length === 0) {
-            alert('No se encontraron decomisos para este animal.');
+            
             return;
         }
 
@@ -365,7 +365,7 @@ listaAnimalesSelect.addEventListener('change', async () => {
     }
 });
 
-listaAnimalesSelect.addEventListener('change', async () => {
+/*listaAnimalesSelect.addEventListener('change', async () => {
     const numeroAnimal = listaAnimalesSelect.value;
     ocultarMarcaCliente();
     ocultarClienteDetalles();
@@ -416,7 +416,7 @@ listaAnimalesSelect.addEventListener('change', async () => {
         }
 
         if (!decomisosData || decomisosData.length === 0) {
-            alert('No se encontraron decomisos para este animal.');
+            
             return;
         }
 
@@ -425,7 +425,7 @@ listaAnimalesSelect.addEventListener('change', async () => {
         console.error('Error al cargar la marca, detalles del cliente o decomisos:', error);
         alert('Error al cargar la marca, detalles del cliente o decomisos. Por favor, inténtelo de nuevo.');
     }
-});
+});*/
 
 function mostrarDecomisos(decomisos) {
     const decomisosDiv = document.getElementById('decomisos-lista');

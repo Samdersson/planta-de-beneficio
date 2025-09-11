@@ -3,9 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const agregarAnimalesBtn = document.getElementById('agregar-animales-btn');
     const listaAnimalesSelect = document.getElementById('lista-animales');
     const listaAnimalesSeleccionados = document.getElementById('lista-animales-seleccionados');
-
+    const numeroGuia = document.getElementById('detalle-numero-guia').textContent;
     
     let animalesSeleccionados = [];
+    
+
+
 
     
     function renderAnimalesSeleccionados() {
@@ -30,11 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Existing generarGuiaBtn event listener (if present)
+
     if (generarGuiaBtn) {
         generarGuiaBtn.addEventListener('click', async () => {
             // Obtener valores de crear_guia_transporte.html
-            const numeroGuia = document.getElementById('numero-guia').value;
+            
             const marca = document.getElementById('marca-text').textContent;
             const clienteNombre = document.getElementById('cliente-nombre').textContent;
             const clienteDestino = document.getElementById('cliente-destino').textContent;
@@ -138,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             // La columna No° GUIA es la cuarta columna (index 3)
                             const celdaGuia = filaCliente.cells[3];
                             if (celdaGuia) {
-                                celdaGuia.textContent = data.numero_guia || '';
+                                celdaGuia.textContent = numeroGuia;
                             }
                         }
                     }
