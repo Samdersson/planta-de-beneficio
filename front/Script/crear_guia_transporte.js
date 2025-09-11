@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaAnimalesSelect = document.getElementById('lista-animales');
     const listaAnimalesSeleccionados = document.getElementById('lista-animales-seleccionados');
 
-    // Array to hold selected animals
+    
     let animalesSeleccionados = [];
 
-    // Function to render selected animals list
+    
     function renderAnimalesSeleccionados() {
         listaAnimalesSeleccionados.innerHTML = '';
         animalesSeleccionados.forEach(animal => {
@@ -18,15 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add selected animals from select to the list
-    agregarAnimalesBtn.addEventListener('click', () => {
-        const selectedOptions = Array.from(listaAnimalesSelect.selectedOptions);
-        selectedOptions.forEach(option => {
-            if (option.value && !animalesSeleccionados.includes(option.value)) {
-                animalesSeleccionados.push(option.value);
-            }
+    if (agregarAnimalesBtn) {
+        agregarAnimalesBtn.addEventListener('click', () => {
+            const selectedOptions = Array.from(listaAnimalesSelect.selectedOptions);
+            selectedOptions.forEach(option => {
+                if (option.value && !animalesSeleccionados.includes(option.value)) {
+                    animalesSeleccionados.push(option.value);
+                }
+            });
+            renderAnimalesSeleccionados();
         });
-        renderAnimalesSeleccionados();
-    });
+    }
 
     // Existing generarGuiaBtn event listener (if present)
     if (generarGuiaBtn) {
@@ -85,6 +87,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Redirigir a guia_transporte.html con parámetros
             window.location.href = `guia_transporte.html?${params.toString()}`;
+        });
+    }
+
+    // Nuevo: Event listener para botón buscar-guia-btn
+    const buscarGuiaBtn = document.getElementById('buscar-guia-btn');
+    if (buscarGuiaBtn) {
+        buscarGuiaBtn.addEventListener('click', async () => {
+            const numeroGuiaInput = document.getElementById('numero-guia');
+            const numeroGuia = numeroGuiaInput.value.trim();
+
+            if (!numeroGuia) {
+                alert('Por favor ingrese un número de guía.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`../back/buscar_guia.php?numero_guia=${encodeURIComponent(numeroGuia)}`);
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                // Actualizar detalles de la guía
+                document.getElementById('detalle-numero-guia').textContent = data.numero_guia || '';
+                document.getElementById('detalle-cantidad-animales').textContent = data.cantidad_animales || '';
+                document.getElementById('detalle-fecha-guia').textContent = data.fecha_guia || '';
+                document.getElementById('detalle-cedula-productor').textContent = data.cedula_productor || '';
+                document.getElementById('detalle-cedula-usuario').textContent = data.cedula_usuario || '';
+
+                // Mostrar el div de detalles
+                const guiaDetallesDiv = document.getElementById('guia-detalles');
+                if (guiaDetallesDiv) {
+                    guiaDetallesDiv.style.display = 'block';
+                }
+
+                // Actualizar la tabla cliente-table en la columna No° GUIA
+                const clienteTable = document.getElementById('cliente-table');
+                if (clienteTable) {
+                    // Asumiendo que la tabla tiene una sola fila de cliente en tbody
+                    const tbody = clienteTable.querySelector('tbody');
+                    if (tbody) {
+                        const filaCliente = tbody.querySelector('tr');
+                        if (filaCliente) {
+                            // La columna No° GUIA es la cuarta columna (index 3)
+                            const celdaGuia = filaCliente.cells[3];
+                            if (celdaGuia) {
+                                celdaGuia.textContent = data.numero_guia || '';
+                            }
+                        }
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error al buscar la guía:', error);
+                alert('Error al buscar la guía. Por favor intente nuevamente.');
+            }
         });
     }
 });

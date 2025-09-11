@@ -9,7 +9,10 @@ http://localhost/planta_de_beneficio/front/inicio.html
 // git push origin main
 
 REVERSAR commit
-// git reset --hard HEAD~1
+// git reset --hard HEAD~1  #elimina commit
+
+git reset --hard HEAD
+
 
 jueves 31-07-2025 10:25 am queda terminado modulo de validar y registrar
     guia con condicion para abrir fomulario de bovinos o porcinos y cargando guia a base de datos
