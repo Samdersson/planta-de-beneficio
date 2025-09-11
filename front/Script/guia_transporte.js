@@ -109,6 +109,7 @@ function mostrarDetallesGuia(guia) {
 }
 
 let guiaActual = null; // Variable global para almacenar datos de la guía actual
+let animalesDetallados = []; // Variable global para almacenar datos detallados de animales
 
 buscarGuiaBtn.addEventListener('click', async () => {
     const numeroGuia = numeroGuiaInput.value.trim();
@@ -135,9 +136,6 @@ buscarGuiaBtn.addEventListener('click', async () => {
         }
 
         guiaActual = guiaData; // Guardar datos de la guía actual
-
-        // Ocultar el div de detalles y en su lugar llenar la tabla cliente
-        // mostrarDetallesGuia(guiaData);
 
         // Obtener animales asociados a la guía
         const animalesResponse = await fetch(`../back/buscar_animales_por_guia.php?numero_guia=${encodeURIComponent(numeroGuia)}`);
@@ -208,31 +206,13 @@ buscarGuiaBtn.addEventListener('click', async () => {
             if (!animalesDetalladosResponse.ok) {
                 throw new Error('Error al obtener los datos detallados de animales');
             }
-            const animalesDetalladosData = await animalesDetalladosResponse.json();
-            if (animalesDetalladosData.error) {
-                alert(animalesDetalladosData.error);
-            } else if (animalesDetalladosData && animalesDetalladosData.length > 0) {
+            animalesDetallados = await animalesDetalladosResponse.json();
+            if (animalesDetallados.error) {
+                alert(animalesDetallados.error);
+            } else if (animalesDetallados && animalesDetallados.length > 0) {
+                // Inicialmente no llenar la tabla producto aquí
                 const productoTableBody = document.querySelector('#producto-table tbody');
                 productoTableBody.innerHTML = '';
-                animalesDetalladosData.forEach(animal => {
-            console.log('Animal data:', animal);  // Added for debugging
-            const row = document.createElement('tr');
-
-            // Combinar numero_animal, sexo, peso y numero_tiquete en la primera columna
-            const lotePesoTiquete = `${animal.numero_animal || ''}-${animal.sexo || ''}-${animal.peso || ''}Kg-${animal.numero_tiquete || ''}`;
-
-            row.innerHTML = `
-                <td>${lotePesoTiquete}</td>
-                <td contenteditable="true">${animal.carne_en_octavo !== null && animal.carne_en_octavo !== undefined ? animal.carne_en_octavo : '8'}</td>
-                <td contenteditable="true">${animal.viceras_blancas !== null && animal.viceras_blancas !== undefined ? animal.viceras_blancas : '1'}</td>
-                <td contenteditable="true">${animal.viceras_rojas !== null && animal.viceras_rojas !== undefined ? animal.viceras_rojas : '1'}</td>
-                <td contenteditable="true">${animal.cabezas !== null && animal.cabezas !== undefined ? animal.cabezas : '1'}</td>
-                <td contenteditable="true">${animal.temperatura_promedio !== null && animal.temperatura_promedio !== undefined ? animal.temperatura_promedio : '39° - 39.5°'}</td>
-                <td contenteditable="true">${animal.dictamen !== null && animal.dictamen !== undefined ? animal.dictamen : 'A'}</td>
-            `;
-
-            productoTableBody.appendChild(row);
-        });
             }
         } catch (error) {
             console.error('Error al cargar los datos detallados de animales:', error);
@@ -340,6 +320,25 @@ listaAnimalesSelect.addEventListener('change', async () => {
             document.getElementById('detalle-fecha-guia').textContent = guiaActual.fecha_guia || '';
             document.getElementById('detalle-cedula-productor').textContent = guiaActual.cedula_productor || '';
             document.getElementById('detalle-cedula-usuario').textContent = guiaActual.cedula_usuario || '';
+        }
+
+        // Actualizar tabla producto con datos del animal seleccionado
+        const productoTableBody = document.querySelector('#producto-table tbody');
+        productoTableBody.innerHTML = '';
+        const animalSeleccionado = animalesDetallados.find(animal => animal.numero_animal === numeroAnimal);
+        if (animalSeleccionado) {
+            const row = document.createElement('tr');
+            const lotePesoTiquete = `${animalSeleccionado.numero_animal || ''}-${animalSeleccionado.sexo || ''}-${animalSeleccionado.peso || ''}Kg-${animalSeleccionado.numero_tiquete || ''}`;
+            row.innerHTML = `
+                <td>${lotePesoTiquete}</td>
+                <td contenteditable="true">${animalSeleccionado.carne_en_octavo !== null && animalSeleccionado.carne_en_octavo !== undefined ? animalSeleccionado.carne_en_octavo : '8'}</td>
+                <td contenteditable="true">${animalSeleccionado.viceras_blancas !== null && animalSeleccionado.viceras_blancas !== undefined ? animalSeleccionado.viceras_blancas : '1'}</td>
+                <td contenteditable="true">${animalSeleccionado.viceras_rojas !== null && animalSeleccionado.viceras_rojas !== undefined ? animalSeleccionado.viceras_rojas : '1'}</td>
+                <td contenteditable="true">${animalSeleccionado.cabezas !== null && animalSeleccionado.cabezas !== undefined ? animalSeleccionado.cabezas : '1'}</td>
+                <td contenteditable="true">${animalSeleccionado.temperatura_promedio !== null && animalSeleccionado.temperatura_promedio !== undefined ? animalSeleccionado.temperatura_promedio : '39° - 39.5°'}</td>
+                <td contenteditable="true">${animalSeleccionado.dictamen !== null && animalSeleccionado.dictamen !== undefined ? animalSeleccionado.dictamen : 'A'}</td>
+            `;
+            productoTableBody.appendChild(row);
         }
 
         // Obtener decomisos asociados al numero de animal
