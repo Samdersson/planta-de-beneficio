@@ -14,13 +14,10 @@ $fecha_guia = isset($_POST['fecha_sacrificio']) ? $_POST['fecha_sacrificio'] : n
 $numero_corral = isset($_POST['corral']) ? $_POST['corral'] : null;
 $especie = null;
 if (isset($_POST['especie'])) {
-    $especieInput = strtolower(trim($_POST['especie']));
-    if ($especieInput === 'm' || $especieInput === 'porcino') {
+    if ($_POST['especie'] === '0' || $_POST['especie'] === 0) {
         $especie = 'porcino';
-    } elseif ($especieInput === 'h' || $especieInput === 'bovino') {
+    } elseif ($_POST['especie'] === '1' || $_POST['especie'] === 1) {
         $especie = 'bovino';
-    } else {
-        $especie = $especieInput; // Guardar tal cual si no es M o H
     }
 }
 $hora_caida = isset($_POST['hora_caida']) ? $_POST['hora_caida'] : null;
