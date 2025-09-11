@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clienteRow.cells[2].textContent = clienteTelefono;
             clienteRow.cells[3].textContent = numeroGuia;
 
-            // Función para formatear cédula con espacios cada 3 dígitos
+            
             function formatearCedula(cedula) {
                 if (!cedula) return '';
                 return cedula.toString().replace(/\D/g, '').replace(/(\d{1,3})(?=(\d{3})+(?!\d))/g, '$1 ');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             firmaRow.cells[2].textContent = 'VETERINARIO';
             firmaRow.cells[3].textContent = '322 447 0297';
 
-            // for decomisos, get animals from params
+            
             const decomisosTableBody = document.querySelector('#decomisos-guia-table tbody');
             decomisosTableBody.innerHTML = '';
             const animals = [];
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!animal) break;
                 animals.push(animal);
             }
-            // fetch decomisos for each
+            
             animals.forEach(async (numeroAnimal) => {
                 try {
                     const response = await fetch(`../back/buscar_decomisos_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
@@ -108,6 +108,8 @@ function mostrarDetallesGuia(guia) {
     detalleCedulaUsuario.textContent = guia.cedula_usuario || '';
 }
 
+let guiaActual = null; // Variable global para almacenar datos de la guía actual
+
 buscarGuiaBtn.addEventListener('click', async () => {
     const numeroGuia = numeroGuiaInput.value.trim();
     limpiarListaAnimales();
@@ -131,6 +133,8 @@ buscarGuiaBtn.addEventListener('click', async () => {
             alert(guiaData.error);
             return;
         }
+
+        guiaActual = guiaData; // Guardar datos de la guía actual
 
         // Ocultar el div de detalles y en su lugar llenar la tabla cliente
         // mostrarDetallesGuia(guiaData);
@@ -323,6 +327,81 @@ listaAnimalesSelect.addEventListener('change', async () => {
             return;
         }
 
+        mostrarClienteDetalles(clienteData.nombre, clienteData.destino, clienteData.telefono, guiaActual ? guiaActual.numero_guia : '');
+
+        // Mostrar detalles de la guía usando datos almacenados
+        if (guiaActual) {
+            const guiaDetallesDiv = document.getElementById('guia-detalles');
+            if (guiaDetallesDiv) {
+                guiaDetallesDiv.style.display = 'block';
+            }
+            document.getElementById('detalle-numero-guia').textContent = guiaActual.numero_guia || '';
+            document.getElementById('detalle-cantidad-animales').textContent = guiaActual.cantidad_animales || '';
+            document.getElementById('detalle-fecha-guia').textContent = guiaActual.fecha_guia || '';
+            document.getElementById('detalle-cedula-productor').textContent = guiaActual.cedula_productor || '';
+            document.getElementById('detalle-cedula-usuario').textContent = guiaActual.cedula_usuario || '';
+        }
+
+        // Obtener decomisos asociados al numero de animal
+        const decomisosResponse = await fetch(`../back/buscar_decomisos_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
+        if (!decomisosResponse.ok) {
+            throw new Error('Error en la respuesta del servidor al obtener los decomisos');
+        }
+        const decomisosData = await decomisosResponse.json();
+
+        if (decomisosData.error) {
+            alert(decomisosData.error);
+            return;
+        }
+
+        if (!decomisosData || decomisosData.length === 0) {
+            alert('No se encontraron decomisos para este animal.');
+            return;
+        }
+
+        mostrarDecomisos(decomisosData);
+    } catch (error) {
+        console.error('Error al cargar la marca, detalles del cliente o decomisos:', error);
+        alert('Error al cargar la marca, detalles del cliente o decomisos. Por favor, inténtelo de nuevo.');
+    }
+});
+
+listaAnimalesSelect.addEventListener('change', async () => {
+    const numeroAnimal = listaAnimalesSelect.value;
+    ocultarMarcaCliente();
+    ocultarClienteDetalles();
+    ocultarDecomisos();
+
+    if (!numeroAnimal) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`../back/buscar_marca_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor al obtener la marca');
+        }
+        const data = await response.json();
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        mostrarMarcaCliente(data.marca);
+
+        // Obtener detalles del cliente por marca
+        const clienteResponse = await fetch(`../back/buscar_cliente_por_marca.php?marca=${encodeURIComponent(data.marca)}`);
+        if (!clienteResponse.ok) {
+            throw new Error('Error en la respuesta del servidor al obtener los detalles del cliente');
+        }
+        const clienteData = await clienteResponse.json();
+
+        if (clienteData.error) {
+            alert(clienteData.error);
+            return;
+        }
+
         mostrarClienteDetalles(clienteData.nombre, clienteData.destino);
 
         // Obtener decomisos asociados al numero de animal
@@ -418,13 +497,14 @@ function ocultarMarcaCliente() {
     }
 }
 
-function mostrarClienteDetalles(nombre, destino) {
-    const clienteDiv = document.getElementById('cliente-detalles');
-    const clienteNombre = document.getElementById('cliente-nombre');
-    const clienteDestino = document.getElementById('cliente-destino');
-    clienteNombre.textContent = nombre || '';
-    clienteDestino.textContent = destino || '';
-    clienteDiv.style.display = 'block';
+function mostrarClienteDetalles(nombre, destino, telefono, numeroGuia) {
+    const clienteRow = document.querySelector('#cliente-table tbody tr');
+    if (clienteRow) {
+        clienteRow.cells[0].textContent = nombre || '';
+        clienteRow.cells[1].textContent = destino || '';
+        clienteRow.cells[2].textContent = telefono || '';
+        clienteRow.cells[3].textContent = numeroGuia || '';
+    }
 }
 
 function ocultarClienteDetalles() {
