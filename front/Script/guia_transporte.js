@@ -12,13 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const veterinarioNombre = urlParams.get('veterinarioNombre');
             const veterinarioCedula = urlParams.get('veterinarioCedula');
 
-            // populate
+            
             document.getElementById('numero-orden').value = numeroGuia;
             const marcaInput = document.getElementById('marca-input');
             if (marcaInput) {
-                // If the input is inside a form or modal that might be hidden, ensure it's visible or accessible
                 marcaInput.value = marca;
-                // Also trigger input event in case there are listeners
+                
                 const event = new Event('input', { bubbles: true });
                 marcaInput.dispatchEvent(event);
             }
@@ -29,12 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
             clienteRow.cells[2].textContent = clienteTelefono;
             clienteRow.cells[3].textContent = numeroGuia;
 
+            // Función para formatear cédula con espacios cada 3 dígitos
+            function formatearCedula(cedula) {
+                if (!cedula) return '';
+                return cedula.toString().replace(/\D/g, '').replace(/(\d{1,3})(?=(\d{3})+(?!\d))/g, '$1 ');
+            }
+
             const vehiculoRow = document.querySelector('#vehiculo-table tbody tr');
             vehiculoRow.cells[0].textContent = 'Furgón';
             vehiculoRow.cells[1].textContent = 'UFG 687';
             vehiculoRow.cells[2].textContent = 'X';
             vehiculoRow.cells[3].textContent = conductorNombre;
-            vehiculoRow.cells[4].textContent = conductorCedula;
+            vehiculoRow.cells[4].textContent = formatearCedula(conductorCedula);
 
             const firmaRow = document.querySelector('#firma-table tbody tr');
             firmaRow.cells[0].textContent = veterinarioNombre;
@@ -205,39 +210,22 @@ buscarGuiaBtn.addEventListener('click', async () => {
             } else if (animalesDetalladosData && animalesDetalladosData.length > 0) {
                 const productoTableBody = document.querySelector('#producto-table tbody');
                 productoTableBody.innerHTML = '';
-        animalesDetalladosData.forEach(animal => {
+                animalesDetalladosData.forEach(animal => {
+            console.log('Animal data:', animal);  // Added for debugging
             const row = document.createElement('tr');
 
             // Combinar numero_animal, sexo, peso y numero_tiquete en la primera columna
-            const lotePesoTiquete = `${animal.numero_animal || ''} - ${animal.sexo || ''} - ${animal.peso || ''} - ${animal.numero_tiquete || ''}`;
-            const loteCell = document.createElement('td');
-            loteCell.textContent = lotePesoTiquete;
-            row.appendChild(loteCell);
+            const lotePesoTiquete = `${animal.numero_animal || ''}-${animal.sexo || ''}-${animal.peso || ''}Kg-${animal.numero_tiquete || ''}`;
 
-            // Las demás columnas se mantienen con los valores actuales del animal
-            const carneCell = document.createElement('td');
-            carneCell.textContent = animal.carne_en_octavo || '';
-            row.appendChild(carneCell);
-
-            const vicBlancasCell = document.createElement('td');
-            vicBlancasCell.textContent = animal.viceras_blancas || '';
-            row.appendChild(vicBlancasCell);
-
-            const vicRojasCell = document.createElement('td');
-            vicRojasCell.textContent = animal.viceras_rojas || '';
-            row.appendChild(vicRojasCell);
-
-            const cabezasCell = document.createElement('td');
-            cabezasCell.textContent = animal.cabezas || '';
-            row.appendChild(cabezasCell);
-
-            const tempPromedioCell = document.createElement('td');
-            tempPromedioCell.textContent = animal.temperatura_promedio || '';
-            row.appendChild(tempPromedioCell);
-
-            const dictamenCell = document.createElement('td');
-            dictamenCell.textContent = animal.dictamen || '';
-            row.appendChild(dictamenCell);
+            row.innerHTML = `
+                <td>${lotePesoTiquete}</td>
+                <td contenteditable="true">${animal.carne_en_octavo !== null && animal.carne_en_octavo !== undefined ? animal.carne_en_octavo : '8'}</td>
+                <td contenteditable="true">${animal.viceras_blancas !== null && animal.viceras_blancas !== undefined ? animal.viceras_blancas : '1'}</td>
+                <td contenteditable="true">${animal.viceras_rojas !== null && animal.viceras_rojas !== undefined ? animal.viceras_rojas : '1'}</td>
+                <td contenteditable="true">${animal.cabezas !== null && animal.cabezas !== undefined ? animal.cabezas : '1'}</td>
+                <td contenteditable="true">${animal.temperatura_promedio !== null && animal.temperatura_promedio !== undefined ? animal.temperatura_promedio : '39° - 39.5°'}</td>
+                <td contenteditable="true">${animal.dictamen !== null && animal.dictamen !== undefined ? animal.dictamen : 'A'}</td>
+            `;
 
             productoTableBody.appendChild(row);
         });
