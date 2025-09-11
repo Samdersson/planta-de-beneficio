@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUIA DE TRANSPORTE</title>
     <link rel="stylesheet" href="Styles.css">
-    <!-- <script src="guia_transporte.js" ></script> -->
+    <script src="Script/guia_transporte.js" defer></script>
     
 </head>
 <body>
@@ -24,6 +24,7 @@
         <div class = "numero-orden">
             <!-- <label for="numero-orden">IDENTIDICACIONDE LA PLANTA DE BENEFICIO Y PROCEDENCIA </label> -->
             <input type="text" id="numero-orden" placeholder="567 b - 498-25">
+            <button id="buscar-guia-btn">Buscar Guía</button>
         </div>
         
         <div class-planta>
@@ -50,7 +51,7 @@
                 </tbody>
             </table>
 
-            <table border="1" style="margin-top: 20px;">
+            <table id="cliente-table" border="1" style="margin-top: 20px;">
                 <thead>
                     <tr>
                         <th>NOMBRE</th>
@@ -72,7 +73,7 @@
         
         </div>
         <div class="tabla-producto">
-            <table border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+            <table id="producto-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr>
                         <th>LOTE-PESO-TIQUETE</th>
@@ -99,7 +100,7 @@
             </table>
             <P> Dictamen: A: aprobado AC: aprobado condicionado</P>
 
-            <table border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+            <table id="vehiculo-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
                 <h1>VEHICULO TRANSPORTADOR</h1>
                 <thead>
                     <tr>
@@ -110,11 +111,11 @@
                         <th>CEDULA</th>
 
                     </tr>
-                    
+
                 </thead>
                 <tbody>
                     <tr>
-                        <td>furgon</td> 
+                        <td>furgon</td>
                         <td>UFG 687</td>
                         <td> X </td>
                         <td>ALEJANDRO DIAZ</td>
@@ -122,7 +123,7 @@
                     </tr>
                 </tbody>
             </table>
-            <table border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+            <table id="firma-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
                 <thead>
                     <H1> FIRMA RESPONSABLE</H1>
                     <tr>
@@ -132,11 +133,11 @@
                         <th>TELEFONO</th>
 
                     </tr>
-                    
+
                 </thead>
                 <tbody>
                     <tr>
-                        <td>SANTIAGO TORRES</td> 
+                        <td>SANTIAGO TORRES</td>
                         <td>11151944686</td>
                         <td>GERENTE</td>
                         <td>322 447 0297</td>
@@ -144,7 +145,7 @@
                 </tbody>
 
             </table>
-            <table border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+            <table id="decomisos-guia-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
                 <thead>
                     <H1> DECOMISOS</H1>
                     <tr>
@@ -154,18 +155,18 @@
                         <th>MOTIVO</th>
 
                     </tr>
-                    
+
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td> 
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
-            <table border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+            <table id="examen-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
                 <thead>
                     <H1> </H1>
                     <tr>
@@ -175,7 +176,7 @@
                         <th>VERIFICADO POR</th>
 
                     </tr>
-                    
+
                 </thead>
                 <tbody>
                     <tr>

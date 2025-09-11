@@ -71,9 +71,210 @@
                     <option value="">Seleccione un veterinario</option>
                 </select>
             </div>
+            <div class="form-row" style="margin-top: 20px;">
+                <button id="generar-guia-btn" type="button">Generar Guía</button>
+            </div>
         </div>
     </div>
 
+
+    
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUIA DE TRANSPORTE</title>
+    <link rel="stylesheet" href="Styles.css">
+    <script src="Script/guia_transporte.js" defer></script>
+    
+</head>
+<body>
+    
+
+    <img src="imagenes/logos.png" alt="Logo" class="logo">
+    <div class="container-marca">
+        <input type="text" id="marca-input" placeholder="GV6">
+    </div>
+    
+    <div class="container">
+        <button class="close-btn" onclick="window.history.back()">×</button>
+           
+        <h1>GUÍA DE TRANSPORTE</h1>   
+        <p>GUIA DE TRANSPORTE DE CARNE EN CANAL DESHUESADA Y SUBPRODUCTOS COMESTIBLES</p>
+        <div class = "numero-orden">
+            <!-- <label for="numero-orden">IDENTIDICACIONDE LA PLANTA DE BENEFICIO Y PROCEDENCIA </label> -->
+            <input type="text" id="numero-orden" placeholder="567 b - 498-25">
+        </div>
+        
+        <div class-planta>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>PLANTA DE BENEFICIO</th>
+                        <th>CODIGO INVIMA</th>
+                        <th>DEPARTAMENTO</th>
+                        <th>MUNICIPIO</th>
+                        <th>DIRECCION</th>
+                        <th>TELEFONO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CAICEDONIA</td>
+                        <td>567 B ESPECIE BOVINA</td>
+                        <td>VALLE DEL CAUCA</td>
+                        <td>CAICEDONIA</td>
+                        <td>CALLE 17 # 19-80 B FUNDADORES</td>
+                        <td>311 613 1311</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table id="cliente-table" border="1" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>DIRECCION</th>
+                        <th>TELEFONO</th>
+                        <th>No° GUIA</th>
+                    </tr>
+                </thead>
+                <h1>CLIENTE</h1>
+                <tbody>
+                    <tr>
+                        <td>JOSE ANTONIO NARVAEZ SOTO</td>
+                        <td>GENOVA</td>
+                        <td>311 613 1311</td>
+                        <td>025-B-76122-0002242090</td>
+                    </tr>
+                </tbody>
+
+        
+        </div>
+        <div class="tabla-producto">
+            <table id="producto-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>LOTE-PESO-TIQUETE</th>
+                        <th>CARNE EN OCTAVO EN CANAL</th>
+                        <th>VICERAS BLANCAS</th>
+                        <th>VICERAS ROJAS</th>
+                        <th>CABEZAS</th>
+                        <th>TEMPRERATURA PROMEDIO</th>
+                        <th>DICTAMEN</th>
+                    </tr>
+                    <h1>DESCRIPCION DEL PRODUCTO</h1>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>42M-392-5135</td> 
+                        <td>8</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>39° - 39.5°</td>
+                        <td>A</td>
+                    </tr>
+                </tbody>
+            </table>
+            <P> Dictamen: A: aprobado AC: aprobado condicionado</P>
+
+            <table id="vehiculo-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+                <h1>VEHICULO TRANSPORTADOR</h1>
+                <thead>
+                    <tr>
+                        <th>TIPO DE VEHICULO</th>
+                        <th>PLACA</th>
+                        <th>REFRIGERACIÓN</th>
+                        <th>CONDUCTOR</th>
+                        <th>CEDULA</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>furgon</td>
+                        <td>UFG 687</td>
+                        <td> X </td>
+                        <td>ALEJANDRO DIAZ</td>
+                        <td>1 115 192 397</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="firma-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <H1> FIRMA RESPONSABLE</H1>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>CEDULA</th>
+                        <th>CARGO</th>
+                        <th>TELEFONO</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SANTIAGO TORRES</td>
+                        <td>11151944686</td>
+                        <td>GERENTE</td>
+                        <td>322 447 0297</td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <table id="decomisos-guia-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <H1> DECOMISOS</H1>
+                    <tr>
+                        <th>No</th>
+                        <th>PRODUCTO</th>
+                        <th>CANTIDAD</th>
+                        <th>MOTIVO</th>
+                        <th>No° ANIMAL</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="examen-table" border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <H1> </H1>
+                    <tr>
+                        <th>TIPO DE EXAMEN</th>
+                        <th>FUNCIONARIO</th>
+                        <th>SITIO DEL DECOMISO</th>
+                        <th>VERIFICADO POR</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>FISICO</td> 
+                        <td>VALENTINA GUTIERREZ</td>
+                        <td>PBACAICEDONIA</td>
+                        <td>INSPECTOR AUXILIAR DEL INVIMA</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+
+    </div>
+</body>
+</html>
     
 </body>
 </html>
