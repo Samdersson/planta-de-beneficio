@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const lotePesoTiquete = `${animal.numero_animal || ''}-${animal.sexo || ''}-${animal.peso || ''}Kg-${animal.numero_tiquete || ''}`;
             row.innerHTML = `
                 <td>${lotePesoTiquete}</td>
+                <td contenteditable="true">${animal.carne_en_octavo !== null && animal.carne_en_octavo !== undefined ? animal.carne_en_octavo : '8'}</td>
                 <td contenteditable="true">${animal.viceras_blancas !== null && animal.viceras_blancas !== undefined ? animal.viceras_blancas : '1'}</td>
                 <td contenteditable="true">${animal.viceras_rojas !== null && animal.viceras_rojas !== undefined ? animal.viceras_rojas : '1'}</td>
                 <td contenteditable="true">${animal.cabezas !== null && animal.cabezas !== undefined ? animal.cabezas : '1'}</td>
@@ -210,7 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            const tipo_animal = marca === '1' ? 'bovino' : 'porcino';
+            // Detectar tipo de remisión según el título h1 con clase "title"
+            let tipo_animal = 'porcino'; // valor por defecto
+            const titulo = document.querySelector('h1.title');
+            if (titulo) {
+                if (titulo.textContent.trim() === 'REMISIONES DE BOVINOS') {
+                    tipo_animal = 'bovino';
+                } else if (titulo.textContent.trim() === 'REMISIONES DE PORCINOS') {
+                    tipo_animal = 'porcino';
+                }
+            }
+
             const datosRemision = {
                 tipo_animal: tipo_animal,
                 cliente_nombre: clienteNombre,
