@@ -46,12 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProductoTable() {
         productoTableBody.innerHTML = '';
         animalesDetallados.forEach((animal) => {
-            // console.log('Animal detalle:', animal);
             const row = document.createElement('tr');
             const lotePesoTiquete = `${animal.numero_animal || ''}-${animal.sexo || ''}-${animal.peso || ''}Kg-${animal.numero_tiquete || ''}`;
             row.innerHTML = `
                 <td>${lotePesoTiquete}</td>
-                
                 <td contenteditable="true">${animal.viceras_blancas !== null && animal.viceras_blancas !== undefined ? animal.viceras_blancas : '1'}</td>
                 <td contenteditable="true">${animal.viceras_rojas !== null && animal.viceras_rojas !== undefined ? animal.viceras_rojas : '1'}</td>
                 <td contenteditable="true">${animal.cabezas !== null && animal.cabezas !== undefined ? animal.cabezas : '1'}</td>
@@ -73,13 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`../back/buscar_decomisos_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
             const data = await response.json();
             if (data && data.length > 0) {
-                const decomiso = data[0]; // Solo mostrar el primer decomiso
+                const decomiso = data[0];
                 const row = document.createElement('tr');
                 row.innerHTML = `<td>${decomiso.id}</td><td>${decomiso.producto}</td><td>${decomiso.motivo}</td><td>${decomiso.cantidad}</td><td>${decomiso.numero_animal}</td>`;
                 decomisosTableBody.appendChild(row);
                 decomisosDiv.style.display = 'block';
             } else {
-                // No hay decomisos para el animal seleccionado, mostrar fila vacía
                 const row = document.createElement('tr');
                 row.innerHTML = `<td colspan="5" style="text-align:center;">No hay decomisos para este animal</td>`;
                 decomisosTableBody.appendChild(row);
@@ -96,12 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!numeroAnimal) {
             return;
         }
-        // Verificar si el animal ya está agregado
         if (animalesSeleccionados.some(a => a.numeroAnimal === numeroAnimal)) {
-            return; // Ya agregado, no hacer nada
+            return;
         }
-
-        // Obtener la marca
         let marca = '';
         try {
             const response = await fetch(`../back/buscar_marca_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
@@ -113,12 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error obteniendo marca:', error);
         }
-
-        // Agregar a la lista
         animalesSeleccionados.push({ numeroAnimal, marca });
         renderAnimalesAgregados();
-
-        // Obtener datos detallados
         try {
             const response = await fetch(`../back/buscar_animales_por_guia_detallado.php?numero_guia=${encodeURIComponent(document.getElementById('numero-guia').value)}`);
             const data = await response.json();
@@ -132,9 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error obteniendo datos detallados:', error);
         }
-
-        // No llamar renderDecomisos aquí para evitar mostrar decomisos de todos los animales
-        // renderDecomisos();
     }
 
     function eliminarAnimal(numeroAnimal) {
@@ -142,14 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
         animalesDetallados = animalesDetallados.filter(a => a.numero_animal !== numeroAnimal);
         renderAnimalesAgregados();
         renderProductoTable();
-        // No llamar renderDecomisos aquí para evitar mostrar decomisos de todos los animales
-        // renderDecomisos();
     }
 
-    // Evento para agregar dinámicamente al seleccionar
     listaAnimalesSelect.addEventListener('change', (event) => {
         agregarAnimalDinamico();
-        renderDecomisos(); // Mostrar decomisos solo para el animal seleccionado
+        renderDecomisos();
     });
 
     if (eliminarAnimalBtn) {
@@ -160,33 +144,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             eliminarAnimal(numeroAnimal);
-            renderDecomisos(); // Actualizar decomisos tras eliminar
+            renderDecomisos();
         });
     }
 
-    // Modificar el botón generar-guia-btn para enviar los animales agregados
+    // Obtener número incremental para mostrar en tiempo real
+    const numeroOrdenInput = document.getElementById('numero-orden');
+    if (numeroOrdenInput) {
+        async function actualizarNumeroIncremental() {
+            const marca = document.getElementById('marca-input').value || '';
+            const tipo_animal = marca === '1' ? 'bovino' : 'porcino';
+            try {
+                const response = await fetch(`../back/generar_numero_remision.php?tipo_animal=${tipo_animal}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.numero_remision) {
+                        numeroOrdenInput.value = data.numero_remision;
+                    }
+                }
+            } catch (error) {
+                console.error('Error al obtener número incremental:', error);
+            }
+        }
+        actualizarNumeroIncremental();
+        const marcaInput = document.getElementById('marca-input');
+        if (marcaInput) {
+            marcaInput.addEventListener('input', actualizarNumeroIncremental);
+        }
+        // Actualizar también al hacer foco en el campo numero-orden
+        numeroOrdenInput.addEventListener('focus', actualizarNumeroIncremental);
+    }
+
     const generarGuiaBtn = document.getElementById('generar-guia-btn');
     if (generarGuiaBtn) {
         generarGuiaBtn.addEventListener('click', async () => {
             const marca = document.getElementById('marca-input').value || '';
             const clienteNombre = document.getElementById('cliente-nombre').textContent || '';
             const clienteDestino = document.getElementById('cliente-destino').textContent || '';
-            const clienteTelefono = ''; // No se obtiene en este contexto
+            const clienteTelefono = '';
 
-            // Obtener conductor seleccionado
             const selectConductor = document.getElementById('select_conductor');
             const conductorCedula = selectConductor ? selectConductor.value : '';
             const conductorNombre = selectConductor ? selectConductor.options[selectConductor.selectedIndex].text : '';
 
-            // Obtener veterinario seleccionado
             const selectVeterinario = document.getElementById('select_veterinario');
             const veterinarioCedula = selectVeterinario ? selectVeterinario.value : '';
             const veterinarioNombre = selectVeterinario ? selectVeterinario.options[selectVeterinario.selectedIndex].text : '';
 
-            // Obtener número de guía
-            const numeroGuia = document.getElementById('detalle-numero-guia').textContent || '';
+            const numeroGuiaSpan = document.getElementById('detalle-numero-guia');
+            const numeroOrdenInput = document.getElementById('numero-orden');
 
-            // Obtener teléfono del conductor desde backend
             let conductorTelefono = '';
             if (conductorCedula) {
                 try {
@@ -203,30 +210,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Construir URL con parámetros para pasar a guia_transporte.html
-            const params = new URLSearchParams();
-            params.append('numeroGuia', numeroGuia);
-            params.append('marca', marca);
-            params.append('clienteNombre', clienteNombre);
-            params.append('clienteDestino', clienteDestino);
-            params.append('clienteTelefono', clienteTelefono);
-            params.append('conductorNombre', conductorNombre);
-            params.append('conductorCedula', conductorCedula);
-            params.append('conductorTelefono', conductorTelefono);
-            params.append('veterinarioNombre', veterinarioNombre);
-            params.append('veterinarioCedula', veterinarioCedula);
+            const tipo_animal = marca === '1' ? 'bovino' : 'porcino';
+            const datosRemision = {
+                tipo_animal: tipo_animal,
+                cliente_nombre: clienteNombre,
+                cliente_direccion: '',
+                cliente_telefono: clienteTelefono,
+                marca: marca,
+                conductor_nombre: conductorNombre,
+                conductor_cedula: conductorCedula,
+                veterinario_nombre: veterinarioNombre,
+                veterinario_cedula: veterinarioCedula,
+                animales: animalesSeleccionados
+            };
 
-            // Agregar animales seleccionados a los parámetros
-            animalesSeleccionados.forEach((animal, index) => {
-                params.append(`animal${index + 1}`, animal.numeroAnimal);
-            });
+            try {
+                const response = await fetch('../back/guardar_remision.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datosRemision)
+                });
 
-            // Redirigir a guia_transporte.html con parámetros
-            window.location.href = `guia_transporte.html?${params.toString()}`;
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Remisión guardada con número: ' + result.numero_remision);
+                    if (numeroGuiaSpan) {
+                        numeroGuiaSpan.textContent = result.numero_remision;
+                    }
+                    if (numeroOrdenInput) {
+                        numeroOrdenInput.value = result.numero_remision;
+                    }
+                } else {
+                    alert('Error al guardar la remisión: ' + (result.error || 'Error desconocido'));
+                }
+            } catch (error) {
+                console.error('Error al guardar la remisión:', error);
+                alert('Error al guardar la remisión. Por favor intente nuevamente.');
+            }
         });
     }
 
-    // Nuevo: Event listener para botón buscar-guia-btn
     const buscarGuiaBtn = document.getElementById('buscar-guia-btn');
     if (buscarGuiaBtn) {
         buscarGuiaBtn.addEventListener('click', async () => {
@@ -250,28 +276,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Actualizar detalles de la guía
                 document.getElementById('detalle-numero-guia').textContent = data.numero_guia || '';
                 document.getElementById('detalle-cantidad-animales').textContent = data.cantidad_animales || '';
                 document.getElementById('detalle-fecha-guia').textContent = data.fecha_guia || '';
                 document.getElementById('detalle-cedula-productor').textContent = data.cedula_productor || '';
                 document.getElementById('detalle-cedula-usuario').textContent = data.cedula_usuario || '';
 
-                // Mostrar el div de detalles
                 const guiaDetallesDiv = document.getElementById('guia-detalles');
                 if (guiaDetallesDiv) {
                     guiaDetallesDiv.style.display = 'block';
                 }
 
-                // Actualizar la tabla cliente-table en la columna No° GUIA
                 const clienteTable = document.getElementById('cliente-table');
                 if (clienteTable) {
-                    // Asumiendo que la tabla tiene una sola fila de cliente en tbody
                     const tbody = clienteTable.querySelector('tbody');
                     if (tbody) {
                         const filaCliente = tbody.querySelector('tr');
                         if (filaCliente) {
-                            // La columna No° GUIA es la cuarta columna (index 3)
                             const celdaGuia = filaCliente.cells[3];
                             if (celdaGuia) {
                                 celdaGuia.textContent = numeroGuia;
@@ -279,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-
             } catch (error) {
                 console.error('Error al buscar la guía:', error);
                 alert('Error al buscar la guía. Por favor intente nuevamente.');
