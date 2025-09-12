@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (data && data.length > 0) {
                         data.forEach(decomiso => {
                             const row = document.createElement('tr');
-                            row.innerHTML = `<td>${decomiso.id}</td><td>${decomiso.producto}</td><td>${decomiso.motivo}</td><td>${decomiso.cantidad}</td><td>${decomiso.numero_animal}</td>`;
+                            row.innerHTML = `<td>${decomiso.id}</td><td>${decomiso.producto}</td><td>${decomiso.cantidad}</td><td>${decomiso.motivo}</td><td>${decomiso.numero_animal}</td>`;
                             decomisosTableBody.appendChild(row);
                         });
                     }

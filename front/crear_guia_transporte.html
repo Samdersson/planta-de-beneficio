@@ -21,6 +21,7 @@
                 <label for="numero-guia">Número de Guía:</label>
                 <input type="text" id="numero-guia" placeholder="Ingrese número de guía" />
                 <button id="buscar-guia-btn" type="button">Buscar</button>
+                
             </div>
             <div class="form-row" id="guia-detalles" style="display:none; margin-top: 20px;">
                 <h3>Detalles de la Guía</h3>
@@ -35,6 +36,8 @@
                 <select id="lista-animales">
                     <option value="">Seleccione un animal</option>
                 </select>
+                <button id="agregar-animal-btn" type="button">Agregar</button>
+                <button id= eliminar-animal-btn type="button">Eliminar</button>
             </div>
             <div class="form-row" id="marca-cliente" style="display:none; margin-top: 10px;">
                 <strong>Marca del Cliente:</strong> <span id="marca-text"></span>
@@ -230,8 +233,8 @@
                     <tr>
                         <th>No°</th>
                         <th>PRODUCTO</th>
-                        <th>CANTIDAD</th>
                         <th>MOTIVO</th>
+                        <th>CANTIDAD</th>
                         <th>No° ANIMAL</th>
 
                     </tr>
