@@ -609,7 +609,7 @@ input[type="text"], input[type="search"], textarea, select {
     position: absolute;
     top: 10px;
     left: 10px;
-    width: 300px;
+    width: 250px;
     height: auto;
 }
 
@@ -673,6 +673,7 @@ input[type="text"], input[type="search"], textarea, select {
         font-weight: bold;
         width: 250px;
         text-align: center;
+        margin: 0 auto 10px auto;
         
     }
     .numero-orden label {
@@ -706,9 +707,4 @@ input[type="text"], input[type="search"], textarea, select {
 .option-card:hover {
     background-color: #e0e0e0;
 }
-
-
-
-
-
 

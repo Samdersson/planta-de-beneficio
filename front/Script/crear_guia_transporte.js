@@ -46,11 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProductoTable() {
         productoTableBody.innerHTML = '';
         animalesDetallados.forEach((animal) => {
+            // console.log('Animal detalle:', animal);
             const row = document.createElement('tr');
             const lotePesoTiquete = `${animal.numero_animal || ''}-${animal.sexo || ''}-${animal.peso || ''}Kg-${animal.numero_tiquete || ''}`;
             row.innerHTML = `
                 <td>${lotePesoTiquete}</td>
-                <td contenteditable="true">${animal.carne_en_octavo !== null && animal.carne_en_octavo !== undefined ? animal.carne_en_octavo : '8'}</td>
+                
                 <td contenteditable="true">${animal.viceras_blancas !== null && animal.viceras_blancas !== undefined ? animal.viceras_blancas : '1'}</td>
                 <td contenteditable="true">${animal.viceras_rojas !== null && animal.viceras_rojas !== undefined ? animal.viceras_rojas : '1'}</td>
                 <td contenteditable="true">${animal.cabezas !== null && animal.cabezas !== undefined ? animal.cabezas : '1'}</td>
@@ -61,28 +62,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function renderDecomisos() {
+    async function renderDecomisos() {
         decomisosTableBody.innerHTML = '';
-        let hasDecomisos = false;
-        animalesSeleccionados.forEach(async (animal) => {
-            try {
-                const response = await fetch(`../back/buscar_decomisos_por_numero_animal.php?numero_animal=${encodeURIComponent(animal.numeroAnimal)}`);
-                const data = await response.json();
-                if (data && data.length > 0) {
-                    hasDecomisos = true;
-                    data.forEach(decomiso => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `<td>${decomiso.id}</td><td>${decomiso.producto}</td><td>${decomiso.motivo}</td><td>${decomiso.cantidad}</td><td>${decomiso.numero_animal}</td>`;
-                        decomisosTableBody.appendChild(row);
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching decomisos:', error);
+        const numeroAnimal = listaAnimalesSelect.value;
+        if (!numeroAnimal) {
+            decomisosDiv.style.display = 'none';
+            return;
+        }
+        try {
+            const response = await fetch(`../back/buscar_decomisos_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
+            const data = await response.json();
+            if (data && data.length > 0) {
+                const decomiso = data[0]; // Solo mostrar el primer decomiso
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${decomiso.id}</td><td>${decomiso.producto}</td><td>${decomiso.motivo}</td><td>${decomiso.cantidad}</td><td>${decomiso.numero_animal}</td>`;
+                decomisosTableBody.appendChild(row);
+                decomisosDiv.style.display = 'block';
+            } else {
+                // No hay decomisos para el animal seleccionado, mostrar fila vacía
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="5" style="text-align:center;">No hay decomisos para este animal</td>`;
+                decomisosTableBody.appendChild(row);
+                decomisosDiv.style.display = 'block';
             }
-        });
-        if (hasDecomisos) {
-            decomisosDiv.style.display = 'block';
-        } else {
+        } catch (error) {
+            console.error('Error fetching decomisos:', error);
             decomisosDiv.style.display = 'none';
         }
     }
@@ -129,8 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error obteniendo datos detallados:', error);
         }
 
-        // Render decomisos
-        renderDecomisos();
+        // No llamar renderDecomisos aquí para evitar mostrar decomisos de todos los animales
+        // renderDecomisos();
     }
 
     function eliminarAnimal(numeroAnimal) {
@@ -138,11 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
         animalesDetallados = animalesDetallados.filter(a => a.numero_animal !== numeroAnimal);
         renderAnimalesAgregados();
         renderProductoTable();
-        renderDecomisos();
+        // No llamar renderDecomisos aquí para evitar mostrar decomisos de todos los animales
+        // renderDecomisos();
     }
 
     // Evento para agregar dinámicamente al seleccionar
-    listaAnimalesSelect.addEventListener('change', agregarAnimalDinamico);
+    listaAnimalesSelect.addEventListener('change', (event) => {
+        agregarAnimalDinamico();
+        renderDecomisos(); // Mostrar decomisos solo para el animal seleccionado
+    });
 
     if (eliminarAnimalBtn) {
         eliminarAnimalBtn.addEventListener('click', () => {
@@ -152,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             eliminarAnimal(numeroAnimal);
+            renderDecomisos(); // Actualizar decomisos tras eliminar
         });
     }
 

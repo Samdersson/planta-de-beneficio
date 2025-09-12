@@ -1,12 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reportes</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <style>
+        .option-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .option-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 30px 40px;
+            cursor: pointer;
+            font-size: 1.2em;
+            text-align: center;
+            width: 180px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+        .option-card:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 <body>
-    <h1>vista en mantenimiento</h1>
-    
+    <h1>GENEAR UN REPORTE</h1>
+     <button class="close-btn" onclick="window.history.back()">×</button>
+    <div class="option-container">
+        <div class="option-card" onclick="location.href='crear_guia_transporte.html'">REMISION DE DESPACHO BOVINOS</div>
+        <div class="option-card" onclick="location.href='crear_guia_porcinos.html'">REMISION DE DESPACHO PORCINOS</div>
+    </div>
 </body>
 </html>
