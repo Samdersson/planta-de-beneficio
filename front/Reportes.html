@@ -6,34 +6,48 @@
     <title>Reportes</title>
     <link rel="stylesheet" href="Styles.css" />
     <style>
+    
+        body{
+            background: url('imagenes/porcino.png') no-repeat center top fixed;
+            background-size: 50%;
+            background-position: left 700px top 0px;
+            position: relative;
+            overflow: hidden;
+        }
+    
         .option-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 50px;
             justify-content: center;
             margin-top: 50px;
         }
         .option-card {
-            border: 1px solid #ccc;
+            border: 1px solid #79c7f5;
             border-radius: 8px;
             padding: 30px 40px;
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 18px;
             text-align: center;
-            width: 180px;
+            width: 200px;
             background-color: #f9f9f9;
             transition: background-color 0.3s ease;
         }
+        
         .option-card:hover {
-            background-color: #e0e0e0;
+            background-color: #bfe7ff;
         }
     </style>
 </head>
 <body>
-    <h1>GENEAR UN REPORTE</h1>
+    
+    <h1>GENERAR UN REPORTE </h1>
+    
      <button class="close-btn" onclick="window.history.back()">×</button>
     <div class="option-container">
         <div class="option-card" onclick="location.href='decomisos.html'">DECOMISO</div>
+        <div class="option-card" onclick="location.href='ver_guias.html'">GUIAS REGISTRADAS</div>
+        <div class="option-card" onclick="location.href='registro_diario.html'">REGISTRO DE SACRIFICIO</div>
     </div>
 </body>
 </html>

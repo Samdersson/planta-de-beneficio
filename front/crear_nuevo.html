@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CREAR NUEVO</title>
     <link rel="stylesheet" href="Styles.css" />
-    <!-- <link rel="stylesheet" href="Styles_crear_nuevo.css" /> -->
+    <style>
+
+        body{
+            background: url('imagenes/porcino.png') no-repeat center top fixed;
+            background-size: 60%;
+            background-position: left 570px top -105px;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 
     <div class="entradas-container">
         <button class="close-btn" onclick="window.history.back()">×</button>
+        <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
         <h1>Crear Nuevo Productor</h1>
         <form id="productorForm" action="../back/guardar_productor.php" method="POST">
             <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
@@ -35,7 +45,7 @@
                 <input type="text" id="ciudad" name="ciudad" maxlength="50" required />
             </div>
             <div>
-                <button type="submit" id="btnCrear">Crear Productor</button>
+                <button type="submit" class="btnCrear">Crear Productor</button>
             </div>
         </form>
     </div>

@@ -1,3 +1,2 @@
-- [ ] Actualizar back/guardar_remision.php para leer entrada JSON en lugar de $_POST
-- [ ] Actualizar front/Script/crear_guia_transporte.js para establecer tipo_animal dinámicamente basado en marca
-- [ ] Probar la corrección generando una guía
+- [ ] Modificar inicio.html: cambiar enlace CSS a Styles.css, agregar estructura de layout con page-container, form-section e image-section, y clases a la forma.
+- [ ] Actualizar Styles.css: agregar estilos para .page-container, .form-section y .image-section, y ajustar .login-container para layout relativo.

@@ -106,7 +106,7 @@ body, html {
 .principal-container {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 20%;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
@@ -141,7 +141,7 @@ body, html {
     box-shadow: 0 8px 15px rgba(0,0,0,0.2);
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 300px;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
@@ -201,6 +201,36 @@ body, html {
     line-height: 28px;
     text-align: center;
     padding: 0;
+}
+.inicio-btn{
+    position: absolute;
+    top: 15px;
+    right: 65px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    padding: 0;
+}
+.btnCrear {
+    width: 100%;
+    background-color: #2ecc40;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
 /* Headings */

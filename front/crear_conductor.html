@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Crear Conductor</title>
     <link rel="stylesheet" href="Styles.css" />
+
+    <style>
+
+        body{
+            background: url('imagenes/porcino.png') no-repeat center top fixed;
+            background-size: 60%;
+            background-position: left 570px top -105px;
+            position: relative;
+            overflow: hidden;
+        }
+        </style>
 </head>
 <body>
     <div class="entradas-container">
         <button class="close-btn" onclick="window.history.back()">×</button>
+        <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
         <h1>Crear Conductor</h1>
         <form id="conductorForm" action="../back/guardar_conductor.php" method="POST">
             <input type="hidden" id="isUpdate" name="isUpdate" value="0" />
@@ -29,7 +41,7 @@
                 <input type="text" id="cedula" name="cedula" maxlength="100" required />
             </div>
             <div>
-                <button type="submit" id="btnGuardar">Guardar Conductor</button>
+                <button type="submit" class="btnCrear">Guardar Conductor</button>
             </div>
         </form>
     </div>
