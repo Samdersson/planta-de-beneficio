@@ -129,6 +129,7 @@
             </div> -->
             <div class="form-row" style="margin-top: 20px;">
                 <button id="generar-guia-btn" type="button">Generar Guía</button>
+                <button id="btn-imprimir" onclick="window.print()">imprimir</button>
             </div>
         </div>
     </div>
@@ -144,14 +145,38 @@
     <script src="Script/crear_guia_transporte.js" defer></script>
 
     <style>
-  /* Ocultar la segunda columna (CARNE EN OCTAVO EN CANAL) de la tabla producto-table */
-  #producto-table th:nth-child(2),
-  #producto-table td:nth-child(2) {
-    display: none;
-  }
-</style>
+       @media print {
+    /* Ocultar todos los elementos excepto el container */
+    body > *:not(.container) {
+        display: none !important;
+    }
 
-    <!-- <button class="close-btn" onclick="window.history.back()">×</button> -->
+    
+    /* Asegurar que el container ocupe toda la página */
+    .container {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Mejorar la apariencia de las tablas al imprimir */
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto !important;
+    }
+    
+    tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+    }
+}
+
+
+    </style>
+
+    <button class="close-btn" onclick="window.history.back()">⬅</button>
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
     
 

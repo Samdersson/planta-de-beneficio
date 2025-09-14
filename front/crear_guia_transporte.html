@@ -55,6 +55,7 @@
         <!-- <button class="close-btn" onclick="window.history.back()">×</button> -->
         <h1 class="title">REMISIONES DE BOVINOS</h1>
         <div class="form-container">
+            
             <div class="form-row">
                 <label for="numero-guia">Número de Guía:</label>
                 <input type="text" id="numero-guia" placeholder="Ingrese número de guía" />
@@ -76,6 +77,7 @@
                 </select>
                 <button id="agregar-animal-btn" type="button">Agregar</button>
                 <button id= eliminar-animal-btn type="button">Eliminar</button>
+                
             </div>
             <div class="form-row" id="marca-cliente" style="display:none; margin-top: 10px;">
                 <strong>Marca del Cliente:</strong> <span id="marca-text"></span>
@@ -128,6 +130,7 @@
             </div> -->
             <div class="form-row" style="margin-top: 20px;">
                 <button id="generar-guia-btn" type="button">Generar Guía</button>
+                <button id="btn-imprimir" onclick="window.print()">imprimir</button>
             </div>
         </div>
     </div>
@@ -145,6 +148,7 @@
     body > *:not(.container) {
         display: none !important;
     }
+
     
     /* Asegurar que el container ocupe toda la página */
     .container {
@@ -173,7 +177,8 @@
     <script src="Script/crear_guia_transporte.js" defer></script>
     <button class="close-btn" onclick="window.history.back()">×</button>
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
-    <button class="print-btn" onclick="window.print()">🖨️</button>
+    
+    
     
 
 <body>
@@ -357,9 +362,11 @@
                 </tbody>
             </table>
             
+            
         </div>
 
     </div>
+    
 </body>
 </html>
     

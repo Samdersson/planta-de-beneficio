@@ -5,21 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>pruebas Registro Diario de Sacrificio</title>
     <link rel="stylesheet" href="Styles.css" />
-   
+    <style>
+        /* Estilos para impresión */
+        @media print {
+            /* Ocultar elementos que no quieres imprimir */
+            .close-btn, .inicio-btn, .form-row, #message-container, .button-row {
+                display: none !important;
+            }
+            
+            /* Mostrar solo el título y la tabla */
+            .registro-container {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+            
+            /* Ajustar estilos de la tabla para impresión */
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 12px !important;
+                page-break-inside: auto !important;
+            }
+            
+            th, td {
+                border: 1px solid #000 !important;
+                padding: 4px !important;
+            }
+            
+            th {
+                background-color: #f2f2f2 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Asegurar que no se dividan las filas entre páginas */
+            tr {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Ajustar el título para impresión */
+            h1 {
+                text-align: center !important;
+                font-size: 18px !important;
+                margin-bottom: 15px !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="registro-container">
         <button class="close-btn" onclick="window.history.back()">×</button>
+        <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
         <h1>REGISTRO DE SACRIFICIO</h1>
         <div class="form-row">
-
             <label for="fecha_inicio">FECHA INICIO</label>
-<input type="date" id="fecha_inicio" name="fecha_inicio" value="" />
-
+            <input type="date" id="fecha_inicio" name="fecha_inicio" value="" />
             <label for="fecha_fin">FECHA FIN</label>
-<input type="date" id="fecha_fin" name="fecha_fin" value="" />
-
-            
+            <input type="date" id="fecha_fin" name="fecha_fin" value="" />
         </div>
 
         <div id="message-container" style="color: red; margin: 10px 0;"></div>
@@ -27,7 +71,6 @@
         <table>
             <thead>
                 <tr>
-                    
                     <th colspan="3">INFORMACION DEL DESTINO</th>
                     <th colspan="2">BOVINOS</th>
                     <th colspan="2">PORCINOS</th>
@@ -56,9 +99,15 @@
         </table>
         <div class="button-row">
             <button class="btn-agregar" id="btn-agregar">CONSULTAR</button>
-            <button class="btn-imprimir" id ="btn-imprimir">IMPRIMIR</button>
+            <button class="btn-imprimir" id="btn-imprimir">IMPRIMIR</button>
         </div>
     </div>
 </body>
+<script>
+    
+    document.getElementById('btn-imprimir').addEventListener('click', function() {
+        window.print();
+    });
+</script>
 <script src="Script/Registro_diario.js"></script>
 </html>
