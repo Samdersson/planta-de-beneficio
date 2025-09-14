@@ -87,7 +87,7 @@ const detalleCedulaProductor = document.getElementById('detalle-cedula-productor
 const detalleCedulaUsuario = document.getElementById('detalle-cedula-usuario');
 
 function limpiarListaAnimales() {
-    listaAnimalesSelect.innerHTML = '<option value="">Seleccione un animal</option>';
+    listaAnimalesSelect.innerHTML = '<option value=""selected>Seleccione un animal</option>';
 }
 
 function ocultarDetallesGuia() {

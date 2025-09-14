@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } catch (error) {
-                console.error('Error al obtener número incremental:', error);
+                // console.error('Error al obtener número incremental:', error);
             }
         }
         actualizarNumeroIncremental();

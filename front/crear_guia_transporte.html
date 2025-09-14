@@ -72,7 +72,7 @@
             <div class="form-row">
                 <label for="lista-animales">Animales en la Guía:</label>
                 <select id="lista-animales">
-                    <option value="">Seleccione un animal</option>
+                    <option value=""selected>Seleccione un animal</option>
                 </select>
                 <button id="agregar-animal-btn" type="button">Agregar</button>
                 <button id= eliminar-animal-btn type="button">Eliminar</button>
@@ -139,10 +139,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUIA DE TRANSPORTE</title>
     <link rel="stylesheet" href="Styles.css">
+    <style>
+       @media print {
+    /* Ocultar todos los elementos excepto el container */
+    body > *:not(.container) {
+        display: none !important;
+    }
+    
+    /* Asegurar que el container ocupe toda la página */
+    .container {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Mejorar la apariencia de las tablas al imprimir */
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto !important;
+    }
+    
+    tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+    }
+}
+
+
+    </style>
     <script src="Script/guia_transporte.js" defer></script>
     <script src="Script/crear_guia_transporte.js" defer></script>
     <button class="close-btn" onclick="window.history.back()">×</button>
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
+    <button class="print-btn" onclick="window.print()">🖨️</button>
     
 
 <body>

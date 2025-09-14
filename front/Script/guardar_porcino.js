@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const numeroCorral = document.getElementById('no-corral-input').value.trim();
 
         // Validar campos obligatorios
-        if (!numeroGuia || !numeroAnimal || !sexo || !kilos) {
-            alert('Por favor, complete los campos obligatorios: Número de Guía, Número de Animal, Sexo y Kilos.');
-            return;
-        }
+        // if (!numeroGuia || !numeroAnimal || !sexo || !kilos) {
+        //     // alert('Por favor, complete los campos obligatorios: Número de Guía, Número de Animal, Sexo y Kilos.');
+        //     return;
+        // }
 
-        // Validar sexo
-        if (sexo !== 'M' && sexo !== 'H') {
-            alert('El campo Sexo debe ser "M" o "H".');
-            return;
-        }
+        // // Validar sexo
+        // if (sexo !== 'M' && sexo !== 'H') {
+        //     alert('El campo Sexo debe ser "M" o "H".');
+        //     return;
+        // }
 
         // Preparar datos para enviar
         const formData = new FormData();
