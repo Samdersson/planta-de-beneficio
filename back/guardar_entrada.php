@@ -20,6 +20,10 @@ if (isset($_POST['especie'])) {
         $especie = 'bovino';
     }
 }
+
+if (empty($especie)) {
+    $especie = 'porcino'; // valor por defecto para evitar error de columna null
+}
 $hora_caida = isset($_POST['hora_caida']) ? $_POST['hora_caida'] : null;
 $numero_guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
 $id_guia_transporte = null; // Eliminado, ya que se usa numero_guia en su lugar
