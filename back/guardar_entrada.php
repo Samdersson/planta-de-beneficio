@@ -14,11 +14,15 @@ $fecha_guia = isset($_POST['fecha_sacrificio']) ? $_POST['fecha_sacrificio'] : n
 $numero_corral = isset($_POST['corral']) ? $_POST['corral'] : null;
 $especie = null;
 if (isset($_POST['especie'])) {
-    if ($_POST['especie'] === '0' || $_POST['especie'] === 0) {
+    $val = strtolower(trim($_POST['especie']));
+    if ($val === '0' || $val === 'porcino') {
         $especie = 'porcino';
-    } elseif ($_POST['especie'] === '1' || $_POST['especie'] === 1) {
+    } elseif ($val === '1' || $val === 'bovino') {
         $especie = 'bovino';
     }
+}
+if (empty($especie)) {
+    $especie = 'porcino'; // default
 }
 
 if (empty($especie)) {
