@@ -171,8 +171,17 @@
         page-break-inside: avoid !important;
         page-break-after: auto !important;
     }
+    #producto-table th:nth-child(2),
+    #producto-table td:nth-child(2) {
+        display: none;
+    }
+    
 }
 
+#producto-table th:nth-child(2),
+#producto-table td:nth-child(2) {
+    display: none;
+}
 
     </style>
 
@@ -186,7 +195,7 @@
 
     <img src="imagenes/logos.png" alt="Logo" class="logo">
     <div class="container-marca">
-        <input type="text" id="marca-input" placeholder="GV6">
+        <input type="text" id="marca-input" placeholder="GV6" required readonly>
     </div>
     
     
@@ -194,7 +203,7 @@
         <h1>GUÍA DE TRANSPORTE</h1>   
         <p>GUIA DE TRANSPORTE DE CARNE EN CANAL <br> DESHUESADA Y SUBPRODUCTOS COMESTIBLES</p>
         <div class = "numero-orden">
-            <input type="text" id="numero-orden" placeholder="567 b - 498-25">
+            <input type="text" id="numero-orden" placeholder="150-P-000-00" required readonly>
         </div> 
         
         <div class-planta>
@@ -236,7 +245,7 @@
                         <td>JOSE ANTONIO NARVAEZ SOTO</td>
                         <td>GENOVA</td>
                         <td>311 613 1311</td>
-                        <td>025-B-76122-0002242090</td>
+                        <td>76122-0002-242090</td>
                     </tr>
                 </tbody>
             </table>
@@ -248,7 +257,7 @@
                 <thead>
                     <tr>
                         <th>LOTE-PESO-TIQUETE</th>
-                        <th>CARNE EN OCTAVO EN CANAL</th>
+                        <th>CARNE EN OCTAVO EN CANAL </th>
                         <th>VICERAS BLANCAS</th>
                         <th>VICERAS ROJAS</th>
                         <th>CABEZAS</th>

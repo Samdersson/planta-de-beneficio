@@ -35,3 +35,13 @@ monitor samsung odisey
 jspdf
 
 make pdf => 
+
+
+
+   ✅ validaciones de campos
+    proteccion de URL con token
+    restriccion de guia de transporte
+    tabla conductor y vehiculo en un mismo formulario
+
+
+ocultar URL
