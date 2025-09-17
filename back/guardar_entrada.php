@@ -22,7 +22,7 @@ if (isset($_POST['especie'])) {
     }
 }
 if (empty($especie)) {
-    $especie = 'porcino'; // default
+    $especie = 'porcino'; // por defecto se carga porcino
 }
 
 if (empty($especie)) {
@@ -30,11 +30,11 @@ if (empty($especie)) {
 }
 $hora_caida = isset($_POST['hora_caida']) ? $_POST['hora_caida'] : null;
 $numero_guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
-$id_guia_transporte = null; // Eliminado, ya que se usa numero_guia en su lugar
+$id_guia_transporte = null; 
 $cedula_usuario = isset($_SESSION['cedula']) ? $_SESSION['cedula'] : null;
 $marca = isset($_POST['marca']) ? $_POST['marca'] : null;
 
-// Validar que la guía exista en guias_movilizacion
+// Valida la existencia en guias_movilizacion
 if ($numero_guia) {
     $stmt = $conexion->prepare("SELECT numero_guia FROM guia_movilizacion WHERE numero_guia = ?");
     $stmt->bind_param("s", $numero_guia);
@@ -49,8 +49,8 @@ if ($numero_guia) {
     $stmt->close();
 }
 
-// Debug: mostrar datos recibidos
-error_log("Datos recibidos: numero_animal=$numero_animal, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_guia=$fecha_guia, fecha_sacrificio=$fecha_sacrificio, numero_corral=$numero_corral, especie=$especie, hora_caida=$hora_caida, numero_guia=$numero_guia, id_guia_transporte=$id_guia_transporte, cedula_usuario=$cedula_usuario, marca=$marca");
+// mostrar datos recibidos
+// error_log("Datos recibidos: numero_animal=$numero_animal, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_guia=$fecha_guia, fecha_sacrificio=$fecha_sacrificio, numero_corral=$numero_corral, especie=$especie, hora_caida=$hora_caida, numero_guia=$numero_guia, id_guia_transporte=$id_guia_transporte, cedula_usuario=$cedula_usuario, marca=$marca");
 
 $sql = $conexion->prepare("
     INSERT INTO animal (

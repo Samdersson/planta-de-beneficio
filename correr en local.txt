@@ -45,3 +45,18 @@ make pdf =>
 
 
 ocultar URL
+
+cambiar buscar por guia a buscar por marca ya que se despacha marca por marca
+solo pueden aparacer en el sistema los aniales que no se han generado en guia de despacho
+IMPRIMIR INFORMACION DEL animales
+
+resoonsable de la planta
+
+modificar o aliminar usuario
+
+
+control de ingresos de animales a la planta qu es toda la tabla de animal
+
+
+CANALES DE DENUNCIA DE LA EMPRESA
+PARA PUBLICAR EN LA PAGINA

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Control de Ingreso</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <style>
+        /* Estilos para impresión */
+        @media print {
+            /* Ocultar elementos que no quieres imprimir */
+            .close-btn, .inicio-btn, .form-row, #message-container, .button-row {
+                display: none !important;
+            }
+            
+            /* Mostrar solo el título y la tabla */
+            .registro-container {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+            
+            /* Ajustar estilos de la tabla para impresión */
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 12px !important;
+                page-break-inside: auto !important;
+            }
+            
+            th, td {
+                border: 1px solid #000 !important;
+                padding: 4px !important;
+            }
+            
+            th {
+                background-color: #f2f2f2 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Asegurar que no se dividan las filas entre páginas */ 
+            tr {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Ajustar el título para impresión */
+            h1 {
+                text-align: center !important;
+                font-size: 18px !important;
+                margin-bottom: 15px !important;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="registro-container">
+        <button class="close-btn"onclick="location.href='principal.html'">X</button>
+        <h1>CONTROL DE INGRESO DE ANIMALES</h1>
+        <div class="form-row">
+            <label for="fecha_fin">SELECCIONE LA FECHA</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" value="" />
+
+            <label for="especie">SELECCIONE TIPO DE ANIMAL</label>
+            <select id="especie">
+                <option value="">Seleccione Especie</option>
+                <option value="Bovino">Bovino</option>
+                <option value="Porcino">Porcino</option>
+            </select>
+        </div>
+
+        <div id="message-container" style="color: red; margin: 10px 0;"></div>
+
+      
+        <div class="button-row">
+            <button class="btn-agregar" id="btn-agregar">CONSULTAR</button>
+            <button class="btn-imprimir" id="btn-imprimir">IMPRIMIR</button>
+        </div>
+    </div>
+</body>
+
+ <table class="bovinos-table">
+            <thead>
+                <tr>
+                    <th>No°</th>
+                    <th>DESTINO</th>
+                    <th>No° ANIMAL</th>
+                    <th>NOMBRE</th>
+                    <th>CEDULA</th>
+                    <th>SEXO</th>
+                    <th>KILOS</th>
+                    <th>No° TIQUETE</th>
+                    <th>FECHA SACRIFICIO</th>
+                    <th>GUIA MOVILIZACION</th>
+                    <th>FECHA GUIA ICA</th>
+                    <th>No° CORRAL</th>
+                    <th>HORA DE CAIDA</th>
+                </tr>
+            </thead>
+            <tbody id="bovinos-tbody">
+            </tbody>
+        </table>
+<script>
+    
+    document.getElementById('btn-imprimir').addEventListener('click', function() {
+        window.print();
+    });
+</script>
+
+</html>
