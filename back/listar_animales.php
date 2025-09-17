@@ -12,7 +12,7 @@ try {
     $fechaFin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '';
 
     if ($fechaInicio && $fechaFin) {
-        // Si las fechas son iguales, ajustar la consulta para incluir todo el día
+        
         if ($fechaInicio === $fechaFin) {
             $query = "
                 SELECT marca, sexo, especie

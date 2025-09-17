@@ -52,7 +52,13 @@
                 margin-bottom: 15px !important;
             }
         }
-        
+        .bovinos-table {
+            width: 95%;
+            border-collapse: collapse;
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -60,10 +66,11 @@
         <button class="close-btn"onclick="location.href='principal.html'">X</button>
         <h1>CONTROL DE INGRESO DE ANIMALES</h1>
         <div class="form-row">
-            <label for="fecha_fin">SELECCIONE LA FECHA</label>
+
+            <label for="fecha_fin">FECHA FIN</label>
             <input type="date" id="fecha_fin" name="fecha_fin" value="" />
 
-            <label for="especie">SELECCIONE TIPO DE ANIMAL</label>
+            <label for="especie">TIPO DE ANIMALES</label>
             <select id="especie">
                 <option value="">Seleccione Especie</option>
                 <option value="Bovino">Bovino</option>
@@ -87,8 +94,6 @@
                     <th>No°</th>
                     <th>DESTINO</th>
                     <th>No° ANIMAL</th>
-                    <th>NOMBRE</th>
-                    <th>CEDULA</th>
                     <th>SEXO</th>
                     <th>KILOS</th>
                     <th>No° TIQUETE</th>
@@ -108,5 +113,6 @@
         window.print();
     });
 </script>
+<script src="Script\control_ingreso.js"></script>
 
 </html>
