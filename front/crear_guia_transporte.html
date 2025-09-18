@@ -44,8 +44,9 @@
             background-color: #357abd;
         }</style>
         <!-- <script src="guia_transporte.js" defer></script> -->
-        <!-- <script src="Script/listar_conductores.js" defer></script>
-        <script src="Script/listar_veterinarios.js" defer></script> -->
+        <script src="Script/listar_conductores.js" defer></script>
+        <script src="Script/listar_veterinarios.js" defer></script>
+        <script src="Script/listar_animal_marca.js"></script>
     </head>
 <body>
     
@@ -57,9 +58,12 @@
         <div class="form-container">
             
             <div class="form-row">
-                <label for="numero-guia">Número de Guía:</label>
-                <input type="text" id="numero-guia" placeholder="Ingrese número de guía" />
-                <button id="buscar-guia-btn" type="button">Buscar</button>
+                 <div class="form-group">
+                <label>DESTINO</label>
+                <select id="destino-select" class="small-select">
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
                 
             </div>
             <div class="form-row" id="guia-detalles" style="display:none; margin-top: 20px;">
@@ -116,7 +120,7 @@
                     </tbody>
                 </table>
             </div>
-            <!-- <div class="form-row" style="margin-top: 20px;">
+            <div class="form-row" style="margin-top: 20px;">
                 <label for="select_conductor">Seleccione un Conductor:</label>
                 <select id="select_conductor">
                     <option value="">Seleccione un conductor</option>
@@ -127,7 +131,7 @@
                 <select id="select_veterinario">
                     <option value="">Seleccione un veterinario</option>
                 </select>
-            </div> -->
+            </div>
             <div class="form-row" style="margin-top: 20px;">
                 <button id="generar-guia-btn" type="button">Generar Guía</button>
                 <button id="btn-imprimir" onclick="window.print()">imprimir</button>

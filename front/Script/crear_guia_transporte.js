@@ -111,13 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
         animalesSeleccionados.push({ numeroAnimal, marca });
         renderAnimalesAgregados();
         try {
-            const response = await fetch(`../back/buscar_animales_por_guia_detallado.php?numero_guia=${encodeURIComponent(document.getElementById('numero-guia').value)}`);
-            const data = await response.json();
-            if (data && data.length > 0) {
-                const animalDetalle = data.find(a => a.numero_animal === numeroAnimal);
-                if (animalDetalle) {
-                    animalesDetallados.push(animalDetalle);
-                    renderProductoTable();
+            const numeroGuiaElement = document.getElementById('numero-guia');
+            if (numeroGuiaElement) {
+                const response = await fetch(`../back/buscar_animales_por_guia_detallado.php?numero_guia=${encodeURIComponent(numeroGuiaElement.value)}`);
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    const animalDetalle = data.find(a => a.numero_animal === numeroAnimal);
+                    if (animalDetalle) {
+                        animalesDetallados.push(animalDetalle);
+                        renderProductoTable();
+                    }
                 }
             }
         } catch (error) {
