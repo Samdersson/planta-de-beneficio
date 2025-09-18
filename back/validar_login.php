@@ -30,6 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: ../front/principal.html");
             exit();
         } else {
+            echo "<script>
+            alert('Usuario  y/o contraseña incorrecta.');
+            window.location.href = '../front/inicio.html';
+            </script>";
+            
+            
             
             
             exit();
