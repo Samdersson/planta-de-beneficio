@@ -12,8 +12,14 @@ if (!isset($_GET['marca']) || empty($_GET['marca'])) {
 }
 
 $marca = mysqli_real_escape_string($conexion, $_GET['marca']);
+$especie = isset($_GET['especie']) ? mysqli_real_escape_string($conexion, $_GET['especie']) : '';
 
-$sql = "SELECT numero_animal, marca FROM animal WHERE marca = '$marca' ORDER BY numero_animal ASC";
+if ($especie) {
+    $sql = "SELECT numero_animal, marca FROM animal WHERE marca = '$marca' AND especie = '$especie' ORDER BY numero_animal ASC";
+} else {
+    $sql = "SELECT numero_animal, marca FROM animal WHERE marca = '$marca' ORDER BY numero_animal ASC";
+}
+
 $result = mysqli_query($conexion, $sql);
 
 $animales = [];

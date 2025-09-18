@@ -12,7 +12,10 @@
 
 
 function cargarMarcasEnDestino() {
-    fetch('../back/listar_animal_marca.php')
+    const especieSelect = document.getElementById('especie-select');
+    const especie = especieSelect ? especieSelect.value : '';
+
+    fetch(`../back/listar_animal_marca.php?especie=${encodeURIComponent(especie)}`)
         .then(response => response.json())
         .then(data => {
             const selectDestino = document.getElementById('destino-select');
@@ -46,7 +49,9 @@ function cargarMarcasEnDestino() {
                     listaAnimales.innerHTML = '<option value="">Seleccione un animal</option>';
                     return;
                 }
-                fetch(`../back/listar_animales_por_marca.php?marca=${encodeURIComponent(marcaSeleccionada)}`)
+                const especieSelect = document.getElementById('especie-select');
+                const especie = especieSelect ? especieSelect.value : '';
+                fetch(`../back/listar_animales_por_marca.php?marca=${encodeURIComponent(marcaSeleccionada)}&especie=${encodeURIComponent(especie)}`)
                     .then(response => response.json())
                     .then(animales => {
                         if (animales.error) {
@@ -78,6 +83,20 @@ function cargarMarcasEnDestino() {
             }
         });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const especieSelect = document.getElementById('especie-select');
+    if (especieSelect) {
+        especieSelect.addEventListener('change', () => {
+            cargarMarcasEnDestino();
+            const listaAnimales = document.getElementById('lista-animales');
+            if (listaAnimales) {
+                listaAnimales.innerHTML = '<option value="">Seleccione un animal</option>';
+            }
+        });
+    }
+    cargarMarcasEnDestino();
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     cargarMarcasEnDestino();

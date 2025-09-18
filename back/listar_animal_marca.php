@@ -6,7 +6,14 @@ include 'Conexion.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT DISTINCT marca FROM animal WHERE marca IS NOT NULL AND marca != '' ORDER BY marca ASC";
+$especie = isset($_GET['especie']) ? mysqli_real_escape_string($conexion, $_GET['especie']) : '';
+
+if ($especie) {
+    $sql = "SELECT DISTINCT marca FROM animal WHERE marca IS NOT NULL AND marca != '' AND especie = '$especie' ORDER BY marca ASC";
+} else {
+    $sql = "SELECT DISTINCT marca FROM animal WHERE marca IS NOT NULL AND marca != '' ORDER BY marca ASC";
+}
+
 $result = mysqli_query($conexion, $sql);
 
 $marcas = [];
