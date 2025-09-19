@@ -43,22 +43,21 @@
         .registro-container button:hover {
             background-color: #357abd;
         }</style>
-        <!-- <script src="guia_transporte.js" defer></script> -->
         <script src="Script/listar_conductores.js" defer></script>
         <script src="Script/listar_veterinarios.js" defer></script>
         <script src="Script/listar_animal_marca.js"></script>
+        <script src="Script/listar_administrador.js" defer></script>
     </head>
 <body>
     
 
 
     <div class="registro-container">
-        <!-- <button class="close-btn" onclick="window.history.back()">×</button> -->
         <h1 class="title">REMISIONES DE BOVINOS</h1>
         <div class="form-container">
             
             <div class="form-row">
-                <div class="form-group">
+                
                     <label>ESPECIE</label>
                     <select id="especie-select" class="small-select">
                         <option value="">Seleccione especie</option>
@@ -66,31 +65,22 @@
                         <option value="porcino">Porcino</option>
                     </select>
                 </div>
-            </div>
-            <div class="form-row">
-                 <div class="form-group">
+            
+            
+                 <div class="form-row">
                 <label>DESTINO</label>
                 <select id="destino-select" class="small-select">
                     <option value="">Seleccione</option>
                 </select>
             </div>
                 
-            </div>
-            <div class="form-row" id="guia-detalles" style="display:none; margin-top: 20px;">
-                <h3>Detalles de la Guía</h3>
-                <p><strong>Número de Guía:</strong> <span id="detalle-numero-guia"></span></p>
-                <p><strong>Cantidad de Animales:</strong> <span id="detalle-cantidad-animales"></span></p>
-                <p><strong>Fecha de Guía:</strong> <span id="detalle-fecha-guia"></span></p>
-                <p><strong>Cédula Productor:</strong> <span id="detalle-cedula-productor"></span></p>
-                <p><strong>Cédula Usuario:</strong> <span id="detalle-cedula-usuario"></span></p>
-            </div>
+            
+
             <div class="form-row">
                 <label for="lista-animales">Seleccione un animal:</label>
                 <select id="lista-animales">
                     <option value=""selected>Seleccione un animal</option>
                 </select>
-                <button id="agregar-animal-btn" type="button">Agregar</button>
-                <button id= eliminar-animal-btn type="button">Eliminar</button>
                 
             </div>
             <div class="form-row" id="marca-cliente" style="display:none; margin-top: 10px;">
@@ -131,14 +121,14 @@
                 </table>
             </div>
             <div class="form-row" style="margin-top: 20px;">
-                <label for="select_conductor">Seleccione un Conductor:</label>
+                <label for="select_conductor">Seleccione Conductor:</label>
                 <select id="select_conductor">
                     <option value="">Seleccione un conductor</option>
                 </select>
             </div>
             
             <div class="form-row" style="margin-top: 20px;">
-                <label for="select_veterinario">Seleccione un Veterinario:</label>
+                <label for="select_veterinario">Seleccione Veterinario:</label>
                 <select id="select_veterinario">
                     <option value="">Seleccione un veterinario</option>
                 </select>
@@ -232,7 +222,7 @@
                         <td>VALLE DEL CAUCA</td>
                         <td>CAICEDONIA</td>
                         <td>CALLE 17 # 19-80 B FUNDADORES</td>
-                        <td>311 613 1311</td>
+                        <td>311 643 1311</td>
                     </tr>
                 </tbody>
             </table>
@@ -249,10 +239,10 @@
                 <h1>CLIENTE</h1>
                 <tbody>
                     <tr>
-                        <td>JOSE ANTONIO NARVAEZ SOTO</td>
-                        <td>GENOVA</td>
-                        <td>311 613 1311</td>
-                        <td>025-B-76122-0002242090</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -275,7 +265,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>42M-392-5135</td> 
+                        <td></td> 
                         <td>8</td>
                         <td>1</td>
                         <td>1</td>
@@ -324,10 +314,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>SANTIAGO TORRES</td>
-                        <td>11151944686</td>
-                        <td>GERENTE</td>
-                        <td>322 447 0297</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>311 643 1311</td>
                     </tr>
                 </tbody>
 
@@ -341,12 +331,22 @@
                         <th>MOTIVO</th>
                         <th>CANTIDAD</th>
                         <th>No° ANIMAL</th>
+                        <th>No°</th>
+                        <th>PRODUCTO</th>
+                        <th>MOTIVO</th>
+                        <th>CANTIDAD</th>
+                        <th>No° ANIMAL</th>
 
                     </tr>
 
                 </thead>
                 <tbody>
                     <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

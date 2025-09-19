@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    listar_administrador(); // Cargar datos del administrador en firma-table
+
     const agregarAnimalBtn = document.getElementById('agregar-animal-btn');
     const eliminarAnimalBtn = document.getElementById('eliminar-animal-btn');
     const listaAnimalesSelect = document.getElementById('lista-animales');
