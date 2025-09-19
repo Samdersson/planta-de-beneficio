@@ -1,8 +1,8 @@
 function listar_conductor(nombre, cedula) {
-    fetch(`../back/listar_conductor.php?`)
+    fetch(`../back/listar_administrador.php?`)
         .then(response => response.json())
         .then(data => {
-            const tabla = document.getElementById('tabla_conductor');
+            const tabla = document.getElementById('firma-table');
             tabla.innerHTML = '';
             
             data.forEach(animal => {

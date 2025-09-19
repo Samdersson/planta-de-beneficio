@@ -43,6 +43,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    
+    const selectConductor = document.getElementById('select_conductor');
+    if (selectConductor) {
+        selectConductor.addEventListener('change', () => {
+            const conductorNombre = selectConductor.options[selectConductor.selectedIndex].text;
+            const conductorCedula = selectConductor.value;
+
+            const vehiculoTable = document.getElementById('vehiculo-table');
+            if (vehiculoTable) {
+                const tbody = vehiculoTable.querySelector('tbody');
+                if (tbody) {
+                    const row = tbody.querySelector('tr');
+                    if (row) {
+
+                        row.cells[3].textContent = conductorNombre;
+                        row.cells[4].textContent = conductorCedula;
+                    }
+                }
+            }
+        });
+    }
+
+    const selectVeterinario = document.getElementById('select_veterinario');
+    if (selectVeterinario) {
+        selectVeterinario.addEventListener('change', () => {
+            const veterinarioNombre = selectVeterinario.options[selectVeterinario.selectedIndex].text;
+
+            const examenTable = document.getElementById('examen-table');
+            if (examenTable) {
+                const tbody = examenTable.querySelector('tbody');
+                if (tbody) {
+                    const row = tbody.querySelector('tr');
+                    if (row) {
+                        row.cells[1].textContent = veterinarioNombre;
+                    }
+                }
+            }
+        });
+    }
+
     function renderProductoTable() {
         productoTableBody.innerHTML = '';
         animalesDetallados.forEach((animal) => {
@@ -98,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         let marca = '';
+        let numeroGuia = '';
         try {
             const response = await fetch(`../back/buscar_marca_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
             const data = await response.json();
@@ -108,19 +149,48 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error obteniendo marca:', error);
         }
+        try {
+            const guiaResponse = await fetch(`../back/buscar_numero_guia_por_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
+            const guiaData = await guiaResponse.json();
+            if (guiaData.numero_guia) {
+                numeroGuia = guiaData.numero_guia;
+            }
+        } catch (error) {
+            console.error('Error obteniendo numero_guia:', error);
+        }
+        try {
+            const clienteResponse = await fetch(`../back/buscar_cliente_por_marca.php?marca=${encodeURIComponent(marca)}`);
+            const clienteData = await clienteResponse.json();
+            if (clienteData.nombre) {
+                const clienteRow = document.querySelector('#cliente-table tbody tr');
+                if (clienteRow) {
+                    clienteRow.cells[0].textContent = clienteData.nombre;
+                    clienteRow.cells[1].textContent = clienteData.destino;
+                    clienteRow.cells[2].textContent = clienteData.telefono;
+                    clienteRow.cells[3].textContent = numeroGuia;
+                }
+            }
+        } catch (error) {
+            console.error('Error obteniendo cliente:', error);
+        }
         animalesSeleccionados.push({ numeroAnimal, marca });
         renderAnimalesAgregados();
+
         try {
-            const numeroGuiaElement = document.getElementById('numero-guia');
-            if (numeroGuiaElement) {
-                const response = await fetch(`../back/buscar_animales_por_guia_detallado.php?numero_guia=${encodeURIComponent(numeroGuiaElement.value)}`);
+            if (numeroGuia) {
+                const response = await fetch(`../back/buscar_animales_por_guia_detallado.php?numero_guia=${encodeURIComponent(numeroGuia)}`);
                 const data = await response.json();
+                console.log('Datos detallados recibidos:', data);
                 if (data && data.length > 0) {
                     const animalDetalle = data.find(a => a.numero_animal === numeroAnimal);
                     if (animalDetalle) {
                         animalesDetallados.push(animalDetalle);
                         renderProductoTable();
+                    } else {
+                        console.warn('No se encontró detalle para el animal:', numeroAnimal);
                     }
+                } else {
+                    console.warn('No se recibieron datos detallados para numero_guia:', numeroGuia);
                 }
             }
         } catch (error) {

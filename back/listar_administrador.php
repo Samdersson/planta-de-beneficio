@@ -1,7 +1,7 @@
 <?php
-include_once '../Conexion.php';
+include_once 'Conexion.php';
 
-$sql = "SELECT cedula, nombre FROM veterinario";
+$sql = "SELECT cedula, nombre, rol, telefono FROM usuario WHERE rol = '3'";
 $result = mysqli_query($conexion, $sql);
 
 $veterinarios = array();

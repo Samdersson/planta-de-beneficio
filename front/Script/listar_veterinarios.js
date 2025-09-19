@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectVeterinario = document.getElementById('select_veterinario');
 
     function listar_veterinarios() {
-        fetch('../back/validaciones/listar_veterinario.php')
+        fetch('../back/buscar_veterinario.php')
             .then(response => response.json())
             .then(data => {
                 selectVeterinario.innerHTML = '<option value="">Seleccione un veterinario</option>';
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         selectVeterinario.appendChild(option);
                     });
                 }
+
             })
             .catch(error => {
                 console.error('Error al listar veterinarios:', error);
