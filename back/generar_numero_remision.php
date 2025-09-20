@@ -1,6 +1,4 @@
 <?php
-// Archivo: generar_numero_remision.php
-// Función para obtener el siguiente número incremental para porcinos o bovinos, reiniciando cada año
 
 function obtenerSiguienteConsecutivo($mysqli, $tipo_animal) {
     $anio_actual = date('Y');
@@ -15,10 +13,10 @@ function obtenerSiguienteConsecutivo($mysqli, $tipo_animal) {
         throw new Exception("Tipo de animal inválido");
     }
 
-    // Bloquear la tabla para evitar condiciones de carrera
+
     $mysqli->query("LOCK TABLES $tabla WRITE");
 
-    // Buscar si ya existe un consecutivo para el año actual
+
     $stmt = $mysqli->prepare("SELECT numero_incremental FROM $tabla WHERE anio = ?");
     $stmt->bind_param('i', $anio_actual);
     $stmt->execute();
@@ -62,9 +60,6 @@ function obtenerSiguienteConsecutivo($mysqli, $tipo_animal) {
     ];
 }
 
-// Ejemplo de uso:
-// $mysqli = new mysqli('localhost', 'usuario', 'password', 'basedatos');
-// $resultado = obtenerSiguienteConsecutivo($mysqli, 'porcino');
-// echo "Número de remisión generado: " . $resultado['numero_remision'];
+
 
 ?>
