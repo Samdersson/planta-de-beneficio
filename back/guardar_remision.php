@@ -24,6 +24,7 @@ $tipo_animal = $input['tipo_animal'] ?? null; // 'porcino' o 'bovino'
 $cliente_nombre = $input['cliente_nombre'] ?? '';
 $cliente_direccion = $input['cliente_direccion'] ?? '';
 $cliente_telefono = $input['cliente_telefono'] ?? '';
+$animales = $input['animales'] ?? []; // Array de animales incluidos en la remisión
 // Otros campos según necesidad...
 
 if (!$tipo_animal) {
@@ -56,10 +57,38 @@ try {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
+        $id_remision = $stmt->insert_id;
+        $animales_actualizados = 0;
+        $errores_actualizacion = [];
+
+        // Actualizar el estado de los animales incluidos en la remisión
+        if (!empty($animales)) {
+            $update_stmt = $mysqli->prepare("UPDATE animal SET estado = 'despachado' WHERE numero_animal = ?");
+
+            foreach ($animales as $animal) {
+                $numero_animal = $animal['numeroAnimal'] ?? null;
+                if ($numero_animal) {
+                    $update_stmt->bind_param("s", $numero_animal);
+                    if ($update_stmt->execute()) {
+                        if ($update_stmt->affected_rows > 0) {
+                            $animales_actualizados++;
+                        } else {
+                            $errores_actualizacion[] = "Animal $numero_animal no encontrado o ya despachado";
+                        }
+                    } else {
+                        $errores_actualizacion[] = "Error al actualizar animal $numero_animal: " . $update_stmt->error;
+                    }
+                }
+            }
+            $update_stmt->close();
+        }
+
         echo json_encode([
             'success' => true,
             'numero_remision' => $numeroData['numero_remision'],
-            'id_remision' => $stmt->insert_id
+            'id_remision' => $id_remision,
+            'animales_actualizados' => $animales_actualizados,
+            'errores_actualizacion' => $errores_actualizacion
         ]);
     } else {
         http_response_code(500);

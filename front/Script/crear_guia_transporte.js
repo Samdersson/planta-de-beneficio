@@ -103,6 +103,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function toggleCarneColumn() {
+        const especieSelect = document.getElementById('especie-select');
+        const productoTable = document.getElementById('producto-table');
+        const isPorcino = especieSelect.value === 'porcino';
+        // Iterar sobre todas las filas del thead y tbody
+        for (const row of productoTable.rows) {
+            if (row.cells.length > 1) {
+                row.cells[1].style.display = isPorcino ? 'none' : '';
+            }
+        }
+    }
+
+    const especieSelect = document.getElementById('especie-select');
+    if (especieSelect) {
+        especieSelect.addEventListener('change', toggleCarneColumn);
+        // Ejecutar al cargar la página para ajustar según el valor inicial
+        toggleCarneColumn();
+    }
+
     async function fetchDecomisosPorAnimales(animales) {
         const todosDecomisos = [];
         for (const animal of animales) {

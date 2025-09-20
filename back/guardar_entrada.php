@@ -33,7 +33,7 @@ $numero_guia = isset($_POST['guia']) ? trim($_POST['guia']) : null;
 $id_guia_transporte = null; 
 $cedula_usuario = isset($_SESSION['cedula']) ? $_SESSION['cedula'] : null;
 $marca = isset($_POST['marca']) ? $_POST['marca'] : null;
-
+$estado = 'disponible'; 
 // Valida la existencia en guias_movilizacion
 if ($numero_guia) {
     $stmt = $conexion->prepare("SELECT numero_guia FROM guia_movilizacion WHERE numero_guia = ?");
@@ -54,14 +54,14 @@ if ($numero_guia) {
 
 $sql = $conexion->prepare("
     INSERT INTO animal (
-        numero_animal, sexo, peso, numero_tiquete, fecha_guia, fecha_sacrificio, numero_corral, especie, hora_caida, numero_guia, cedula_usuario, marca
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        numero_animal, sexo, peso, numero_tiquete, fecha_guia, fecha_sacrificio, numero_corral, especie, hora_caida, numero_guia, cedula_usuario, marca, estado
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
 ");
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
-    "ssdsssssssis", 
-    $numero_animal, $sexo, $peso, $numero_tiquete, $fecha_guia, $fecha_sacrificio, $numero_corral, $especie, $hora_caida, $numero_guia, $cedula_usuario, $marca
+    "ssdsssssssiss", 
+    $numero_animal, $sexo, $peso, $numero_tiquete, $fecha_guia, $fecha_sacrificio, $numero_corral, $especie, $hora_caida, $numero_guia, $cedula_usuario, $marca, $estado
 );
 
 if ($sql->execute()) {

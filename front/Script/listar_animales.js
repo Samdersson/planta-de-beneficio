@@ -1,4 +1,4 @@
-// front/Script/listar_animales.js
+
 function cargarAnimalesConClientes(fecha) {
     fetch(`../back/listar_animales_con_clientes.php?fecha=${fecha}`)
         .then(response => response.json())
