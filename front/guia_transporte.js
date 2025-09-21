@@ -155,9 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
         decomisos.forEach(decomiso => {
             const row = document.createElement('tr');
 
-            const idCell = document.createElement('td');
-            idCell.textContent = decomiso.id;
-            row.appendChild(idCell);
+            // const idCell = document.createElement('td');
+            // idCell.textContent = decomiso.id;
+            // row.appendChild(idCell);
 
             const productoCell = document.createElement('td');
             productoCell.textContent = decomiso.producto;

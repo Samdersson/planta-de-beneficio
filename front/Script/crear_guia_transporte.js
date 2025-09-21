@@ -169,7 +169,7 @@ function toggleCarneColumn() {
         decomisosTableBody.innerHTML = '';
         if (!decomisos || decomisos.length === 0) {
             const row = document.createElement('tr');
-            row.innerHTML = `<td colspan="10" style="text-align:center;">No hay decomisos para los animales seleccionados</td>`;
+            row.innerHTML = `<td colspan="8" style="text-align:center;">No hay decomisos para los animales seleccionados</td>`;
             decomisosTableBody.appendChild(row);
             decomisosDiv.style.display = 'block';
             return;
@@ -182,7 +182,7 @@ function toggleCarneColumn() {
             // Primer decomiso
             const d1 = decomisos[i];
             row.innerHTML = `
-                <td>${d1.id}</td>
+                
                 <td>${d1.producto}</td>
                 <td>${d1.motivo}</td>
                 <td>${d1.cantidad}</td>
@@ -193,7 +193,7 @@ function toggleCarneColumn() {
             if (i + 1 < decomisos.length) {
                 const d2 = decomisos[i + 1];
                 row.innerHTML += `
-                    <td>${d2.id}</td>
+                    
                     <td>${d2.producto}</td>
                     <td>${d2.motivo}</td>
                     <td>${d2.cantidad}</td>

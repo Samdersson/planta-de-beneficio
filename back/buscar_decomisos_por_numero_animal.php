@@ -11,10 +11,10 @@ try {
     }
 
     $query = "
-        SELECT id, producto, motivo, cantidad, cedula_veterinario, numero_animal
+        SELECT  producto, motivo, cantidad, cedula_veterinario, numero_animal
         FROM decomiso
         WHERE numero_animal = ?
-        ORDER BY id
+        ORDER BY numero_animal
     ";
 
     $stmt = mysqli_prepare($conexion, $query);
