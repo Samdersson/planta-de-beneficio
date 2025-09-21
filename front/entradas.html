@@ -12,6 +12,18 @@
             position: relative;
             overflow: hidden;
         }
+        .entradas-container input,
+        .entradas-container select {
+            width: 55%;
+            height: 30px;
+            border-radius: 8px;
+            border: none;
+            padding: 0 10px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #000000;
+            text-transform: capitalize;
+        }
     </style>
 </head>
 <body>
@@ -20,24 +32,24 @@
         <h2>INGRESAR ANIMALES</h2>
         <form id="entradaForm">
            <div class="entrada-section">
-    <label for="nombre" class="entrada-label">NOMBRE DEL PRODUCTOR</label>
-    <select id="nombre" name="nombre" class="entrada-input" required>
-        <option value="">Seleccione un productor</option>
-    </select>
-</div>
+            <label for="nombre" class="entrada-label">NOMBRE DEL PRODUCTOR</label>
+            <select id="nombre" name="nombre" class="entrada-input" required>
+                <option value="">Seleccione un productor</option>
+            </select>
+            </div>
             <div class="entrada-section">
-                <label for="cedula" class="entrada-label">CÉDULA PRODUCTOR</label>
-                <input type="text" id="cedula" name="cedula" class="entrada-input" placeholder="CÉDULA DEL PRODUCTOR" required readonly  />
+                <label for="cedula" class="entrada-label">CÉDULA DEL PRODUCTOR</label>
+                <input type="text" id="cedula" name="cedula" class="entrada-input" placeholder="cédula del productor" required readonly  />
             </div>
             
             <div class="entrada-section">
-                <label for="guia" class="entrada-label">REGISTRAR GUIA</label>
-                <input type="text" id="guia" name="guia" class="entrada-input" placeholder="GUIA DE MOVILIZACIÓN" required />
+                <label for="guia" class="entrada-label">NÚMERO DE GUÍA</label>
+                <input type="text" id="guia" name="guia" class="entrada-input" placeholder="Guía de movilización" required />
             </div>
 
             <div class="entrada-section">
                 <label for="cantidad" class="entrada-label">CANTIDAD</label>
-                <input type="number" id="cantidad" name="cantidad" class="entrada-input" placeholder="CANTIDAD DE ANIMALES" min="1" required />
+                <input type="number" id="cantidad" name="cantidad" class="entrada-input" placeholder="Cantidad" min="1" required />
             </div>
 
             <div class="entrada-section">

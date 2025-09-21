@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cells[0].textContent = veterinarioNombre || '';
             cells[1].textContent = veterinarioCedula || '';
             cells[2].textContent = 'VETERINARIO';
-            cells[3].textContent = clienteTelefono || ''; // Usar teléfono del cliente si no hay otro
+            cells[3].textContent = '' || ''; 
         }
     }
 });

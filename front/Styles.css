@@ -270,7 +270,7 @@ body, html {
     text-transform: capitalize;
 }
 
-/* Aplicar capitalize a todos los inputs de texto, textarea y selects */
+
 input[type="text"], input[type="search"], textarea, select {
     text-transform: capitalize;
 }

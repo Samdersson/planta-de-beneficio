@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaAnimalesSelect = document.getElementById('lista-animales');
     const animalesAgregadosTableBody = document.querySelector('#animales-agregados-table tbody');
     const animalesAgregadosDiv = document.getElementById('animales-agregados');
-    const productoTableBody = document.querySelector('#producto-table tbody');
+    const productoTableBody = document.querySelector('#producto-table tbody ');
     const decomisosTableBody = document.querySelector('#decomisos-guia-table tbody');
     const decomisosDiv = document.getElementById('decomisos-lista');
 
@@ -85,14 +85,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function renderProductoTable() {
+function renderProductoTable() {
         productoTableBody.innerHTML = '';
+        const especieSelect = document.getElementById('especie-select');
+        const isPorcino = especieSelect && especieSelect.value === 'porcino';
+
+        // Renderizar encabezado dinámico
+        const productoTable = document.getElementById('producto-table');
+        const thead = productoTable.querySelector('thead');
+        thead.innerHTML = '';
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th>LOTE-PESO-TIQUETE</th>
+            ${isPorcino ? '' : '<th>CARNE EN OCTAVO EN CANAL</th>'}
+            <th>VICERAS BLANCAS</th>
+            <th>VICERAS ROJAS</th>
+            <th>CABEZAS</th>
+            <th>TEMPRERATURA PROMEDIO</th>
+            <th>DICTAMEN</th>
+        `;
+        thead.appendChild(headerRow);
+
+        // Renderizar filas con columnas según especie
         animalesDetallados.forEach((animal) => {
             const row = document.createElement('tr');
             const lotePesoTiquete = `${animal.numero_animal || ''}-${animal.sexo || ''}-${animal.peso || ''}Kg-${animal.numero_tiquete || ''}`;
+            const carneEnOctavo = (animal.carne_en_octavo !== null && animal.carne_en_octavo !== undefined) ? animal.carne_en_octavo : (isPorcino ? '' : '8');
             row.innerHTML = `
                 <td>${lotePesoTiquete}</td>
-                <td contenteditable="true">${animal.carne_en_octavo !== null && animal.carne_en_octavo !== undefined ? animal.carne_en_octavo : '8'}</td>
+                ${isPorcino ? '' : `<td contenteditable="true">${carneEnOctavo}</td>`}
                 <td contenteditable="true">${animal.viceras_blancas !== null && animal.viceras_blancas !== undefined ? animal.viceras_blancas : '1'}</td>
                 <td contenteditable="true">${animal.viceras_rojas !== null && animal.viceras_rojas !== undefined ? animal.viceras_rojas : '1'}</td>
                 <td contenteditable="true">${animal.cabezas !== null && animal.cabezas !== undefined ? animal.cabezas : '1'}</td>
@@ -103,17 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function toggleCarneColumn() {
-        const especieSelect = document.getElementById('especie-select');
-        const productoTable = document.getElementById('producto-table');
-        const isPorcino = especieSelect.value === 'porcino';
-        // Iterar sobre todas las filas del thead y tbody
-        for (const row of productoTable.rows) {
-            if (row.cells.length > 1) {
-                row.cells[1].style.display = isPorcino ? 'none' : '';
-            }
-        }
-    }
+function toggleCarneColumn() {
+    // Esta función ya no es necesaria con el renderizado dinámico completo
+    // Se elimina para evitar conflictos
+}
 
     const especieSelect = document.getElementById('especie-select');
     if (especieSelect) {
@@ -291,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } catch (error) {
-                // console.error('Error al obtener número incremental:', error);
+                
             }
         }
         actualizarNumeroIncremental();
@@ -299,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (marcaInput) {
             marcaInput.addEventListener('input', actualizarNumeroIncremental);
         }
-        // Actualizar también al hacer foco en el campo numero-orden
+        
         numeroOrdenInput.addEventListener('focus', actualizarNumeroIncremental);
     }
 
@@ -338,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Detectar tipo de remisión según el título h1 con clase "title"
+            // Detectar tipo de remisión según el título h1 con clase "titulo"
             let tipo_animal = 'porcino'; // valor por defecto
             const titulo = document.querySelector('h1.title');
             if (titulo) {
