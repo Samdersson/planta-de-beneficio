@@ -7,20 +7,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cedula = isset($_POST['cedula']) ? mysqli_real_escape_string($conexion, $_POST['cedula']) : '';
     $correo_electronico = isset($_POST['correo_electronico']) ? mysqli_real_escape_string($conexion, $_POST['correo_electronico']) : '';
     $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
-    $rol = isset($_POST['rol_id']) ? intval($_POST['rol_id']) : 0;
+    $rol_id = isset($_POST['rol_id']) ? intval($_POST['rol_id']) : 0;
     $estado = isset($_POST['activo']) ? 1 : 0;
     $isUpdate = isset($_POST['isUpdate']) ? intval($_POST['isUpdate']) : 0;
 
-    if (empty($nombre) || empty($cedula) || empty($correo_electronico) || empty($contrasena) || $rol <= 0) {
+    if (empty($nombre) || empty($cedula) || empty($correo_electronico) || empty($contrasena) || $rol_id <= 0) {
         echo "❌ Error: Todos los campos son obligatorios y deben ser válidos.";
         exit;
     }
 
+    // Obtener el nombre del rol desde la base de datos
+    $rol = '';
+    $rol_query = "SELECT nombre FROM rol WHERE id = ?";
+    $rol_stmt = mysqli_prepare($conexion, $rol_query);
+    if ($rol_stmt) {
+        mysqli_stmt_bind_param($rol_stmt, "i", $rol_id);
+        mysqli_stmt_execute($rol_stmt);
+        mysqli_stmt_bind_result($rol_stmt, $rol_nombre);
+        if (mysqli_stmt_fetch($rol_stmt)) {
+            $rol = $rol_nombre;
+        }
+        mysqli_stmt_close($rol_stmt);
+    }
+    if (empty($rol)) {
+        echo "❌ Error: Rol inválido.";
+        exit;
+    }
+
     // Hashear la contraseña
-    // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-    // // $contrasena = contraseña
-    //si la vamos a implementar conenvio de correos para restablecer contraseña se puede activar 
-    // o para aumentar la seguridad de ataques sql inyection
+    $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
     if ($isUpdate === 1 && $id > 0) {
         $sql = "UPDATE usuario SET nombre = ?, cedula = ?, correo_electronico = ?, contraseña = ?, rol = ?, estado = ? WHERE id = ?";
@@ -29,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);
             exit;
         }
-        mysqli_stmt_bind_param($stmt, "ssssiii", $nombre, $cedula, $correo_electronico, $contrasena, $rol, $estado, $id);
+        mysqli_stmt_bind_param($stmt, "ssssssi", $nombre, $cedula, $correo_electronico, $contrasena, $rol, $estado, $id);
 
         if (mysqli_stmt_execute($stmt)) {
             echo "✅ Usuario actualizado exitosamente.";
@@ -47,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);
             exit;
         }
-        mysqli_stmt_bind_param($stmt, "ssssii", $nombre, $cedula, $correo_electronico, $contrasena, $rol, $estado);
+        mysqli_stmt_bind_param($stmt, "sssssi", $nombre, $cedula, $correo_electronico, $contrasena, $rol, $estado);
 
         if (mysqli_stmt_execute($stmt)) {
             echo "✅ Usuario creado exitosamente.";

@@ -134,6 +134,19 @@ function toggleCarneColumn() {
         especieSelect.addEventListener('change', toggleCarneColumn);
         // Ejecutar al cargar la página para ajustar según el valor inicial
         toggleCarneColumn();
+
+        // New code to update codigo invima based on species selection
+        const codigoInvimaCell = document.getElementById('codigo-invima');
+        especieSelect.addEventListener('change', () => {
+            if (!codigoInvimaCell) return;
+            if (especieSelect.value === 'porcino') {
+                codigoInvimaCell.textContent = '150 ESPECIE PORCINA';
+            } else if (especieSelect.value === 'bovino') {
+                codigoInvimaCell.textContent = '567 B ESPECIE BOVINA';
+            } else {
+                codigoInvimaCell.textContent = '';
+            }
+        });
     }
 
     async function fetchDecomisosPorAnimales(animales) {
