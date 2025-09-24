@@ -49,6 +49,26 @@ if ($numero_guia) {
     $stmt->close();
 }
 
+// Validar que no exista la combinación de numero_animal y numero_guia
+$validacion_sql = $conexion->prepare("
+    SELECT numero_animal, numero_guia FROM animal WHERE numero_animal = ? AND numero_guia = ?
+");
+$validacion_sql->bind_param("ss", $numero_animal, $numero_guia);
+$validacion_sql->execute();
+$resultado_validacion = $validacion_sql->get_result();
+
+if ($resultado_validacion->num_rows > 0) {
+    $fila_existente = $resultado_validacion->fetch_assoc();
+    echo json_encode(['error' => 'Ya existe un animal con el número ' . $numero_animal . ' en la guía ' . $numero_guia . '. No se pueden duplicar números dentro de la misma guía.']);
+    $validacion_sql->close();
+    $conexion->close();
+    exit;
+}
+$validacion_sql->close();
+
+// Debug: mostrar datos que se van a insertar
+error_log("Intentando insertar: numero_animal=$numero_animal, numero_guia=$numero_guia, especie=$especie");
+
 // mostrar datos recibidos
 // error_log("Datos recibidos: numero_animal=$numero_animal, sexo=$sexo, peso=$peso, numero_tiquete=$numero_tiquete, fecha_guia=$fecha_guia, fecha_sacrificio=$fecha_sacrificio, numero_corral=$numero_corral, especie=$especie, hora_caida=$hora_caida, numero_guia=$numero_guia, id_guia_transporte=$id_guia_transporte, cedula_usuario=$cedula_usuario, marca=$marca");
 
@@ -60,7 +80,7 @@ $sql = $conexion->prepare("
 
 // Vincular parámetros (evita inyección SQL)
 $sql->bind_param(
-    "ssdsssssssiss", 
+    "ssdsssssssiss",
     $numero_animal, $sexo, $peso, $numero_tiquete, $fecha_guia, $fecha_sacrificio, $numero_corral, $especie, $hora_caida, $numero_guia, $cedula_usuario, $marca, $estado
 );
 

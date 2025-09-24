@@ -6,6 +6,7 @@
     <title>Página Principal</title>
     <link rel="stylesheet" href="Styles.css" />
     <script src="Script/auth_middleware.js" defer></script>
+    <script src="Script/token.js" defer></script>
     <style>
         body{
             background: url('imagenes/Bovino.png') no-repeat center center fixed;
@@ -31,26 +32,6 @@
         
     </div>
 
-    <script>
-        // Proteger la página al cargar
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!requireAuth()) {
-                // La función requireAuth ya redirige si no está autenticado
-                return;
-            }
-
-            // Mostrar información del usuario si está disponible
-            const userData = getCurrentUser();
-            if (userData) {
-                console.log('Usuario autenticado:', userData.name);
-            }
-        });
-
-        // Función para logout
-        function logout() {
-            sessionStorage.removeItem('auth_token');
-            window.location.href = 'inicio.html';
-        }
-    </script>
+   
 </body>
 </html>
