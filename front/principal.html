@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Página Principal</title>
     <link rel="stylesheet" href="Styles.css" />
+    <script src="Script/auth_middleware.js" defer></script>
     <style>
         body{
             background: url('imagenes/Bovino.png') no-repeat center center fixed;
@@ -26,8 +27,30 @@
         <button class="principal-btn" onclick="window.location.href='Reportes.html'">REPORTES </button>
         <button class="principal-btn" onclick="window.location.href='seleccionar_tipo.html'">CREAR ACTOR</button>
         <!-- <button class="principal-btn" onclick="window.location.href='ver_guias.html'">VER GUIAS</button> -->
-        <button class="principal-btn" onclick="window.location.href='inicio.html'" >SALIR</button>
+        <button class="principal-btn" onclick="logout()" >SALIR</button>
         
     </div>
+
+    <script>
+        // Proteger la página al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!requireAuth()) {
+                // La función requireAuth ya redirige si no está autenticado
+                return;
+            }
+
+            // Mostrar información del usuario si está disponible
+            const userData = getCurrentUser();
+            if (userData) {
+                console.log('Usuario autenticado:', userData.name);
+            }
+        });
+
+        // Función para logout
+        function logout() {
+            sessionStorage.removeItem('auth_token');
+            window.location.href = 'inicio.html';
+        }
+    </script>
 </body>
 </html>

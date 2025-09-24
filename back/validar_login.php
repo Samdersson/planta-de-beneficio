@@ -24,10 +24,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Verificar contraseña
         if ($row['contraseña'] === $password) {
+            // Generar token JWT simple
+            $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+            $payload = json_encode([
+                'user_id' => $row['cedula'],
+                'role' => $row['rol'],
+                'name' => $row['nombre'],
+                'exp' => time() + (60 * 60) // 1 hora de expiración
+            ]);
+
+            $token = base64_encode($header) . "." . base64_encode($payload) . "." . base64_encode(hash_hmac('sha256', $header . "." . $payload, 'tu_clave_secreta_123'));
+
+            // Guardar datos en sesión
             $_SESSION['nombre'] = $row['nombre'];
             $_SESSION['cedula'] = $row['cedula'];
             $_SESSION['rol'] = $row['rol'];
-            header("Location: ../front/principal.html");
+            $_SESSION['token'] = $token;
+
+            // Redirigir con el token
+            header("Location: ../front/principal.html?token=" . $token);
             exit();
         } else {
             echo "<script>
