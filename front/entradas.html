@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
+   <link rel="icon" type="image/png" href="imagenes/icono.png" sizes="90x120"/>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ingresar Animales</title>
     <link rel="stylesheet" href="Styles.css" />
     <script src="Script/auth_middleware.js" defer></script>
-    
+    <script src="Script/token.js" defer></script>
     <style>
         body{
             background: url('imagenes/Bovino.png') no-repeat center center fixed;
@@ -65,7 +66,7 @@
             </div>
         </form>
     </div>
-    <!-- <script src="Script/listar_productor.js"></script> -->
+    <script src="Script/listar_productor.js"></script>
     <script src="Script/validar_guia.js"></script>
     <script>
         document.getElementById('entradaForm').addEventListener('submit', manejarEnvioFormulario);

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('conexion.php');
+include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);

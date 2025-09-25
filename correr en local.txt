@@ -38,13 +38,12 @@ make pdf =>
 
 
 
-   ✅ validaciones de campos
-    proteccion de URL con token
-    restriccion de guia de transporte
-    tabla conductor y vehiculo en un mismo formulario
+    ✅ validaciones de campos
+    ✅ proteccion de URL con token
+    ✅ restriccion de guia de transporte
 
 
-ocultar URL
+    ❌ ocultar URL
 
 cambiar buscar por guia a buscar por marca ya que se despacha marca por marca
 solo pueden aparacer en el sistema los aniales que no se han generado en guia de despacho

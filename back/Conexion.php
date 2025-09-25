@@ -1,31 +1,34 @@
 <?php
+// // Configuración de la base de datos remota en Railway
+// $dbHost = 'switchback.proxy.rlwy.net';
+// $dbPort = 27915;
+// $dbUser = 'root';
+// $dbPassword = 'MGKEJyKrDHtVcNAAlGXSWqeZeFuQZOyU'; // Reemplaza con el valor real
+// $dbName = 'railway';
+
+// // Crear la conexión
+// $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+
+// // Verificar la conexión
+// if ($conn->connect_error) {
+//   die("Error de conexión: " . $conn->connect_error);
+// }
+// echo "Conexión exitosa a la base de datos remota en Railway";
+
+// ?>
+
+<?php
+
+$server = "localhost";
+$username = "root";
+$password = "";
+$database = "prueba_software";
 
 
-$host = "mysql.railway.internal";  // MYSQLHOST
-$usuario = "root";                            // MYSQLUSER
-$password = "AvkTYSuHHqTkdIdQtZttlXgRkXUQYrkx";             // MYSQLPASSWORD
-$base_datos = "railway";                      // MYSQLDATABASE
-$puerto = 3306;                               // MYSQLPORT
 
-$conexion = mysqli_connect($host, $usuario, $password, $base_datos, $puerto);
+$conexion = mysqli_connect($server, $username, $password, $database);
 
 if (!$conexion) {
-    die("Error de conexión: " . mysqli_connect_error());
+    die("Conexión fallida: " . mysqli_connect_error());
 }
-echo "✅ Conexión exitosa a Railway MySQL";
-
-
-
-// $server = "localhost";
-// $username = "root";
-// $password = "";
-// $database = "prueba_software";
-
-
-
-// $conexion = mysqli_connect($server, $username, $password, $database);
-
-// if (!$conexion) {
-//     die("Conexión fallida: " . mysqli_connect_error());
-// } 
 ?>
