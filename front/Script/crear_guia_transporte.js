@@ -137,16 +137,34 @@ function toggleCarneColumn() {
 
         // New code to update codigo invima based on species selection
         const codigoInvimaCell = document.getElementById('codigo-invima');
+        const tituloRemision = document.getElementById('titulo-remision');
         especieSelect.addEventListener('change', () => {
             if (!codigoInvimaCell) return;
             if (especieSelect.value === 'porcino') {
                 codigoInvimaCell.textContent = '150 ESPECIE PORCINA';
+                if (tituloRemision) {
+                    tituloRemision.textContent = 'REMISIONES DE PORCINOS';
+                }
             } else if (especieSelect.value === 'bovino') {
                 codigoInvimaCell.textContent = '567 B ESPECIE BOVINA';
+                if (tituloRemision) {
+                    tituloRemision.textContent = 'REMISIONES DE BOVINOS';
+                }
             } else {
                 codigoInvimaCell.textContent = '';
+                if (tituloRemision) {
+                    tituloRemision.textContent = 'REMISIONES';
+                }
             }
+            // Actualizar preview del número de remisión
+            actualizarNumeroIncremental();
         });
+
+        // Inicializar título y código INVIMA al cargar si hay valor inicial
+        if (especieSelect.value) {
+            const changeEvent = new Event('change');
+            especieSelect.dispatchEvent(changeEvent);
+        }
     }
 
     async function fetchDecomisosPorAnimales(animales) {
@@ -307,8 +325,12 @@ function toggleCarneColumn() {
     const numeroOrdenInput = document.getElementById('numero-orden');
     if (numeroOrdenInput) {
         async function actualizarNumeroIncremental() {
-            const marca = document.getElementById('marca-input').value || '';
-            const tipo_animal = marca === '1' ? 'bovino' : 'porcino';
+            const especieSelect = document.getElementById('especie-select');
+            const tipo_animal = especieSelect ? especieSelect.value : '';
+            if (!tipo_animal) {
+                numeroOrdenInput.value = '';
+                return;
+            }
             try {
                 const response = await fetch(`../back/generar_numero_remision.php?tipo_animal=${tipo_animal}`);
                 if (response.ok) {
@@ -318,12 +340,19 @@ function toggleCarneColumn() {
                     }
                 }
             } catch (error) {
-                
+                console.error('Error al actualizar número incremental:', error);
+                numeroOrdenInput.value = '';
             }
         }
-        actualizarNumeroIncremental();
+
+        // Inicializar si hay especie seleccionada
+        if (especieSelect && especieSelect.value) {
+            actualizarNumeroIncremental();
+        }
+
         const marcaInput = document.getElementById('marca-input');
         if (marcaInput) {
+            // Mantener listener para marca si es necesario, pero priorizar especie
             marcaInput.addEventListener('input', actualizarNumeroIncremental);
         }
         
@@ -365,15 +394,11 @@ function toggleCarneColumn() {
                 }
             }
 
-            // Detectar tipo de remisión según el título h1 con clase "titulo"
-            let tipo_animal = 'porcino'; // valor por defecto
-            const titulo = document.querySelector('h1.title');
-            if (titulo) {
-                if (titulo.textContent.trim() === 'REMISIONES DE BOVINOS') {
-                    tipo_animal = 'bovino';
-                } else if (titulo.textContent.trim() === 'REMISIONES DE PORCINOS') {
-                    tipo_animal = 'porcino';
-                }
+            const especieSelect = document.getElementById('especie-select');
+            const tipo_animal = especieSelect ? especieSelect.value : '';
+            if (!tipo_animal) {
+                alert('Por favor, seleccione la especie antes de generar la guía.');
+                return;
             }
 
             const datosRemision = {

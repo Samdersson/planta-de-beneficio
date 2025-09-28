@@ -1,0 +1,64 @@
+http://localhost/planta_de_beneficio/front/inicio.html
+
+// para correr la app debe tener iniciado el xampp en apache & mysql
+
+// cargar commit a git
+// git init
+// git add .
+// git commit -m
+// git push origin main
+
+REVERSAR commit
+// git reset --hard HEAD~1  #elimina commit
+
+git reset --hard HEAD
+
+
+
+
+vistas en sql
+se crea a partir de una consukta
+create view [nombre] consulta;
+
+monitor samsung odisey
+jspdf
+
+make pdf => 
+
+
+
+    ✅ validaciones de campos
+    ✅ proteccion de URL con token
+    ✅ restriccion de guia de transporte
+
+
+    ❌ ocultar URL
+
+cambiar buscar por guia a buscar por marca ya que se despacha marca por marca
+solo pueden aparacer en el sistema los aniales que no se han generado en guia de despacho
+IMPRIMIR INFORMACION DEL animales
+
+resoonsable de la planta
+
+modificar o aliminar usuario
+
+
+✅control de ingresos de animales a la planta qu es toda la tabla de animal
+
+
+reportes que considero.
+✔ decomisos por productor y que muestre todos los deomisos y el productor con mas cantidad de decomisos
+✔ cantidad de animales por fecha y grafica con las fechas y cantidades por rango de fechas y clientes  por especie y sexo
+✔ clientes con mas ingreso de animales o on mas compra de producto 
+✔ grafica con mas cantidad de animales por productor y tipo de animal
+✔ GRAFICA DE DECOMIOSOS POR MES
+
+❌ grafica de pastel PRODUCTORES Y clientes
+❌ GRAFICA BARRAS DE VENTAS A CLIENTES POR MES
+❌ GRAFICA DE BARRAS VENTAS TOTALES
+
+CONSULTAR VALORES EN BASE DE DATOS CON PHP 
+
+
+https://www.chartjs.org/
+
