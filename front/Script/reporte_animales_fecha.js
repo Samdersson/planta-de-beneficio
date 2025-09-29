@@ -55,12 +55,18 @@ function llenarTabla(detalles) {
     });
 }
 
+let chartInstance = null;
+
 function dibujarGrafico(cantidades) {
     const ctx = document.getElementById('animalesChart').getContext('2d');
     const labels = cantidades.map(c => c.fecha);
     const data = cantidades.map(c => parseInt(c.cantidad));
+// nuevo grafico
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
 
-    new Chart(ctx, {
+    chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
