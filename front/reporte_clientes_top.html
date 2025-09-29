@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="imagenes/icono.png" sizes="90x120"/>
+    <title>Reporte: Clientes Top</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <script src="Script/auth_middleware.js" defer></script>
+    <script src="Script/token.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{
+            background: url('imagenes/porcino.png') no-repeat center top fixed;
+            background-size: 50%;
+            background-position: left 700px top 0px;
+            position: relative;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <button class="close-btn" onclick="window.history.back()">⬅</button>
+    <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
+    <div class="container">
+        <h1>Reporte de Clientes con Más Ingresos</h1>
+        <div class="chart-container">
+            <canvas id="clientesChart"></canvas>
+        </div>
+        <table id="clientesTable">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Cantidad de Animales</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="Script/reporte_clientes_top.js"></script>
+</body>
+</html>
