@@ -119,7 +119,7 @@ if (buscarGuiaBtn) {
         ocultarMarcaCliente();
 
         if (!numeroGuia) {
-            alert('Por favor, ingrese un número de guía.');
+            showModal('Por favor, ingrese un número de guía.');
             return;
         }
 
@@ -132,7 +132,7 @@ if (buscarGuiaBtn) {
             const guiaData = await guiaResponse.json();
 
             if (guiaData.error) {
-                alert(guiaData.error);
+                showModal(guiaData.error);
                 return;
             }
 
@@ -146,12 +146,12 @@ if (buscarGuiaBtn) {
             const animalesData = await animalesResponse.json();
 
             if (animalesData.error) {
-                alert(animalesData.error);
+                showModal(animalesData.error);
                 return;
             }
 
             if (!animalesData || animalesData.length === 0) {
-                alert('No se encontraron animales para esta guía.');
+                showModal('No se encontraron animales para esta guía.');
                 return;
             }
 

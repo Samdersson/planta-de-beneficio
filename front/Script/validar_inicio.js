@@ -3,7 +3,7 @@ function validarLogin() {
     const password = document.getElementById('password').value.trim();
 
     if (usuario === '' || password === '') {
-        alert('Por favor, complete todos los campos.');
+        showModal('Por favor, complete todos los campos.');
         return false;
     }
 

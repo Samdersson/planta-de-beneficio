@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let animalesSeleccionados = [];
     let animalesDetallados = [];
 
+    
     function renderAnimalesAgregados() {
         animalesAgregadosTableBody.innerHTML = '';
         if (animalesSeleccionados.length === 0) {
@@ -313,7 +314,7 @@ function toggleCarneColumn() {
         eliminarAnimalBtn.addEventListener('click', () => {
             const numeroAnimal = listaAnimalesSelect.value;
             if (!numeroAnimal) {
-                alert('Por favor, seleccione un animal para eliminar.');
+                showModal('Por favor, seleccione un animal para eliminar.');
                 return;
             }
             eliminarAnimal(numeroAnimal);
@@ -397,7 +398,7 @@ function toggleCarneColumn() {
             const especieSelect = document.getElementById('especie-select');
             const tipo_animal = especieSelect ? especieSelect.value : '';
             if (!tipo_animal) {
-                alert('Por favor, seleccione la especie antes de generar la guía.');
+                showModal('Por favor, seleccione la especie antes de generar la guía.');
                 return;
             }
 
@@ -426,7 +427,7 @@ function toggleCarneColumn() {
                 const result = await response.json();
 
                 if (result.success) {
-                    alert('Remisión guardada con número: ' + result.numero_remision);
+                    showModal('Remisión guardada con número: ' + result.numero_remision);
                     if (numeroGuiaSpan) {
                         numeroGuiaSpan.textContent = result.numero_remision;
                     }
@@ -434,11 +435,11 @@ function toggleCarneColumn() {
                         numeroOrdenInput.value = result.numero_remision;
                     }
                 } else {
-                    alert('Error al guardar la remisión: ' + (result.error || 'Error desconocido'));
+                    showModal('Error al guardar la remisión: ' + (result.error || 'Error desconocido'));
                 }
             } catch (error) {
                 console.error('Error al guardar la remisión:', error);
-                alert('Error al guardar la remisión. Por favor intente nuevamente.');
+                showModal('Error al guardar la remisión. Por favor intente nuevamente.');
             }
         });
     }
@@ -450,7 +451,7 @@ function toggleCarneColumn() {
             const numeroGuia = numeroGuiaInput.value.trim();
 
             if (!numeroGuia) {
-                alert('Por favor ingrese un número de guía.');
+                showModal('Por favor ingrese un número de guía.');
                 return;
             }
 
@@ -462,7 +463,7 @@ function toggleCarneColumn() {
                 const data = await response.json();
 
                 if (data.error) {
-                    alert(data.error);
+                    showModal(data.error);
                     return;
                 }
 
@@ -492,7 +493,7 @@ function toggleCarneColumn() {
                 }
             } catch (error) {
                 console.error('Error al buscar la guía:', error);
-                alert('Error al buscar la guía. Por favor intente nuevamente.');
+                showModal('Error al buscar la guía. Por favor intente nuevamente.');
             }
         });
     }

@@ -384,6 +384,19 @@
 
     </div>
     
+<script>
+  // Cargar dinámicamente el contenido del modal desde modal.html
+  fetch('modal.html')
+    .then(response => response.text())
+    .then(html => {
+      // Insertar el contenido del modal al final del body
+      document.body.insertAdjacentHTML('beforeend', html);
+    })
+    .catch(err => console.error('Error cargando modal:', err));
+</script>
+
+<script src="Script/modal.js"></script>
+
 </body>
 </html>
     

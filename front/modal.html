@@ -1,0 +1,53 @@
+<!-- Modal Reutilizable -->
+<div id="customModal" class="modal-hidden">
+  <div class="modal-content">
+    <div id="modalMessage" class="modal-message"></div>
+    <button id="modalCloseBtn" class="modal-close-btn">Aceptar</button>
+  </div>
+</div>
+
+<style>
+  /* Estilos para el modal */
+  .modal-hidden {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: #222;
+    color: #eee;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.7);
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .modal-message {
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .modal-close-btn {
+    background-color: #8ab4f8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #222;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-close-btn:hover {
+    background-color: #5a7de0;
+  }
+</style>

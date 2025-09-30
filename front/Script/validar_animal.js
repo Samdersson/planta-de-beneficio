@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Filas actuales:', filasActuales);
 
             if (isNaN(cantidadMax) || cantidadMax <= 0) {
-                alert('Por favor, ingresa una cantidad válida de animales en guía.');
+                showModal('Por favor, ingresa una cantidad válida de animales en guía.');
                 return;
             }
 
             if (editIndex === -1 && filasActuales >= cantidadMax) {
-                alert('No se pueden agregar más animales que la cantidad indicada en la guía.');
+                showModal('No se pueden agregar más animales que la cantidad indicada en la guía.');
                 return;
             }
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Validar campos obligatorios y que noAnimal no sea solo espacios
             if (!destino || !noAnimal || !noAnimal.trim() || !clienteNombre || !clienteCedula || !sexo || !kilos || !noTiquete || !fechaIngreso || !noCorral) {
-                alert('Por favor, completa todos los campos antes de guardar.');
+                showModal('Por favor, completa todos los campos antes de guardar.');
                 return;
             }
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (editIndex !== i) { // Ignorar la fila que se está editando
                     const numeroAnimalExistente = filasActualesValidacion[i].cells[2].textContent.trim();
                     if (numeroAnimalExistente === noAnimal) {
-                        alert(`El número de animal ${noAnimal} ya existe en esta guía. Por favor, ingrese un número diferente.`);
+                        showModal(`El número de animal ${noAnimal} ya existe en esta guía. Por favor, ingrese un número diferente.`);
                         return;
                     }
                 }
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const numeroEditar = prompt('Ingrese el número del animal a editar:');
         const index = parseInt(numeroEditar) - 1;
         if (isNaN(index) || index < 0 || index >= tbody.rows.length) {
-            alert('Número de animal inválido.');
+            showModal('Número de animal inválido.');
             return;
         }
 
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Botón GUARDAR LISTA clickeado'); // Verificación de clic
         const filas = tbody.rows;
         if (filas.length === 0) {
-            alert('No hay datos para guardar.');
+            showModal('No hay datos para guardar.');
             return;
         }
 
@@ -248,7 +248,7 @@ data.append('fecha_sacrificio', fechaIngresoFormatted); // fecha-ingreso-input
                     console.error('Error al guardar fila:', error);
                 }
             }
-            alert(`¡Datos Guardados con Exito!`);
+            showModal(`¡Datos Guardados con Exito!`);
 
             // Limpiar todos los campos después de guardar la lista
             document.querySelectorAll('.small-input').forEach(input => input.value = '');

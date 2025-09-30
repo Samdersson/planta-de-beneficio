@@ -16,11 +16,11 @@ const form = document.getElementById('usuarioForm');
                         rolSelect.appendChild(option);
                     });
                 } else {
-                    alert('Error al cargar roles');
+                    showModal('Error al cargar roles');
                 }
             })
             .catch(error => {
-                alert('Error en la comunicación con el servidor al cargar roles: ' + error);
+                showModal('Error en la comunicación con el servidor al cargar roles: ' + error);
             });
 
 form.addEventListener('submit', function(event) {
@@ -28,7 +28,7 @@ form.addEventListener('submit', function(event) {
 
     // Validar que se haya seleccionado un rol
     if (!rolSelect.value) {
-        alert('Por favor, seleccione un rol válido.');
+        showModal('Por favor, seleccione un rol válido.');
         return;
     }
 
@@ -44,18 +44,18 @@ form.addEventListener('submit', function(event) {
     .then(response => response.text())
     .then(text => {
         if (text.includes('✅')) {
-            alert(isUpdateInput.value === '1' ? 'Usuario actualizado con éxito' : 'Usuario creado con éxito');
+            showModal(isUpdateInput.value === '1' ? 'Usuario actualizado con éxito' : 'Usuario creado con éxito');
             form.reset();
             isUpdateInput.value = '0';
             idInput.value = '0';
             btnGuardar.textContent = 'Guardar Usuario';
         } else if (text.includes('❌')) {
-            alert('Error: ' + text.replace('❌', '').trim());
+            showModal('Error: ' + text.replace('❌', '').trim());
         } else {
-            alert('Respuesta inesperada del servidor: ' + text);
+            showModal('Respuesta inesperada del servidor: ' + text);
         }
     })
     .catch(error => {
-        alert('Error en la comunicación con el servidor: ' + error);
+        showModal('Error en la comunicación con el servidor: ' + error);
     });
 });

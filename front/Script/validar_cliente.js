@@ -7,7 +7,7 @@ async function manejarEnvioFormulario(event) {
     const destinoInput = document.getElementById("destino");
 
     if (!marcaInput.value || !nombreInput.value || !destinoInput.value) {
-        alert("Todos los campos son obligatorios.");
+        showModal("Todos los campos son obligatorios.");
         return;
     }
 
@@ -26,13 +26,13 @@ async function manejarEnvioFormulario(event) {
         const result = await response.json();
 
         if (result.success) {
-            alert(result.success);
+            showModal(result.success);
             // Redirigir a otra página si es necesario
         } else {
-            alert(result.error || 'Error desconocido al registrar el cliente');
+            showModal(result.error || 'Error desconocido al registrar el cliente');
         }
     } catch (error) {
-        alert('Error al enviar los datos: ' + error.message);
+        showModal('Error al enviar los datos: ' + error.message);
     }
 }
 

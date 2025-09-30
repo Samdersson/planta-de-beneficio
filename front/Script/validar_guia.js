@@ -37,7 +37,7 @@ function validarGuiaYRedirigir(guia) {
     } else if (regexAlfanumericoGuion.test(guia)) {
         return "Bovinos.html";
     } else {
-        alert("El formato de la guía no es válido. Debe ser numérico o alfanumérico con guion.");
+        showModal("El formato de la guía no es válido. Debe ser numérico o alfanumérico con guion.");
         return null;
     }
 }
@@ -45,7 +45,7 @@ function validarGuiaYRedirigir(guia) {
 function validarCantidad(cantidad) {
     const cantidadNum = Number(cantidad);
     if (!Number.isInteger(cantidadNum) || cantidadNum <= 0) {
-        alert("La cantidad debe ser un número entero positivo.");
+        showModal("La cantidad debe ser un número entero positivo.");
         return false;
     }
     return true;
@@ -54,13 +54,13 @@ function validarCantidad(cantidad) {
 function validarFecha(fecha) {
     const regexFecha = /^\d{4}-\d{2}-\d{2}$/;
     if (!regexFecha.test(fecha)) {
-        alert("La fecha debe tener el formato YYYY-MM-DD.");
+        showModal("La fecha debe tener el formato YYYY-MM-DD.");
         return false;
     }
-    
+
     const dateObj = new Date(fecha);
     if (isNaN(dateObj.getTime())) {
-        alert("La fecha no es válida.");
+        showModal("La fecha no es válida.");
         return false;
     }
     return true;
@@ -77,7 +77,7 @@ async function manejarEnvioFormulario(event) {
     const btnRegistrar = document.querySelector('.btn-registrar');
 
     if (!nombreSelect || !cedulaInput || !guiaInput || !cantidadInput || !fechaInput) {
-        alert("Faltan campos obligatorios en el formulario.");
+        showModal("Faltan campos obligatorios en el formulario.");
         return;
     }
 
@@ -88,7 +88,7 @@ async function manejarEnvioFormulario(event) {
     const fecha_ica = fechaInput.value.trim();
 
     if (!cedula) {
-        alert("La cédula del productor es obligatoria.");
+        showModal("La cédula del productor es obligatoria.");
         return;
     }
 
@@ -121,7 +121,7 @@ async function manejarEnvioFormulario(event) {
         const result = await response.json();
 
         if (result.success) {
-            alert(result.success);
+            showModal(result.success);
             if (esModoEdicion) {
                 // Después de editar, volver a la lista de guías
                 window.location.href = 'ver_guias.html';
@@ -138,10 +138,10 @@ async function manejarEnvioFormulario(event) {
                 window.location.href = destino;
             }
         } else {
-            alert(result.error || 'Error desconocido al procesar la guía');
+            showModal(result.error || 'Error desconocido al procesar la guía');
         }
     } catch (error) {
-        alert('Error al enviar los datos: ' + error.message);
+        showModal('Error al enviar los datos: ' + error.message);
     }
 }
 

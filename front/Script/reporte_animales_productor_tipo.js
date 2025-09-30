@@ -7,7 +7,7 @@ function cargarDatos() {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                alert('Error: ' + data.error);
+                showModal('Error: ' + data.error);
                 return;
             }
             llenarTabla(data);
@@ -15,7 +15,7 @@ function cargarDatos() {
         })
         .catch(error => {
             console.error('Error al cargar datos:', error);
-            alert('Error al cargar datos');
+            showModal('Error al cargar datos');
         });
 }
 
