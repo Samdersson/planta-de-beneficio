@@ -8,16 +8,46 @@ header('Content-Type: application/json');
 try {
     include_once 'Conexion.php';
 
+    $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : '';
+    $fecha_fin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '';
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    if ($fecha_inicio) {
+        $where[] = "a.fecha_sacrificio >= ?";
+        $params[] = $fecha_inicio;
+        $types .= 's';
+    }
+    if ($fecha_fin) {
+        $where[] = "a.fecha_sacrificio <= ?";
+        $params[] = $fecha_fin;
+        $types .= 's';
+    }
+
+    $where_clause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+
     // Top clientes por ingresos de animales
     $query_ingresos = "
         SELECT c.nombre as cliente, COUNT(a.numero_animal) as cantidad
         FROM animal a
         JOIN cliente c ON a.marca = c.marca
+        $where_clause
         GROUP BY c.marca, c.nombre
         ORDER BY cantidad DESC
         LIMIT 10
     ";
-    $result_ingresos = mysqli_query($conexion, $query_ingresos);
+    $stmt = mysqli_prepare($conexion, $query_ingresos);
+    if ($stmt) {
+        if (!empty($params)) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+        }
+        mysqli_stmt_execute($stmt);
+        $result_ingresos = mysqli_stmt_get_result($stmt);
+    } else {
+        throw new Exception("Error en preparación de consulta: " . mysqli_error($conexion));
+    }
     if (!$result_ingresos) {
         throw new Exception("Error en consulta de ingresos: " . mysqli_error($conexion));
     }

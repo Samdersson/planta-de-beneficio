@@ -1,9 +1,26 @@
 document.addEventListener('DOMContentLoaded', function() {
     cargarDatos();
+    const btn = document.getElementById('filtrarBtn');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            console.log('Filtrar clicked');
+            cargarDatos();
+        });
+    } else {
+        console.error('Button filtrarBtn not found');
+    }
 });
 
 function cargarDatos() {
-    fetch('../back/listar_animales_por_productor_tipo.php')
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    console.log('Fechas:', fechaInicio, fechaFin);
+    const url = new URL('/planta_de_beneficio/back/listar_animales_por_productor_tipo.php', window.location.origin);
+    if (fechaInicio) url.searchParams.append('fecha_inicio', fechaInicio);
+    if (fechaFin) url.searchParams.append('fecha_fin', fechaFin);
+    console.log('URL:', url.toString());
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -32,11 +49,24 @@ function llenarTabla(data) {
     });
 }
 
+let chartInstance = null;
+
 function dibujarGrafico(data) {
     const ctx = document.getElementById('animalesTipoChart').getContext('2d');
+
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
+
     // Group by productor
     const productores = [...new Set(data.map(d => d.productor))];
     const especies = [...new Set(data.map(d => d.especie))];
+
+    
+    const colorMap = {
+        'porcino': '#FF69B4', 
+        'bovino': '#00a2ffff'
+    };
 
     const datasets = especies.map(especie => {
         return {
@@ -45,13 +75,13 @@ function dibujarGrafico(data) {
                 const item = data.find(d => d.productor === prod && d.especie === especie);
                 return item ? parseInt(item.cantidad) : 0;
             }),
-            backgroundColor: getRandomColor(),
+            backgroundColor: colorMap[especie.toLowerCase()] || getRandomColor(),
             borderColor: '#000',
             borderWidth: 1
         };
     });
 
-    new Chart(ctx, {
+    chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: productores,

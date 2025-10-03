@@ -52,6 +52,17 @@
             font-weight: bold;
             color: #007bff;
         }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filters input, .filters button {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +70,11 @@
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
     <div class="container">
         <h1>Reporte de Decomisos por Productor</h1>
+        <div class="filters">
+            <input type="date" id="fecha_inicio" placeholder="Fecha Inicio">
+            <input type="date" id="fecha_fin" placeholder="Fecha Fin">
+            <button onclick="cargarDatos()">Filtrar</button>
+        </div>
         <div id="max-productor" class="max-productor" style="margin-bottom: 10px;"></div>
         <div class="chart-container">
             <canvas id="decomisosChart"></canvas>

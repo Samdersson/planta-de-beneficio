@@ -3,7 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function cargarDatos() {
-    fetch('../back/listar_decomisos_por_productor.php')
+    const fechaInicio = document.getElementById('fecha_inicio').value;
+    const fechaFin = document.getElementById('fecha_fin').value;
+
+    const url = `../back/listar_decomisos_por_productor.php?fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -42,13 +47,22 @@ function llenarTabla(decomisos) {
     });
 }
 
+let chartInstance = null;
+
 function dibujarGrafico(conteo) {
-    const ctx = document.getElementById('decomisosChart').getContext('2d');
+    const canvas = document.getElementById('decomisosChart');
+    if (chartInstance) {
+        chartInstance.destroy();
+        // Clear the canvas context to avoid reuse issues
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    const ctx = canvas.getContext('2d');
     const labels = conteo.map(c => c.productor);
     const data = conteo.map(c => parseInt(c.cantidad));
     const backgroundColors = conteo.map(c => c.productor === document.getElementById('max-productor').textContent.split(': ')[1] ? '#007bff' : '#cccccc');
 
-    new Chart(ctx, {
+    chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,

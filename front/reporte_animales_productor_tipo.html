@@ -54,7 +54,12 @@
     <button class="close-btn" onclick="window.history.back()">⬅</button>
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
     <div class="container">
-        <h1>Reporte de Animales por Productor y Tipo</h1>
+        <h1>Reporte de Animales por Productor y Especie</h1>
+        <div>
+            Fecha Inicio: <input type="date" id="fechaInicio" />
+            Fecha Fin: <input type="date" id="fechaFin" />
+            <button id="filtrarBtn" type="button">Filtrar</button>
+        </div>
         <div class="chart-container">
             <canvas id="animalesTipoChart"></canvas>
         </div>

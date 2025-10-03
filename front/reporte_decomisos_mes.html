@@ -55,6 +55,13 @@
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
     <div class="container">
         <h1>Reporte de Decomisos por Mes</h1>
+        <div>
+            <label for="fechaInicio">Fecha Inicio:</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" />
+            <label for="fechaFin">Fecha Fin:</label>
+            <input type="date" id="fechaFin" name="fechaFin" />
+            <button id="filtrarBtn" type="button">Filtrar</button>
+        </div>
         <div class="chart-container">
             <canvas id="decomisosMesChart"></canvas>
         </div>

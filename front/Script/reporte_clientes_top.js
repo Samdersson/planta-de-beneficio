@@ -1,11 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
     cargarDatos();
+    const btn = document.getElementById('filtrarBtn');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            console.log('Filtrar clicked');
+            cargarDatos();
+        });
+    } else {
+        console.error('Button filtrarBtn not found');
+    }
 });
 
 function cargarDatos() {
-    fetch('../back/listar_clientes_top.php')
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    console.log('Fechas:', fechaInicio, fechaFin);
+    const url = new URL('/planta_de_beneficio/back/listar_clientes_top.php', window.location.origin);
+    if (fechaInicio) url.searchParams.append('fecha_inicio', fechaInicio);
+    if (fechaFin) url.searchParams.append('fecha_fin', fechaFin);
+    console.log('URL:', url.toString());
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
+            console.log('Data received:', data);
             if (data.error) {
                 showModal('Error: ' + data.error);
                 return;
@@ -31,12 +49,18 @@ function llenarTabla(clientes) {
     });
 }
 
+let chartInstance = null;
+
 function dibujarGrafico(clientes) {
     const ctx = document.getElementById('clientesChart').getContext('2d');
     const labels = clientes.map(c => c.cliente);
     const data = clientes.map(c => parseInt(c.cantidad));
 
-    new Chart(ctx, {
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: labels,

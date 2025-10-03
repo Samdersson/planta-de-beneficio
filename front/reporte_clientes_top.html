@@ -55,6 +55,13 @@
     <button class="inicio-btn" onclick="location.href='principal.html'">🏠</button>
     <div class="container">
         <h1>Reporte de Clientes con Más Ingresos</h1>
+        <div style="margin-bottom: 20px;">
+            <label for="fechaInicio">Fecha Inicio:</label>
+            <input type="date" id="fechaInicio" />
+            <label for="fechaFin">Fecha Fin:</label>
+            <input type="date" id="fechaFin" />
+            <button id="filtrarBtn">Filtrar</button>
+        </div>
         <div class="chart-container">
             <canvas id="clientesChart"></canvas>
         </div>
