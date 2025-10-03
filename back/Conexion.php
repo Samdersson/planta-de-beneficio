@@ -1,21 +1,18 @@
 <?php
-// // Configuración de la base de datos remota en Railway
-// $dbHost = 'switchback.proxy.rlwy.net';
-// $dbPort = 27915;
-// $dbUser = 'root';
-// $dbPassword = 'MGKEJyKrDHtVcNAAlGXSWqeZeFuQZOyU'; // Reemplaza con el valor real
-// $dbName = 'railway';
 
-// // Crear la conexión
-// $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+// $server = "sql307.infinityfree.com";
+// $username = "ifo_40075263";
+// $password = "plantaevc2025";
+// $database = "ifo_40075263_planta_de_beneficio";
 
-// // Verificar la conexión
-// if ($conn->connect_error) {
-//   die("Error de conexión: " . $conn->connect_error);
+
+
+// $conexion = mysqli_connect($server, $username, $password, $database);
+
+// if (!$conexion) {
+//     die("Conexión fallida: " . mysqli_connect_error());
 // }
-// echo "Conexión exitosa a la base de datos remota en Railway";
-
-// ?>
+?>
 
 <?php
 
@@ -32,3 +29,4 @@ if (!$conexion) {
     die("Conexión fallida: " . mysqli_connect_error());
 }
 ?>
+

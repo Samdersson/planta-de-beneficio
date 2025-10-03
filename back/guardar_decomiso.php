@@ -27,7 +27,7 @@ try {
 
     $producto = isset($data['producto']) ? $data['producto'] : '';
     $motivo = isset($data['motivo']) ? $data['motivo'] : '';
-    $cantidad = isset($data['cantidad']) ? $data['cantidad'] : 0;
+    $cantidad = isset($data['cantidad']) ? $data['cantidad'] : '';
     $cedula_veterinario = $_SESSION['cedula']; // Obtener cédula desde la sesión
     $numero_animal = isset($data['numero_animal']) ? $data['numero_animal'] : '';
 
@@ -53,7 +53,7 @@ try {
         throw new Exception($error);
     }
 
-    mysqli_stmt_bind_param($stmt, "ssdss", $producto, $motivo, $cantidad, $cedula_veterinario, $numero_animal);
+    mysqli_stmt_bind_param($stmt, "sssss", $producto, $motivo, $cantidad, $cedula_veterinario, $numero_animal);
 
     if (!mysqli_stmt_execute($stmt)) {
         $error = "Error en la ejecución de la consulta: " . mysqli_stmt_error($stmt);
