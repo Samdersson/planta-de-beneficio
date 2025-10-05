@@ -1,4 +1,3 @@
-
 let modal = null;
 let modalMessage = null;
 let modalCloseBtn = null;
@@ -8,21 +7,33 @@ function initializeModalElements() {
   modalMessage = document.getElementById('modalMessage');
   modalCloseBtn = document.getElementById('modalCloseBtn');
 
-  if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', hideModal);
+  if (!modal || !modalMessage || !modalCloseBtn) {
+    console.error('No se pudieron inicializar los elementos del modal.');
+    return false;
   }
+
+  modalCloseBtn.addEventListener('click', hideModal);
 
   window.addEventListener('click', function(event) {
     if (event.target === modal) {
       hideModal();
     }
   });
+  return true;
 }
 
 // Función para mostrar el modal con un mensaje
-function showModal(message) {
+window.showModal = function(message) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.showModal(message));
+    return;
+  }
   if (!modal || !modalMessage || !modalCloseBtn) {
-    initializeModalElements();
+    const initialized = initializeModalElements();
+    if (!initialized) {
+      console.error('No se pudo inicializar el modal para mostrar el mensaje.');
+      return;
+    }
   }
   if (!modal || !modalMessage) {
     console.error('Modal elements not found in DOM.');
@@ -30,7 +41,7 @@ function showModal(message) {
   }
   modalMessage.textContent = message;
   modal.style.display = 'flex';
-}
+};
 
 // Función para ocultar el modal
 function hideModal() {
@@ -38,3 +49,8 @@ function hideModal() {
     modal.style.display = 'none';
   }
 }
+
+// Inicializar elementos al cargar el script para evitar llamadas tempranas
+document.addEventListener('DOMContentLoaded', () => {
+  initializeModalElements();
+});

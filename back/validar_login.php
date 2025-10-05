@@ -42,7 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['token'] = $token;
 
             // Redirigir con el token
-            header("Location: ../front/principal.html?token=" . $token);
+            if ($row['rol'] == 'veterinario') {
+                header("Location: ../front/veterinario.html?token=" . $token);
+            } elseif ($row['rol'] == 'facturacion') {
+                header("Location: ../front/facturacion.html?token=" . $token);
+            } elseif ($row['rol'] == 'administrador') {
+                header("Location: ../front/administrador.html?token=" . $token);
+            }
+            else {
+                header("Location: ../front/principal.html?token=" . $token);
+            } 
             exit();
         } else {
             echo "<script>

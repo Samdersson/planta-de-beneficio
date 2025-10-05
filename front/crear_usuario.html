@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="Styles.css" />
     <script src="Script/auth_middleware.js" defer></script>
     <script src="Script/token.js" defer></script>
+    
+    
     <style>
 
         body{
@@ -16,6 +18,50 @@
             background-position: left 570px top -105px;
             position: relative;
             overflow: hidden;
+        }
+
+        /* Estilos para el modal */
+        .modal-hidden {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #222;
+            color: #eee;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.7);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-message {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .modal-close-btn {
+            background-color: #8ab4f8;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #222;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #5a7de0;
         }
         </style>
 </head>
@@ -49,16 +95,60 @@
     <option value="">Seleccione un rol</option>
 </select>
             </div>
-            <div>
-                <label for="activo">Activo:</label>
-                <input type="checkbox" id="activo" name="activo" checkedclass ="entrada-input" />
-            </div>
+            
             <div>
                 <button type="submit" class="btnCrear">Guardar Usuario</button>
             </div>
         </form>
     </div>
 
+    <!-- Modal Reutilizable -->
+    <div id="customModal" class="modal-hidden">
+        <div class="modal-content">
+            <div id="modalMessage" class="modal-message"></div>
+            <button id="modalCloseBtn" class="modal-close-btn">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="Script/modal.js"></script>
     <script src="Script/validar_usuario.js"></script>
+    <script>
+        // Función para obtener parámetros de la URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        async function cargarUsuario(cedula) {
+            if (!cedula) return;
+
+            try {
+                const response = await fetch(`../back/listar_usuarios.php`);
+                const usuarios = await response.json();
+                const usuario = usuarios.find(u => u.cedula == cedula);
+
+                if (usuario) {
+                    document.getElementById('id').value = cedula; // No id column, use cedula as identifier
+                    document.getElementById('isUpdate').value = 1;
+                    document.getElementById('nombre').value = usuario.nombre;
+                    document.getElementById('cedula').value = usuario.cedula;
+                    document.getElementById('correo_electronico').value = usuario.correo_electronico;
+                    document.getElementById('rol_id').value = usuario.rol; // Ajustar si rol_id es diferente
+                    // El campo contraseña se deja vacío por seguridad
+                } else {
+                    alert('Usuario no encontrado.');
+                }
+            } catch (error) {
+                console.error('Error al cargar usuario:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cedula = getQueryParam('cedula');
+            if (cedula) {
+                cargarUsuario(cedula);
+            }
+        });
+    </script>
 </body>
 </html>

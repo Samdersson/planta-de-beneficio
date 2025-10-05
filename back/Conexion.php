@@ -5,6 +5,11 @@ $username = "freedb_planta";
 $password = 'DV&4Bwr6$j@y7hU';
 $database = "freedb_planta_evc";
 
+$server = "localhost";
+$username = "root";
+$password = "";
+$database = "prueba_software";
+
 
 
 try {
@@ -30,8 +35,10 @@ try {
             font-family: Arial, sans-serif;
         }
         .error-message {
-            font-size: 2em;
-            color: #333;
+            font-size: 36px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: #000000ff;
             text-align: center;
             margin-top: 20px;
         }
@@ -39,10 +46,11 @@ try {
             max-width: 900 px;
             max-height: 900px;
         }
+        
     </style>
 </head>
 <body>
-    <div class="error-message">Error 404 - revisa tu conexion</div>
+    <div class="error-message">Error 404 <br> No hay conexión con el servidor </div>
     <img src="../front/imagenes/404.gif" alt="Error 404" class="error-gif" />
     
 </body>

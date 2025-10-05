@@ -27,9 +27,14 @@ async function manejarEnvioFormulario(event) {
 
         if (result.success) {
             showModal(result.success);
-            // Redirigir a otra página si es necesario
+            
+            cedulaInput.value = '';
+            marcaInput.value = '';
+            nombreInput.value = '';
+            destinoInput.value = '';
+            
         } else {
-            showModal(result.error || 'Error desconocido al registrar el cliente');
+            showModal('cliente ya existe');
         }
     } catch (error) {
         showModal('Error al enviar los datos: ' + error.message);

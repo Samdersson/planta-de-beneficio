@@ -1,1 +1,0 @@
-- [x] Update back/Conexion.php to display a full screen 404 error page with message "revisa tu conexion" on connection failure

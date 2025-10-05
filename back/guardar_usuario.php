@@ -2,9 +2,8 @@
 include 'Conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-    $nombre = isset($_POST['nombre']) ? mysqli_real_escape_string($conexion, $_POST['nombre']) : '';
     $cedula = isset($_POST['cedula']) ? mysqli_real_escape_string($conexion, $_POST['cedula']) : '';
+    $nombre = isset($_POST['nombre']) ? mysqli_real_escape_string($conexion, $_POST['nombre']) : '';
     $correo_electronico = isset($_POST['correo_electronico']) ? mysqli_real_escape_string($conexion, $_POST['correo_electronico']) : '';
     $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
     $rol_id = isset($_POST['rol_id']) ? intval($_POST['rol_id']) : 0;
@@ -35,16 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Hashear la contraseña
-    $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+    // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
-    if ($isUpdate === 1 && $id > 0) {
-        $sql = "UPDATE usuario SET nombre = ?, cedula = ?, correo_electronico = ?, contraseña = ?, rol = ?, estado = ? WHERE id = ?";
+    if ($isUpdate === 1 && !empty($cedula)) {
+        $sql = "UPDATE usuario SET nombre = ?, correo_electronico = ?, contraseña = ?, rol = ?, estado = ? WHERE cedula = ?";
         $stmt = mysqli_prepare($conexion, $sql);
         if ($stmt === false) {
             echo "❌ Error en la preparación de la consulta: " . mysqli_error($conexion);
             exit;
         }
-        mysqli_stmt_bind_param($stmt, "ssssssi", $nombre, $cedula, $correo_electronico, $contrasena, $rol, $estado, $id);
+        mysqli_stmt_bind_param($stmt, "sssssi", $nombre, $correo_electronico, $contrasena, $rol, $estado, $cedula);
 
         if (mysqli_stmt_execute($stmt)) {
             echo "✅ Usuario actualizado exitosamente.";

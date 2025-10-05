@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="imagenes/icono.png" sizes="90x120"/>
-    <title>Página Principal</title>
+    <title>Reportes Veterinario</title>
     <link rel="stylesheet" href="Styles.css" />
     <script src="Script/auth_middleware.js" defer></script>
     <script src="Script/token.js" defer></script>
@@ -17,37 +17,23 @@
             position: relative;
             overflow: hidden;
         }
-        .footer {
-            /* background-color: #94b4fa; */
-            color: rgb(0, 15, 65);
-            text-align: center;
-            font-size: 12px;
-            padding: 5px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
         
     </style>
 </head>
 <body>
+    <h1> <br> EL USUARIO EN SESION ES <br> VETERINARIO</h1>
     <div class="principal-container">
-        <button class="principal-btn" onclick="window.location.href='entradas.html'">ENTRADA DE ANIMALES</button>
+        <!-- <button class="principal-btn" onclick="window.location.href='entradas.html'">ENTRADA DE ANIMALES</button> -->
         <!-- <button class="principal-btn" onclick="window.location.href='registro_diario.html'">REGISTRO DIARIO</button> -->
         <!-- <button class="principal-btn" onclick="window.location.href='guia_transporte.html'">GUIAS DE TRANSPORTE</button> -->
-        <button class="principal-btn" onclick="window.location.href='crear_guia_transporte.html'" >REMISIONES</button>
+        <!-- <button class="principal-btn" onclick="window.location.href='crear_guia_transporte.html'" >REMISIONES</button> -->
         <button class="principal-btn" onclick="window.location.href='Reportes.html'">REPORTES </button>
-        <button class="principal-btn" onclick="window.location.href='seleccionar_tipo.html'">CREAR ACTOR</button>
-        <button class="principal-btn" onclick="window.location.href='listar_usuarios.html'">USUARIOS</button>
+        <!-- <button class="principal-btn" onclick="window.location.href='seleccionar_tipo.html'">CREAR ACTOR</button> -->
+        <!-- <button class="principal-btn" onclick="window.location.href='ver_guias.html'">VER GUIAS</button> -->
         <button class="principal-btn" onclick="logout()" >SALIR</button>
         
     </div>
 
    
 </body>
-<footer>
-    <div class="footer">
-        <p>&copy; 2025 Planta de Beneficio EVC. Todos los derechos reservados.</p>
-        <p>Desarrollado por Samdersson Nuñez</p>
-    </div>
 </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="imagenes/icono.png" sizes="90x120"/>
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <style>
+        table {
+            margin: auto;
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            
+            
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            
+        }
+        th {
+            background-color: #11a0e2;
+            color: rgb(0, 0, 0);
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .crear {
+            background-color: #00ba28;
+            color: white;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            position: relative;
+            left: 44%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Usuarios</h1>
+    <button class="close-btn"  onclick="location.href='principal.html'">X</button>
+    <button class="crear" onclick="location.href='crear_usuario.html'">Crear Nuevo Usuario</button>
+    <table id="usuariosTable">
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Fecha Registro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchUsuarios() {
+            const response = await fetch('../back/listar_usuarios.php');
+            const usuarios = await response.json();
+            const tbody = document.querySelector('#usuariosTable tbody');
+            tbody.innerHTML = '';
+
+            usuarios.forEach(usuario => {
+                const tr = document.createElement('tr');
+
+                tr.innerHTML = `
+                    <td>${usuario.cedula}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.correo_electronico}</td>
+                    <td>${usuario.rol}</td>
+                    <td>${usuario.estado == 1 ? 'Activo' : 'Inactivo'}</td>
+                    <td>${usuario.fecha_registro}</td>
+                    <td>
+                <button class="edit-btn" onclick="editarUsuario('${usuario.cedula}')">Editar</button>
+                <button class="delete-btn" onclick="eliminarUsuario('${usuario.cedula}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function editarUsuario(cedula) {
+            // Redirigir a crear_usuario.html con la cédula del usuario para editar
+            window.location.href = `crear_usuario.html?cedula=${cedula}`;
+        }
+
+        async function eliminarUsuario(cedula) {
+            if (!confirm('¿Está seguro de que desea eliminar este usuario?')) return;
+
+            const response = await fetch(`../back/eliminar_usuario.php?cedula=${cedula}`, { method: 'DELETE' });
+            const result = await response.text();
+
+            alert(result);
+            fetchUsuarios();
+        }
+
+        // Cargar usuarios al cargar la página
+        fetchUsuarios();
+    </script>
+</body>
+</html>
