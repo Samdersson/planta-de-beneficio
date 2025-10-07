@@ -5,10 +5,10 @@ $username = "freedb_planta";
 $password = 'DV&4Bwr6$j@y7hU';
 $database = "freedb_planta_evc";
 
-$server = "localhost";
-$username = "root";
-$password = "";
-$database = "prueba_software";
+// $server = "localhost";
+// $username = "root";
+// $password = "";
+// $database = "prueba_software";
 
 
 
@@ -59,19 +59,5 @@ try {
 }
 ?>
 
-<?php
 
-// $server = "localhost";
-// $username = "root";
-// $password = "";
-// $database = "prueba_software";
-
-
-
-// $conexion = mysqli_connect($server, $username, $password, $database);
-
-// if (!$conexion) {
-//     die("Conexión fallida: " . mysqli_connect_error());
-// }
-?>
 
