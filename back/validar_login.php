@@ -18,7 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Verificar estado del usuario
         if ($row['estado'] == 0) {
-            header("Location: ../front/inicio.html?error=usuario_inactivo");
+            echo "<script>
+            alert('Usuario inactivo. Contacte al administrador.');
+            window.location.href = '../front/inicio.html';
+            </script>";
+            
             exit();
         }
 

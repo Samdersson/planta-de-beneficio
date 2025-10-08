@@ -25,7 +25,8 @@ $cliente_nombre = $input['cliente_nombre'] ?? '';
 $cliente_direccion = $input['cliente_direccion'] ?? '';
 $cliente_telefono = $input['cliente_telefono'] ?? '';
 $animales = $input['animales'] ?? []; // Array de animales incluidos en la remisión
-// Otros campos según necesidad...
+
+
 
 if (!$tipo_animal) {
     http_response_code(400);
@@ -49,9 +50,9 @@ try {
         $numeroData['numero_incremental'],
         $numeroData['anio'],
         $numeroData['numero_remision'],
-        $cliente_nombre,
+        $cliente_nombre ,
         $cliente_direccion,
-        $cliente_telefono
+        $cliente_telefono,
     );
 
     $stmt->execute();

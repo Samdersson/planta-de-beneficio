@@ -93,7 +93,7 @@
                     <td>${usuario.fecha_registro}</td>
                     <td>
                 <button class="edit-btn" onclick="editarUsuario('${usuario.cedula}')">Editar</button>
-                <button class="delete-btn" onclick="eliminarUsuario('${usuario.cedula}')">Eliminar</button>
+                <button class="delete-btn" onclick="toggleUsuario('${usuario.cedula}', ${usuario.estado})">${usuario.estado == 1 ? 'Inactivar' : 'Activar'}</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -105,8 +105,9 @@
             window.location.href = `crear_usuario.html?cedula=${cedula}`;
         }
 
-        async function eliminarUsuario(cedula) {
-            if (!confirm('¿Está seguro de que desea eliminar este usuario?')) return;
+        async function toggleUsuario(cedula, estado) {
+            const accion = estado == 1 ? 'inactivar' : 'activar';
+            if (!confirm(`¿Está seguro de que desea ${accion} este usuario?`)) return;
 
             const response = await fetch(`../back/eliminar_usuario.php?cedula=${cedula}`, { method: 'DELETE' });
             const result = await response.text();

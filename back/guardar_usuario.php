@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo_electronico = isset($_POST['correo_electronico']) ? mysqli_real_escape_string($conexion, $_POST['correo_electronico']) : '';
     $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
     $rol_id = isset($_POST['rol_id']) ? intval($_POST['rol_id']) : 0;
-    $estado = isset($_POST['activo']) ? 1 : 0;
+    $estado = isset($_POST['activo']) ? 1 : 1;
     $isUpdate = isset($_POST['isUpdate']) ? intval($_POST['isUpdate']) : 0;
 
     if (empty($nombre) || empty($cedula) || empty($correo_electronico) || empty($contrasena) || $rol_id <= 0) {
