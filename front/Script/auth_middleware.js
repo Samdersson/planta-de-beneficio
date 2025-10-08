@@ -99,3 +99,22 @@ function logout() {
     const auth = new AuthMiddleware();
     auth.logout();
 }
+
+// Función para ir al inicio según el rol
+function goToHome() {
+    const user = getCurrentUser();
+    if (!user) {
+        window.location.href = 'inicio.html';
+        return;
+    }
+    const role = user.role;
+    if (role === 'veterinario') {
+        window.location.href = 'veterinario.html';
+    } else if (role === 'administrador') {
+        window.location.href = 'administrador.html';
+    } else if (role === 'facturacion') {
+        window.location.href = 'facturacion.html';
+    } else {
+        window.location.href = 'principal.html';
+    }
+}

@@ -1,2 +1,0 @@
-- [x] Modificar front/listar_usuarios.html para cambiar el texto del botón basado en el estado del usuario (Inactivar/Activar) y actualizar la función JS.
-- [x] Modificar back/eliminar_usuario.php para alternar el estado del usuario (de inactivo a activo o viceversa) y ajustar los mensajes de éxito.

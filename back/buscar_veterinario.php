@@ -1,7 +1,7 @@
 <?php
 include_once 'Conexion.php';
 
-$sql = "SELECT cedula, nombre FROM usuario WHERE rol = '5'";
+$sql = "SELECT cedula, nombre FROM usuario WHERE rol = 'veterinario'";
 $result = mysqli_query($conexion, $sql);
 
 $veterinarios = array();
