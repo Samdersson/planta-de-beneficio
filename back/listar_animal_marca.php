@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 $especie = isset($_GET['especie']) ? mysqli_real_escape_string($conexion, $_GET['especie']) : '';
 
 if ($especie) {
-    $sql = "SELECT DISTINCT marca FROM animal WHERE marca IS NOT NULL AND marca != '' AND especie = '$especie' ORDER BY marca ASC";
+    $sql = "SELECT DISTINCT marca FROM animal WHERE marca IS NOT NULL AND marca != '' AND estado = 'disponible' AND especie = '$especie' ORDER BY marca ASC";
 } else {
     $sql = "SELECT DISTINCT marca FROM animal WHERE marca IS NOT NULL AND marca != '' ORDER BY marca ASC";
 }

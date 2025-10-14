@@ -236,17 +236,25 @@ function toggleCarneColumn() {
         if (animalesSeleccionados.some(a => a.numeroAnimal === numeroAnimal)) {
             return;
         }
-        let marca = '';
+        const marca = document.getElementById('destino-select').value;
+        if (!marca) {
+            showModal('Por favor, seleccione una marca primero.');
+            return;
+        }
         let numeroGuia = '';
         try {
-            const response = await fetch(`../back/buscar_marca_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
+            const response = await fetch(`../back/buscar_marca_por_numero_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}&marca=${encodeURIComponent(marca)}`);
             const data = await response.json();
             if (data.marca) {
-                marca = data.marca;
                 document.getElementById('marca-input').value = marca;
+            } else {
+                showModal('Error: ' + (data.error || 'Animal no válido para esta marca'));
+                return;
             }
         } catch (error) {
-            console.error('Error obteniendo marca:', error);
+            console.error('Error validando animal:', error);
+            showModal('Error al validar el animal.');
+            return;
         }
         try {
             const guiaResponse = await fetch(`../back/buscar_numero_guia_por_animal.php?numero_animal=${encodeURIComponent(numeroAnimal)}`);
